@@ -1,0 +1,546 @@
+master_cpd_id	cpd_name	cpd_status	cpd_smiles
+1788	CIL55	probe	CN(C)CCNC(=O)c1cc2CSc3cc(Cl)ccc3-c2s1
+3588	BRD4132	probe	CC(C)N1C(=O)S\C(=C\c2ccc(Sc3nc4ccccc4[nH]3)o2)C1=O
+12877	BRD6340	probe	C(Cn1c2ccccc2c2ccccc12)c1nc2ccccc2[nH]1
+17712	ML006	probe	C1CN(CCO1)c1nnc(-c2ccccc2)c(n1)-c1ccccc1
+18311	Bax channel blocker	probe	OC(CN1CCNCC1)Cn1c2ccc(Br)cc2c2cc(Br)ccc12
+19153	BRD9876	probe	CC(C)(C)c1ccc2cc(C#N)c(cc2c1)C#N
+23151	tretinoin	FDA	CC(=CC=CC(=CC(=O)O)C)C=CC1=C(C)CCCC1(C)C
+23256	betulinic acid	probe	CC(=C)[C@@H]1CC[C@@]2(CC[C@]3(C)[C@H](CC[C@@H]4[C@@]5(C)CC[C@H](O)C(C)(C)[C@@H]5CC[C@@]34C)[C@@H]12)C(O)=O
+24173	phloretin	probe	Oc1ccc(CCC(=O)c2c(O)cc(O)cc2O)cc1
+24197	thalidomide	FDA	O=C1N(C2CCC(=O)NC2=O)C(=O)c2ccccc12
+25036	gossypol	clinical	CC(C)c1c(O)c(O)c(C=O)c2c(O)c(c(C)cc12)-c1c(C)cc2c(C(C)C)c(O)c(O)c(C=O)c2c1O
+25334	chlorambucil	FDA	OC(=O)CCCc1ccc(cc1)N(CCCl)CCCl
+25344	fluorouracil	FDA	Fc1c[nH]c(=O)[nH]c1=O
+25393	isoliquiritigenin	probe	Oc1ccc(cc1)\C=C\C(=O)c1ccc(O)cc1O
+26870	cimetidine	FDA	CN\C(NCCSCc1nc[nH]c1C)=N/C#N
+26874	azacitidine	FDA	Nc1ncn([C@@H]2O[C@H](CO)[C@@H](O)[C@H]2O)c(=O)n1
+26914	trifluoperazine	FDA	CN1CCN(CCCN2c3ccccc3Sc3ccc(cc23)C(F)(F)F)CC1
+26956	paclitaxel	FDA	CC(=O)O[C@@H]1C2=C(C)[C@H](C[C@@](O)([C@@H](OC(=O)c3ccccc3)C3[C@@]4(CO[C@@H]4C[C@H](O)[C@@]3(C)C1=O)OC(C)=O)C2(C)C)OC(=O)[C@H](O)[C@@H](NC(=O)c1ccccc1)c1ccccc1
+26972	tamoxifen	FDA	CC\C(c1ccccc1)=C(/c1ccccc1)c1ccc(OCCN(C)C)cc1
+26979	carboplatin	FDA	O=C1O[Pt]OC(=O)C11CCC1
+27871	teniposide	FDA	COc1cc(cc(OC)c1O)[C@H]1[C@@H]2C(COC2=O)C(O[C@@H]2O[C@@H]3CO[C@H](OC3[C@H](O)[C@H]2O)c2cccs2)c2cc3OCOc3cc12
+27872	sildenafil	FDA	CCCc1nn(C)c2C(=O)NC(=Nc12)c3cc(ccc3OCC)S(=O)(=O)N4CCN(C)CC4
+27894	simvastatin	FDA	CCC(C)(C)C(=O)O[C@H]1C[C@@H](C)C=C2C=C[C@H](C)[C@H](CC[C@@H]3C[C@@H](O)CC(=O)O3)[C@@H]12
+28172	parbendazole	probe	CCCCc1ccc2[nH]c(NC(=O)OC)nc2c1
+28183	procarbazine	FDA	CNNCc1ccc(cc1)C(=O)NC(C)C
+28452	curcumin	clinical	COc1cc(C=CC(=O)CC(=O)C=Cc2ccc(O)c(OC)c2)ccc1O
+28784	ciclopirox	FDA	Cc1cc(C2CCCCC2)n(O)c(=O)c1
+28801	epigallocatechin-3-monogallate	probe	Oc1cc(O)c2C[C@@H](OC(=O)c3cc(O)c(O)c(O)c3)[C@H](Oc2c1)c1cc(O)c(O)c(O)c1
+29985	myricetin	probe	Oc1cc(O)c2c(c1)oc(-c1cc(O)c(O)c(O)c1)c(O)c2=O
+30371	methotrexate	FDA	CN(Cc1cnc2nc(N)nc(N)c2n1)c1ccc(cc1)C(=O)N[C@@H](CCC(O)=O)C(O)=O
+30620	lovastatin	FDA	CCC(C)C(=O)OC1CC(C)C=C2C=CC(C)C(CCC(O)CC(O)CC(O)=O)C12
+32372	valdecoxib	FDA	Cc1onc(c1-c1ccc(cc1)S(N)(=O)=O)-c1ccccc1
+32620	cyclophosphamide	FDA	ClCCN(CCCl)P1(=O)NCCCO1
+32622	dacarbazine	FDA	CN(C)\N=N\c1[nH]cnc1C(N)=O
+32653	niclosamide	FDA	Oc1ccc(Cl)cc1C(=O)Nc1ccc(cc1Cl)[N+]([O-])=O
+33166	prochlorperazine	FDA	CN1CCN(CCCN2c3ccccc3Sc3ccc(Cl)cc23)CC1
+35319	ifosfamide	FDA	ClCCNP1(=O)OCCCN1CCCl
+36599	doxorubicin	FDA	COc1cccc2C(=O)c3c(O)c4C[C@](O)(C[C@H](O[C@H]5C[C@H](N)[C@H](O)[C@H](C)O5)c4c(O)c3C(=O)c12)C(=O)CO
+37190	ouabain	probe	C[C@@H]1O[C@@H](O[C@H]2C[C@@H](O)[C@]3(CO)[C@H]4[C@H](O)C[C@]5(C)[C@H](CC[C@]5(O)[C@@H]4CC[C@]3(O)C2)C2=CC(=O)OC2)[C@H](O)[C@H](O)[C@H]1O
+37479	BRD9647	probe	COc1ccc(cc1)N(C(=O)c1ccccc1)S(=O)(=O)c1cc(OC)ccc1OC
+39782	piperlongumine	probe	COc1cc(cc(OC)c1OC)\C=C\C(=O)N1CCC=CC1=O
+42319	BRD-K26531177	probe	COc1cc(CCC(=O)N2CCC=CC2=O)cc(OC)c1OC
+44503	NSC23766	probe	CCN(CC)CCCC(C)Nc1nc(C)cc(Nc2ccc3nc(C)cc(N)c3c2)n1
+44511	pyrazolanthrone	probe	O=C1c2ccccc2-c2n[nH]c3cccc1c23
+44554	C6-ceramide	probe	CCCCCCCCCCCCC\C=C\[C@@H](O)[C@H](CO)NC(=O)CCCCC
+44580	topotecan	FDA	CC[C@@]1(O)C(=O)OCc2c1cc1-c3nc4ccc(O)c(CN(C)C)c4cc3Cn1c2=O
+45093	N9-isopropylolomoucine	probe	CC(C)n1cnc2c(NCc3ccccc3)nc(NCCO)nc12
+46792	importazole	probe	CC(Nc1nc(nc2ccccc12)N1CCCC1)c1ccccc1
+48589	etoposide	FDA	COc1cc(cc(OC)c1O)[C@H]1[C@@H]2[C@H](COC2=O)[C@H](O[C@@H]2O[C@@H]3CO[C@@H](C)O[C@H]3[C@H](O)[C@H]2O)c2cc3OCOc3cc12
+50131	PRIMA-1	probe	OCC1(CO)N2CCC(CC2)C1=O
+50134	tanespimycin	clinical	CO[C@H]1C[C@H](C)CC2=C(NCC=C)C(=O)C=C(NC(=O)\C(C)=C\C=C/[C@H](OC)[C@@H](OC(N)=O)\C(C)=C\[C@H](C)[C@H]1O)C2=O
+50140	blebbistatin	probe	Cc1ccc2N=C3N(CCC3(O)C(=O)c2c1)c1ccccc1
+50163	cytochalasin B	probe	C[C@H]1[C@H]2[C@H](Cc3ccccc3)NC(=O)[C@]22OC(=O)\C=C\[C@H](O)CCC[C@@H](C)C\C=C\[C@H]2[C@H](O)C1=C
+50715	NSC95397	probe	OCCSC1=C(SCCO)C(=O)c2ccccc2C1=O
+50727	manumycin A	probe	CCCC[C@@H](C)\C=C(C)\C=C(/C)C(=O)NC1=C[C@@](O)(\C=C\C=C\C=C\C(=O)NC2C(=O)CCC2=O)[C@@H]2O[C@@H]2C1=O
+50732	mitomycin	FDA	CO[C@]12[C@H]3N[C@H]3CN1C1=C([C@H]2COC(N)=O)C(=O)C(N)=C(C)C1=O
+50737	tacrolimus	FDA	CO[C@@H]1C[C@@H](CC[C@H]1O)\C=C(/C)[C@H]1OC(=O)[C@@H]2CCCCN2C(=O)C(=O)[C@]2(O)O[C@@H]([C@H](C[C@H]2C)OC)[C@H](C[C@@H](C)C\C(C)=C\[C@@H](CC=C)C(=O)C[C@H](O)[C@H]1C)OC
+50747	pifithrin-alpha	probe	Cc1ccc(cc1)C(=O)Cn1c2CCCCc2sc1=N
+50753	SB-431542	probe	NC(=O)c1ccc(cc1)-c1nc(c([nH]1)-c1ccccn1)-c1ccc2OCOc2c1
+50769	staurosporine	probe	CN[C@@H]1C[C@H]2O[C@@](C)([C@@H]1OC)n1c3ccccc3c3c4CNC(=O)c4c4c5ccccc5n2c4c13
+52123	SB-225002	probe	Oc1cc(ccc1NC(=O)Nc1ccccc1Br)[N+]([O-])=O
+52133	PD 153035	probe	COc1cc2ncnc(Nc3cccc(Br)c3)c2cc1OC
+52430	cerulenin	probe	C\C=C\C\C=C\CCC(=O)[C@H]1O[C@H]1C(N)=O
+52576	purmorphamine	probe	C1CCC(CC1)n1cnc2c(Nc3ccc(cc3)N3CCOCC3)nc(Oc3cccc4ccccc34)nc12
+52582	GSK-3 inhibitor IX	probe	O\N=C1/C(Nc2ccccc12)=C1/C(=O)Nc2cc(Br)ccc12
+52882	dasatinib	FDA	Cc1nc(Nc2ncc(s2)C(=O)Nc2c(C)cccc2Cl)cc(n1)N1CCN(CCO)CC1
+52926	gefitinib	FDA	COc1cc2ncnc(Nc3ccc(F)c(Cl)c3)c2cc1OCCCN1CCOCC1
+52928	erlotinib	FDA	COCCOc1cc2ncnc(Nc3cccc(c3)C#C)c2cc1OCCOC
+53556	BRD-K94991378	probe	COCCOC(=O)N1C(=O)[C@]2([C@@H]([C@@H]3N([C@@H]2c2ccccc2OCCO)[C@H]([C@H](OC3=O)c2ccccc2)c2ccccc2)C(=O)NCC=C)c2cc(ccc12)C#CCC(C(=O)OC)C(=O)OC
+53705	BIX-01294	probe	COc1cc2nc(nc(NC3CCN(Cc4ccccc4)CC3)c2cc1OC)N1CCCN(C)CC1
+54200	tacedinaline	probe	CC(=O)Nc1ccc(cc1)C(=O)Nc1ccccc1N
+54210	LBH-589	clinical	Cc1[nH]c2ccccc2c1CCNCc1ccc(\C=C\C(=O)NO)cc1
+55307	IC-87114	probe	Cc1ccccc1-n1c(Cn2cnc3c(N)ncnc23)nc2cccc(C)c2c1=O
+55512	ciclosporin	FDA	CCC1NC(=O)C([C@H](O)[C@H](C)C\C=C\C)N(C)C(=O)C(C(C)C)N(C)C(=O)C(CC(C)C)N(C)C(=O)C(CC(C)C)N(C)C(=O)[C@@H](C)NC(=O)C(C)NC(=O)C(CC(C)C)N(C)C(=O)C(NC(=O)C(CC(C)C)N(C)C(=O)CN(C)C1=O)C(C)C
+56554	vorinostat	FDA	ONC(=O)CCCCCCC(=O)Nc1ccccc1
+56703	sirolimus	FDA	CO[C@@H]1C[C@H](C[C@@H](C)[C@@H]2CC(=O)[C@H](C)\C=C(C)\[C@@H](O)[C@@H](OC)C(=O)[C@H](C)C[C@H](C)\C=C\C=C\C=C(C)\[C@H](C[C@@H]3CC[C@@H](C)[C@@](O)(O3)C(=O)C(=O)N3CCCC[C@H]3C(=O)O2)OC)CC[C@H]1O
+58339	KU-55933	probe	O=c1cc(oc(c1)-c1cccc2Sc3ccccc3Sc12)N1CCOCC1
+58442	sitagliptin	FDA	N[C@@H](CC(=O)N1CCn2c(C1)nnc2C(F)(F)F)Cc1cc(F)c(F)cc1F
+58455	AM-580	probe	CC1(C)CCC(C)(C)c2cc(ccc12)C(=O)Nc1ccc(cc1)C(O)=O
+58472	PDMP	probe	CCCCCCCCCC(=O)N[C@H](CN1CCOCC1)[C@H](O)c1ccccc1
+58566	BRD-K71935468	probe	COC(=O)C(CC#Cc1ccc2NC(=O)[C@@]3([C@H]([C@H]4N([C@H]3c3ccccc3OCCO)[C@@H]([C@@H](OC4=O)c3ccccc3)c3ccccc3)C(=O)N3CCN(CC3)c3ncccn3)c2c1)C(=O)OC
+58948	MG-132	probe	CC(C)C[C@H](NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC(=O)OCc1ccccc1)C=O
+60218	entinostat	clinical	Nc1ccccc1NC(=O)c1ccc(CNC(=O)OCc2cccnc2)cc1
+60225	belinostat	clinical	ONC(=O)\C=C\c1cccc(c1)S(=O)(=O)Nc1ccccc1
+60679	BEC	probe	N[C@H](CSCCB(O)O)C(O)=O
+61097	apicidin	probe	CC[C@@H](C)[C@@H]1NC(=O)[C@H](Cc2cn(OC)c3ccccc23)NC(=O)[C@H](CCCCCC(=O)CC)NC(=O)[C@H]2CCCCN2C1=O
+61674	Merck60	probe	CC(=O)Nc1ccc(cc1)C(=O)Nc1cc(ccc1N)-c1cccs1
+61724	BRD-A94377914	probe	CN1CCCCC1NC(=O)[C@H](CCCCCC(C)=O)C(=O)Nc1nc(cs1)-c1ccccc1
+61775	FGIN-1-27	probe	CCCCCCN(CCCCCC)C(=O)Cc1c([nH]c2ccccc12)-c1ccc(F)cc1
+62111	compound 1B	probe	CCN(CC)c1ccc(cc1[N+]([O-])=O)C1=NNC(=O)CC1C
+62602	vincristine	FDA	CC[C@]1(O)C[C@@H]2CN(C1)CCc1c([nH]c3ccccc13)[C@@](C2)(C(=O)OC)c1cc2c(cc1OC)N(C=O)[C@@H]1[C@]22CCN3CC=C[C@](CC)([C@@H]23)[C@@H](OC(C)=O)[C@]1(O)C(=O)OC
+62690	cytarabine hydrochloride	FDA	Nc1ccn([C@@H]2O[C@H](CO)[C@@H](O)[C@@H]2O)c(=O)n1
+63349	itraconazole	FDA	CCC(C)n1ncn(-c2ccc(cc2)N2CCN(CC2)c2ccc(OCC3COC(Cn4cncn4)(O3)c3ccc(Cl)cc3Cl)cc2)c1=O
+63578	erastin	probe	CCOc1ccccc1-n1c(=O)c2ccccc2nc1C(C)N1CCN(CC1)C(=O)COc1ccc(Cl)cc1
+96171	ML031	probe	Cc1cc(C(=O)CN2C(=O)CCC2=O)c(C)n1Cc1ccccc1
+100490	CIL56	probe	ON=C1c2cc(ccc2-c2ccc(cc12)S(=O)(=O)N1CCCCC1)S(=O)(=O)N1CCCCC1
+102193	FQI-1	probe	CCOc1ccccc1C1CC(=O)Nc2cc3OCOc3cc12
+119769	BRD-K92856060	probe	COc1ccc(cc1[N+]([O-])=O)S(=O)(=O)N(C(C)=O)c1ccc(OC(C)=O)c2ccccc12
+122255	B02	probe	O=c1n(Cc2ccccc2)c(\C=C\c2cccnc2)nc2ccccc12
+142931	BRD-K45681478	probe	ClC1=C(NCC=C)C(=O)c2ccccc2C1=O
+153820	ML050	probe	Brc1cc2OCOc2cc1C1Nc2ccccc2C2C=CCC12
+154846	ML162	probe	COc1ccc(cc1Cl)N(C(C(=O)NCCc1ccccc1)c1cccs1)C(=O)CCl
+176181	CIL41	probe	N=C(NOC(=O)C12CC3CC(CC(C3)C1)C2)c1ccccc1
+182395	NSC30930	probe	OC(=O)c1cc2cc(OCc3ccccc3)ccc2[nH]1
+183526	CIL70	probe	Clc1ccc(CC(=N)NOC(=O)c2cccc3ccccc23)cc1
+185987	MI-1	probe	CC1(C)CN=C(S1)N1CCN(CC1)c1ncnc2sc3CCCCc3c12
+199337	DBeQ	probe	C(Nc1nc(NCc2ccccc2)c2ccccc2n1)c1ccccc1
+215497	Mdivi-1	probe	COc1cc(c(Cl)cc1Cl)-n1c(=S)[nH]c2ccccc2c1=O
+255961	ML083	probe	COc1ccc(cc1)S(=O)(=O)N1CCN(CC1)S(=O)(=O)c1ccc2OCCOc2c1
+267119	CID-5951923	probe	CN(C1CCS(=O)(=O)C1)C(=O)COC(=O)\C=C\c1cccc(c1)[N+]([O-])=O
+272805	IU1	probe	Cc1cc(C(=O)CN2CCCC2)c(C)n1-c1ccc(F)cc1
+277354	dexamethasone	FDA	CC1CC2C3CCC4=CC(=O)C=CC4(C)C3(F)C(O)CC2(C)C1(O)C(=O)CO
+290356	ML311	probe	CCN1CCN(CC1)C(c1ccc(cc1)C(F)(F)F)c1ccc2cccnc2c1O
+340501	VX-680	clinical	CN1CCN(CC1)c1cc(Nc2cc(C)[nH]n2)nc(Sc2ccc(NC(=O)C3CC3)cc2)n1
+345041	imatinib	FDA	CN1CCN(Cc2ccc(cc2)C(=O)Nc2ccc(C)c(Nc3nccc(n3)-c3cccnc3)c2)CC1
+345712	O-6-benzylguanine	clinical	Nc1nc(OCc2ccccc2)c2[nH]cnc2n1
+347775	decitabine	FDA	Nc1ncn([C@H]2C[C@H](O)[C@@H](CO)O2)c(=O)n1
+347812	CHIR-99021	probe	Cc1c[nH]c(n1)-c1cnc(NCCNc2ccc(cn2)C#N)nc1-c1ccc(Cl)cc1Cl
+347813	BI-2536	clinical	CC[C@H]1N(C2CCCC2)c2nc(Nc3ccc(cc3OC)C(=O)NC3CCN(C)CC3)ncc2N(C)C1=O
+348633	BRD-K61166597	probe	Nc1ccc(cc1NC(=O)c1ccc(cc1)C(=O)NCCc1ccncc1)-c1cccs1
+348990	axitinib	FDA	CNC(=O)c1ccccc1Sc1ccc2c(\C=C\c3ccccn3)n[nH]c2c1
+348991	selumetinib	clinical	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO
+348992	NVP-BEZ235	clinical	Cn1c2cnc3ccc(cc3c2n(-c2ccc(cc2)C(C)(C)C#N)c1=O)-c1cnc2ccccc2c1
+348997	GW-843682X	probe	COc1cc2ncn(-c3cc(OCc4ccccc4C(F)(F)F)c(s3)C(N)=O)c2cc1OC
+349002	vandetanib	FDA	COc1cc2c(Nc3ccc(Br)cc3F)ncnc2cc1OCC1CCN(C)CC1
+349006	sorafenib	FDA	CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(c3)C(F)(F)F)cc2)ccn1
+350548	ML029	probe	Cc1cc2nc(NCCCO)n(CC(=O)c3cc(c(O)c(c3)C(C)(C)C)C(C)(C)C)c2cc1C
+351043	temozolomide	FDA	CN1N=Nc2c(ncn2C1=O)C(=O)N
+362063	QW-BI-011	probe	COC(=O)c1ccc2n(CCCc3ccccc3)c(NC(=O)c3ccccc3)nc2c1
+362207	BRD-K90370028	probe	CC(=O)N[C@@H]1C\C=C\CCC(=O)N[C@@H](COC1=O)c1ccccc1
+362338	SNX-2112	probe	CC1(C)Cc2c(c(nn2-c2ccc(C(N)=O)c(N[C@H]3CC[C@H](O)CC3)c2)C(F)(F)F)C(=O)C1
+362342	navitoclax	clinical	CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+374747	bexarotene	FDA	Cc1cc2c(cc1C(=C)c1ccc(cc1)C(O)=O)C(C)(C)CCC2(C)C
+374749	nilotinib	FDA	Cc1cn(cn1)-c1cc(NC(=O)c2ccc(C)c(Nc3nccc(n3)-c3cccnc3)c2)cc(c1)C(F)(F)F
+374750	sunitinib	FDA	CCN(CC)CCNC(=O)c1c(C)[nH]c(\C=C2/C(=O)Nc3ccc(F)cc23)c1C
+374755	bendamustine	FDA	Cn1c(CCCC(O)=O)nc2cc(ccc12)N(CCCl)CCCl
+375219	omacetaxine mepesuccinate	FDA	COC(=O)C[C@](O)(CCCC(C)(C)O)C(=O)O[C@H]1[C@H]2c3cc4OCOc4cc3CCN3CCC[C@]23C=C1OC
+375256	CD-437	probe	OC(=O)c1ccc2cc(ccc2c1)-c1ccc(O)c(c1)C12CC3CC(CC(C3)C1)C2
+375264	SCH-79797	probe	CC(C)c1ccc(Cn2ccc3c2ccc2nc(NC4CC4)nc(N)c32)cc1
+375354	LE-135	probe	CN1c2cc3c(cc2N=C(c2ccc(cc2)C(O)=O)c2ccccc12)C(C)(C)CCC3(C)C
+375366	SKI-II	probe	Oc1ccc(Nc2nc(cs2)-c2ccc(Cl)cc2)cc1
+375390	CI-976	probe	CCCCCCCCCCC(C)(C)C(=O)Nc1c(OC)cc(OC)cc1OC
+375395	Platin	FDA	N[Pt](N)(Cl)Cl
+375435	necrostatin-1	probe	CN1C(=S)NC(Cc2c[nH]c3ccccc23)C1=O
+375447	GW-405833	probe	COc1ccc2n(C(=O)c3cccc(Cl)c3Cl)c(C)c(CCN3CCOCC3)c2c1
+375487	AC55649	probe	CCCCCCCCc1ccc(cc1)-c1ccc(cc1)C(O)=O
+375492	RITA	probe	OCc1ccc(s1)-c1ccc(o1)-c1ccc(CO)s1
+375496	LY-2183240	probe	CN(C)C(=O)n1nnnc1Cc1ccc(cc1)-c1ccccc1
+375560	Ki8751	probe	COc1cc2nccc(Oc3ccc(NC(=O)Nc4ccc(F)cc4F)c(F)c3)c2cc1OC
+375562	CD-1530	probe	OC(=O)c1ccc(cc1)-c1ccc2cc(c(O)cc2c1)C12CC3CC(CC(C3)C1)C2
+375564	TPCA-1	probe	NC(=O)Nc1sc(cc1C(N)=O)-c1ccc(F)cc1
+375582	oxaliplatin	FDA	O=C1O[Pt]2(NC3CCCCC3N2)OC1=O
+375594	NSC632839	probe	Cc1ccc(C=C2CNCC(=Cc3ccc(C)cc3)C2=O)cc1
+375596	pifithrin-mu	probe	NS(=O)(=O)C#Cc1ccccc1
+375637	SN-38	probe	CCc1c2Cn3c(cc4c(COC(=O)C4(O)CC)c3=O)-c2nc2ccc(O)cc12
+376307	BRD-K80183349	probe	CC(=O)N1CCC(CC1)C(=O)Nc1cc(ccc1N)-c1cccs1
+376693	BRD-K66532283	probe	Nc1ccc(cc1NC(=O)C1=CCCC1)-c1cccs1
+377381	MK-2206	clinical	NC1(CCC1)c1ccc(cc1)-c1nc2ccn3c(n[nH]c3=O)c2cc1-c1ccccc1
+385240	triazolothiadiazine	probe	COc1ccc(OC)c(c1)-c1nnc2SCC(=Nn12)c1ccc(OC)c(OC)c1
+387472	BRD-K66453893	GE-active	C[C@@H](CO)N1C[C@H](C)[C@H](CN(C)S(=O)(=O)c2ccc(Cl)cc2)Oc2ccc(NC(=O)CCC(F)(F)F)cc2CC1=O
+389297	BRD-K11533227	probe	CC(=O)NC1CCN(CC1)C(=O)Nc1cc(ccc1N)-c1cccs1
+397964	BRD-K27224038	GE-active	C[C@@H](CO)N1C[C@H](C)[C@@H](CN(C)C(=O)C2CCOCC2)Oc2ncc(cc2C1=O)C#CC1(O)CCCC1
+401251	BRD-K33514849	probe	C[C@H](CO)N1C[C@@H](C)[C@H](CN(C)C(=O)Nc2ccc3OCOc3c2)Oc2cc(ccc2S1(=O)=O)C#Cc1ccncc1
+402775	BRD-K14844214	GE-active	CC(C)CC#Cc1ccc2c(O[C@@H](CN(C)C(=O)c3cnccn3)[C@H](C)CN([C@H](C)CO)S2(=O)=O)c1
+404070	BRD1835	probe	C[C@@H](CO)N1C[C@H](C)[C@@H](CN(C)Cc2ccc(cc2)C(O)=O)Oc2cc(ccc2S1(=O)=O)C#CCC1CCCC1
+404452	BRD-K41597374	GE-active	C[C@H](CO)N1C[C@H](C)[C@H](CN(C)C(=O)Nc2cc(F)ccc2F)Oc2cc(ccc2S1(=O)=O)C#CC1CCCC1
+404566	BRD-K63431240	probe	C[C@@H](CO)N1C[C@H](C)[C@@H](CN(C)C(=O)Nc2ccc3OCOc3c2)Oc2cc(ccc2S1(=O)=O)C#Cc1ccncc1
+410270	BRD-K13999467	GE-active	C[C@@H](CO)N1C[C@H](C)[C@H](CN(C)C(=O)Cc2ccncc2)Oc2cc(ccc2S1(=O)=O)C#Cc1ccccc1F
+410703	BRD-K96970199	GE-active	C\C=C\c1ccc2c(O[C@@H](CN(C)C(=O)c3ccccc3)[C@@H](C)CN([C@@H](C)CO)S2(=O)=O)c1
+411714	brefeldin A	probe	CC1CCC\C=C/C2CC(O)CC2C(O)\C=C/C(=O)O1
+411716	AGK-2	probe	Clc1ccc(Cl)c(c1)-c1ccc(\C=C(/C#N)C(=O)Nc2cccc3ncccc23)o1
+411717	L-685458	probe	CC(C)C[C@H](NC(=O)[C@@H](C[C@@H](O)[C@H](Cc1ccccc1)NC(=O)OC(C)(C)C)Cc1ccccc1)C(=O)N[C@@H](Cc1ccccc1)C(N)=O
+411719	PF-750	probe	O=C(Nc1ccccc1)N1CCC(Cc2cnc3ccccc3c2)CC1
+411720	triptolide	clinical	CC(C)[C@]12O[C@H]1[C@@H]1O[C@]11[C@]3(O[C@H]3CC3C4=C(CC[C@]13C)C(=O)OC4)[C@@H]2O
+411722	nutlin-3	clinical	COc1ccc(C2=NC(C(N2C(=O)N2CCNC(=O)C2)c2ccc(Cl)cc2)c2ccc(Cl)cc2)c(OC(C)C)c1
+411724	AA-COCF3	probe	CCCCC\C=C/C\C=C/C\C=C/C\C=C/CCCC(=O)C(F)(F)F
+411726	16-beta-bromoandrosterone	probe	C[C@]12CC[C@H]3[C@@H](CC[C@H]4C[C@H](O)CC[C@]34C)[C@@H]1C[C@H](Br)C2=O
+411727	PRL-3 inhibitor I	probe	Brc1ccc(OCc2ccccc2Br)c(\C=C2\SC(=S)NC2=O)c1
+411731	SID 26681509	probe	CCc1ccccc1NC(=O)CSC(=O)NNC(=O)[C@@H](Cc1c[nH]c2ccccc12)NC(=O)OC(C)(C)C
+411733	neuronal differentiation inducer III	probe	O=C(NC1CC1)c1cc(on1)-c1cccs1
+411734	NSC 74859	probe	Cc1ccc(cc1)S(=O)(=O)OCC(=O)Nc1ccc(C(O)=O)c(O)c1
+411737	bortezomib	FDA	CC(C)C[C@H](NC(=O)[C@H](Cc1ccccc1)NC(=O)c1cnccn1)B(O)O
+411738	ABT-737	clinical	CN(C)CC[C@H](CSc1ccccc1)Nc1ccc(cc1[N+]([O-])=O)S(=O)(=O)NC(=O)c1ccc(cc1)N1CCN(Cc2ccccc2-c2ccc(Cl)cc2)CC1
+411739	zebularine	probe	OC[C@H]1O[C@H](C(O)[C@H]1O)n1cccnc1=O
+411742	PI-103	probe	Oc1cccc(c1)-c1nc(N2CCOCC2)c2oc3ncccc3c2n1
+411749	tubastatin A	probe	CN1CCc2c(C1)c1ccccc1n2Cc1ccc(cc1)C(=O)NO
+411770	SR-II-138A	probe	CON(C)C(=O)[C@H]1[C@@H](O)[C@@]2(O)c3c(O[C@]2([C@@H]1c1ccccc1)c1ccc(OC)cc1)cc(OC)cc3OC
+411774	neopeltolide	probe	CCC[C@H]1C[C@H](C[C@H](C)C[C@@H]2C[C@H](C[C@H](CC(=O)O1)O2)OC(=O)\C=C/CCc1coc(\C=C/CNC(=O)OC)n1)OC
+411792	parthenolide	probe	C\C1=C\CC[C@@]2(C)O[C@@H]2[C@H]2OC(=O)C(=C)[C@@H]2CC1
+411805	Compound 7d-cis	probe	CCOC(=O)\C=C/n1nnc(n1)-c1cccc(Cl)c1
+411808	TG-101348	clinical	Cc1cnc(Nc2ccc(OCCN3CCCC3)cc2)nc1Nc1cccc(c1)S(=O)(=O)NC(C)(C)C
+411809	pevonedistat	clinical	NS(=O)(=O)OC[C@@H]1C[C@H](C[C@@H]1O)n1ccc2c(N[C@H]3CCc4ccccc34)ncnc12
+411814	AZD7545	probe	CN(C)C(=O)c1ccc(cc1)S(=O)(=O)c1ccc(NC(=O)[C@@](C)(O)C(F)(F)F)c(Cl)c1
+411815	VER-155008	probe	Nc1ncnc2n([C@@H]3O[C@H](COCc4ccc(cc4)C#N)[C@@H](O)[C@H]3O)c(NCc3ccc(Cl)c(Cl)c3)nc12
+411816	ML203	probe	Nc1cccc(c1)S(=O)(=O)N1CCCN(CC1)S(=O)(=O)c1ccc2OCCOc2c1
+411820	SRT-1720	probe	O=C(Nc1cc(CN2CCNCC2)cc(c1)-c1nc2ccccc2[nH]1)c1cnc2ccccc2n1
+411824	CAY10594	probe	O=C(NCCN1CCC2(CC1)N(CNC2=O)c1ccccc1)c1ccc2ccccc2c1
+411827	Compound 1541A	probe	Oc1cccc2cc(C(=O)Nc3cccc(c3)-c3cn4ccccc4n3)c(=O)oc12
+411831	RG-108	probe	OC(=O)[C@H](Cc1c[nH]c2ccccc12)N1C(=O)c2ccccc2C1=O
+411832	PAC-1	probe	Oc1c(CC=C)cccc1\C=N\NC(=O)CN1CCN(Cc2ccccc2)CC1
+411833	pluripotin	probe	CN1C(=O)N(Cc2cnc(Nc3cc(C)nn3C)nc12)c1cc(NC(=O)c2cccc(c2)C(F)(F)F)ccc1C
+411843	GMX-1778	clinical	Clc1ccc(OCCCCCC\N=C(\NC#N)Nc2ccncc2)cc1
+411856	avrainvillamide	probe	CC1(C)Oc2ccc3C4=C[C@@]56NC(=O)[C@]7(CCCN7C5=O)C[C@H]6C(C)(C)C4=[N+]([O-])c3c2C=C1
+411859	BMS-536924	probe	Cc1cc(cc2[nH]c(nc12)-c1c(NC[C@@H](O)c2cccc(Cl)c2)cc[nH]c1=O)N1CCOCC1
+411863	gemcitabine	FDA	Nc1ccn([C@@H]2O[C@H](CO)[C@@H](O)C2(F)F)c(=O)n1
+411865	MST-312	probe	Oc1cccc(C(=O)Nc2cccc(NC(=O)c3cccc(O)c3O)c2)c1O
+411867	olaparib	clinical	Fc1ccc(Cc2n[nH]c(=O)c3ccccc23)cc1C(=O)N1CCN(CC1)C(=O)C1CC1
+411869	oligomycin A	probe	CCC1CCC2OC3(CC[C@@H](C)C(C[C@H](C)O)O3)[C@H](C)C(OC(=O)\C=C\[C@@H](C)[C@H](O)[C@@H](C)C(=O)[C@H](C)[C@@H](O)[C@H](C)C(=O)[C@@](C)(O)[C@H](O)[C@@H](C)C\C=C\C=C\1)[C@H]2C
+411874	indisulam	clinical	NS(=O)(=O)c1ccc(cc1)S(=O)(=O)Nc1cccc2c(Cl)c[nH]c12
+414479	BRD-K49290616	GE-active	OC[C@@H]1O[C@@H](CC(=O)NCc2ccncn2)CC[C@H]1NC(=O)c1ccc(F)cc1
+415688	BRD-K02492147	GE-active	CN1CCN(CC1)C(=O)C[C@@H]1O[C@H](CO)[C@@H](NS(=O)(=O)c2cccc(F)c2)C=C1
+416775	austocystin D	probe	CC(C)(O)CCc1ccc(O)c2c1oc1cc3O[C@H]4OC=C[C@@]4(O)c3c(O)c1c2=O
+416777	SJ-172550	probe	CCOc1cc(cc(Cl)c1OCC(=O)OC)\C=C1C(=O)N(N=C/1C)c1ccccc1
+416842	BRD-K09587429	GE-active	C[C@@H](NC(=O)C[C@@H]1CC[C@@H](NC(=O)CN2CCOCC2)[C@H](CO)O1)c1ccccc1
+417098	pandacostat	probe	ONC(=O)\C=C\c1ccc(cc1)C(=O)N\N=C\c1ccc(O)c(O)c1O
+417262	BRD-K96431673	GE-active	CN1CCN(CC1)C(=O)C[C@H]1CC[C@H](NC(=O)c2ccc3OCOc3c2)[C@@H](CO)O1
+417415	cyanoquinoline 11	clinical	Fc1ccc(Nc2c(cnc3c(Cl)cc(NCc4cnc[nH]4)cc23)C#N)cc1Cl
+417416	tipifarnib-P2	probe	Cn1cncc1[C@@](N)(c1ccc(Cl)cc1)c1ccc2n(C)c(=O)cc(-c3cccc(Cl)c3)c2c1
+417417	tipifarnib-P1	clinical	Cn1cncc1[C@](N)(c1ccc(Cl)cc1)c1ccc2n(C)c(=O)cc(-c3cccc(Cl)c3)c2c1
+417451	Compound 23 citrate	probe	CN(C)[C@H]1CC[C@H]2[C@@H](CC[C@H]3[C@@H]4CC=C(c5ccc6cnccc6c5)[C@@]4(C)CC[C@H]23)C1
+417452	nakiterpiosin	probe	C[C@H]1C[C@@H](OC1=O)[C@@H](O)[C@@H](C(Cl)Cl)c1ccc2[C@@H]3C[C@@H](Br)[C@]45O[C@H](C[C@]4(C)[C@H]3C(=O)c2c1C)CO[C@H]5O
+417663	CCT036477	probe	Cc1[nH]c2ccccc2c1C(Nc1ccccn1)c1ccc(Cl)cc1
+417818	tamatinib	clinical	COc1cc(Nc2ncc(F)c(Nc3ccc4OC(C)(C)C(=O)Nc4n3)n2)cc(OC)c1OC
+417977	myriocin	probe	CCCCCCC(=O)CCCCCC\C=C\C[C@H](O)[C@@H](O)C(N)(CO)C(O)=O
+417979	YM-155	clinical	COCCn1c2c(C(=O)c3ccccc3C2=O)[n+](Cc2cnccn2)c1C
+417981	BMS-754807	probe	C[C@]1(CCCN1c1nc(Nc2cc(n[nH]2)C2CC2)c2cccn2n1)C(=O)Nc1ccc(F)nc1
+417982	BIBR-1532	probe	C\C(=C/C(=O)Nc1ccccc1C(O)=O)c1ccc2ccccc2c1
+417987	tosedostat	clinical	CC(C)C[C@H]([C@H](O)C(=O)NO)C(=O)N[C@H](C(=O)OC1CCCC1)c1ccccc1
+418038	neratinib	clinical	CCOc1cc2ncc(C#N)c(Nc3ccc(OCc4ccccn4)c(Cl)c3)c2cc1NC(=O)\C=C\CN(C)C
+418162	BRD1812	probe	Oc1ccc(C[C@@H]2N3[C@H](CN(Cc4cccc5ccccc45)C2=O)N(CCC3=O)C(=O)NCc2ccccc2)cc1
+418163	BRD8958	probe	CC1=NN(C(=O)C\1=C\c1ccc(o1)-c1cc(C)c(C)cc1[N+]([O-])=O)c1ccc(cc1)C(O)=O
+418164	serdemetan	clinical	C(Cc1c[nH]c2ccccc12)Nc1cccc(Nc2ccncc2)c1
+418166	daporinad	clinical	O=C(NCCCCC1CCN(CC1)C(=O)c1ccccc1)\C=C\c1cccnc1
+418167	MK-1775	clinical	CN1CCN(CC1)c1ccc(Nc2ncc3c(n2)n(-c2cccc(n2)C(C)(C)O)n(CC=C)c3=O)cc1
+418170	tivozanib	clinical	COc1cc2nccc(Oc3ccc(NC(=O)Nc4cc(C)on4)c(Cl)c3)c2cc1OC
+418172	Ko-143	probe	COc1ccc2c3C[C@@H]4N([C@@H](CC(C)C)c3[nH]c2c1)C(=O)[C@H](CCC(=O)OC(C)(C)C)NC4=O
+418209	CR-1-31B	probe	CONC(=O)[C@H]1[C@@H](O)[C@@]2(O)c3c(O[C@]2([C@@H]1c1ccccc1)c1ccc(OC)cc1)cc(OC)cc3OC
+425733	BRD-K71781559	probe	OC(=O)c1ccc(NCc2nc3cc4ccccc4cc3[nH]2)cc1
+429535	BRD-K86535717	GE-active	CO[C@@H]1CC[C@H]2CCN(C)C(=O)[C@@H](C)[C@H](CN(C)C(=O)c3cccc(C#N)c3OC[C@H]1O2)OC
+431987	BRD-K48334597	GE-active	C[C@H](CO)N1C[C@H](C)[C@@H](CN(C)C(=O)NC2CCCCC2)Oc2ccc(NC(=O)Cc3cn(C)c4ccccc34)cc2C1=O
+434195	ML312	probe	CC(C)NC(=O)Nc1ccc2O[C@@H](CN(C)S(=O)(=O)c3ccc(Cl)cc3)[C@H](C)CN([C@H](C)CO)C(=O)c2c1
+435086	BRD-K04800985	GE-active	C[C@@H](CO)N1C[C@@H](C)[C@@H](CN(C)CC2CCCCC2)Oc2ccc(NC(=O)Nc3c(C)noc3C)cc2C1=O
+435898	BRD-K78574327	GE-active	C[C@H](CO)N1C[C@H](C)[C@H](CN(C)CC2CC2)Oc2ccc(NS(=O)(=O)c3cn(C)cn3)cc2C1=O
+436211	BRD-K19103580	GE-active	C[C@H](CO)N1C[C@H](C)[C@H](CN(C)Cc2ccc(Cl)c(Cl)c2)Oc2ccc(cc2C1=O)N(C)C
+437263	BRD-K30019337	GE-active	CC(C)NC(=O)N(C)C[C@H]1Oc2ccc(cc2C(=O)N(C[C@H]1C)[C@H](C)CO)N(C)C
+437906	BRD-K84807411	GE-active	C[C@H](CO)N1C[C@H](C)[C@@H](CN(C)C)Oc2c(NC(=O)c3cc(C)nn3C)cccc2C1=O
+438345	BRD-K01737880	probe	COc1ccc(NC(=O)Nc2ccc3O[C@@H](CN(C)Cc4ccc5OCOc5c4)[C@@H](C)CN([C@@H](C)CO)C(=O)c3c2)cc1
+438564	BRD-K44224150	GE-active	CNC[C@@H]1Oc2ccc(NC(=O)C3CCCCC3)cc2C(=O)N(C[C@@H]1C)[C@@H](C)CO
+438691	BRD-K75293299	GE-active	C[C@@H](CO)N1C[C@@H](C)[C@H](CN(C)C(=O)Nc2cccc3ccccc23)Oc2c(NC(=O)c3ccncc3)cccc2C1=O
+438776	BRD-K64610608	probe	COc1ccc(cc1)S(=O)(=O)N(C)C[C@@H]1Oc2c(NC(=O)Nc3cccc4ccccc34)cccc2C(=O)N(C[C@H]1C)[C@@H](C)CO
+439882	BRD-K09344309	probe	C[C@H](CO)N1C[C@@H](C)[C@H](CN(C)Cc2ccc3OCOc3c2)Oc2c(NC(=O)c3ccncc3)cccc2C1=O
+442141	BRD-K02251932	GE-active	C[C@H](CO)N1C[C@H](C)[C@H](CN(C)C(=O)NC2CCCCC2)Oc2c(NS(=O)(=O)c3ccc(F)cc3)cccc2C1=O
+444779	BRD-K55116708	probe	C[C@@H](CO)N1C[C@@H](C)[C@@H](CN(C)Cc2ccc(cc2)C(=O)Nc2ccccc2N)Oc2c(NC(=O)Nc3ccccc3)cccc2C1=O
+446546	BRD-K41334119	GE-active	CNC[C@@H]1Oc2ccc(NS(C)(=O)=O)cc2CC(=O)N(C[C@@H]1C)[C@H](C)CO
+446716	BRD-K34485477	GE-active	CNC[C@@H]1Oc2ccc(NC(=O)CCN3CCOCC3)cc2CC(=O)N(C[C@@H]1C)[C@H](C)CO
+447732	BRD-K16147474	GE-active	CC(C)NC(=O)Nc1ccc2O[C@@H](CN(C)S(C)(=O)=O)[C@@H](C)CN([C@H](C)CO)C(=O)Cc2c1
+448891	BRD-K29086754	GE-active	C[C@H](CO)N1C[C@@H](C)[C@@H](CN(C)Cc2ccc(cc2)C(O)=O)Oc2ccc(NC(=O)Nc3ccc(F)cc3)cc2CC1=O
+449707	BRD-K33199242	GE-active	CNC[C@@H]1Oc2ccc(cc2CC(=O)N(C[C@@H]1C)[C@@H](C)CO)N(C)C
+450415	BRD-K52037352	GE-active	C[C@@H](CO)N1C[C@H](C)[C@H](CN(C)C(=O)Nc2cccc3ccccc23)Oc2ccc(NC(=O)NC3CCCCC3)cc2CC1=O
+452570	BRD-K27986637	probe	C[C@H](CO)N1C[C@H](C)[C@H](CN(C)Cc2ccc3OCCOc3c2)OCc2cn(CCCC1=O)nn2
+463198	BRD-K37390332	GE-active	C[C@H](CO)N1C[C@H](C)[C@@H](CN(C)C(=O)Nc2cccc3ccccc23)Oc2ccc(NC(=O)c3ccncc3)cc2CC1=O
+464458	tandutinib	clinical	COc1cc2c(ncnc2cc1OCCCN1CCCCC1)N1CCN(CC1)C(=O)Nc1ccc(OC(C)C)cc1
+464880	fulvestrant	FDA	C[C@]12CC[C@H]3[C@H]([C@@H]1CC[C@@H]2O)[C@H](CCCCCCCCCS(=O)CCCC(F)(F)C(F)(F)F)Cc1cc(O)ccc31
+467037	bafilomycin A1	probe	CO[C@H]1\C=C\C=C(C)\C[C@@H](C)[C@H](O)[C@H](C)\C=C(C)\C=C(OC)\C(=O)O[C@@H]1[C@@H](C)[C@@H](O)[C@H](C)[C@H]1C[C@@H](O)[C@H](C)[C@H](O1)C(C)C
+478694	isonicotinohydroxamic acid	probe	ONC(=O)c1ccncc1
+481311	HLI 373	probe	CN(C)CCCNc1c2ccccc2n(C)c2nc(=O)n(C)c(=O)c12
+580922	NSC19630	probe	CCC(=O)OCN1C(=O)C=CC1=O
+594399	NSC48300	probe	O[As](O)(=O)c1ccc(Cc2ccc(cc2)[As](O)(O)=O)cc1
+594663	PRIMA-1-Met	probe	COC[C@]1(CO)[N@@]2CC[C@@H](CC2)C1=O
+594664	isoevodiamine	probe	CN1C2N(CCc3c2[nH]c2ccccc32)C(=O)c2ccccc12
+594665	UNC0638	probe	COc1cc2c(NC3CCN(CC3)C(C)C)nc(nc2cc1OCCCN1CCCC1)C1CCCCC1
+595102	cucurbitacin I	probe	CC(C)(O)\C=C\C(=O)[C@](C)(O)C1[C@H](O)C[C@@]2(C)C3CC=C4C(CC(=O)C(=O)C4(C)C)[C@]3(C)C(=O)C[C@]12C
+596868	BRD-K50799972	GE-active	COc1ccccc1-c1cccc(c1)-c1nc(cc2CN([C@@H](CCO)c12)[S@@](=O)C(C)(C)C)C(=O)NCc1ccncc1
+600054	BRD-K17060750	GE-active	CN(C)CC(=O)N[C@@H]1CC[C@@H](CCNC(=O)Nc2ccc(F)cc2)O[C@H]1CO
+601923	barasertib	clinical	CCN(CCO)CCCOc1ccc2c(Nc3cc(CC(=O)Nc4cccc(F)c4)[nH]n3)ncnc2c1
+606033	linifanib	clinical	Cc1ccc(F)c(NC(=O)Nc2ccc(cc2)-c2cccc3[nH]nc(N)c23)c1
+606034	veliparib	clinical	C[C@@]1(CCCN1)c1nc2c(cccc2[nH]1)C(N)=O
+606035	saracatinib	clinical	CN1CCN(CCOc2cc(OC3CCOCC3)c3c(Nc4c5OCOc5ccc4Cl)ncnc3c2)CC1
+606135	afatinib	clinical	CN(C)C\C=C\C(=O)Nc1cc2c(Nc3ccc(F)c(Cl)c3)ncnc2cc1O[C@H]1CCOC1
+606136	cediranib	clinical	COc1cc2c(Oc3ccc4[nH]c(C)cc4c3F)ncnc2cc1OCCCN1CCCC1
+606138	canertinib	clinical	Fc1ccc(Nc2ncnc3cc(OCCCN4CCOCC4)c(NC(=O)C=C)cc23)cc1Cl
+606142	obatoclax	clinical	COC1=CC(=N\C\1=C/c1[nH]c(C)cc1C)c1cc2ccccc2[nH]1
+606143	masitinib	clinical	CN1CCN(Cc2ccc(cc2)C(=O)Nc2ccc(C)c(Nc3nc(cs3)-c3cccnc3)c2)CC1
+606144	ZSTK474	clinical	FC(F)c1nc2ccccc2n1-c1nc(nc(n1)N1CCOCC1)N1CCOCC1
+606246	brivanib	clinical	C[C@@H](O)COc1cn2ncnc(Oc3ccc4[nH]c(C)cc4c3F)c2c1C
+606248	GDC-0879	probe	OCCn1cc(c(n1)-c1ccncc1)-c1ccc2c(CC\C2=N/O)c1
+606249	NVP-TAE684	probe	COc1cc(ccc1Nc1ncc(Cl)c(Nc2ccccc2S(=O)(=O)C(C)C)n1)N1CCC(CC1)N1CCN(C)CC1
+606254	SNS-032	clinical	CC(C)(C)c1cnc(CSc2cnc(NC(=O)C3CCNCC3)s2)o1
+606256	PLX-4720	probe	CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(Cl)cc23)c1F
+606356	TGX-221	probe	CC(Nc1ccccc1)c1cc(C)cn2c1nc(cc2=O)N1CCOCC1
+606363	KU-0063794	probe	COc1ccc(cc1CO)-c1ccc2c(nc(nc2n1)N1C[C@H](C)O[C@H](C)C1)N1CCOCC1
+606470	TG-100-115	clinical	Nc1nc(N)c2nc(-c3cccc(O)c3)c(nc2n1)-c1cccc(O)c1
+606471	GSK1059615	clinical	O=C1NC(=O)\C(S1)=C\c1ccc2nccc(-c3ccncc3)c2c1
+606586	SU11274	probe	CN(c1cccc(Cl)c1)S(=O)(=O)c1ccc2NC(=O)\C(=C/c3[nH]c(C)c(C(=O)N4CCN(C)CC4)c3C)c2c1
+606670	BRD-K88742110	probe	COc1ccc(Cn2ccc3ccc(cc23)C(=O)NO)cc1
+607696	LRRK2-IN-1	probe	COc1cc(ccc1Nc1ncc2N(C)C(=O)c3ccccc3N(C)c2n1)C(=O)N1CCC(CC1)N1CCN(C)CC1
+608062	BRD8899	probe	CC(=O)NC[C@@H]1C[C@H](CN1)NS(=O)(=O)c1cccc2cncc(C)c12
+608999	EX-527	clinical	NC(=O)[C@H]1CCCc2c1[nH]c1ccc(Cl)cc21
+609056	ELCPK	probe	O=S(=O)(N1CCCc2ccccc12)c1ccc(cc1)-c1cnc(o1)C1CC1
+609058	NPC-26	probe	CCOC(=O)c1c(NC(=O)c2ccc(s2)[N+]([O-])=O)sc2c1CC(C)(C)NC2(C)C
+609060	1S,3R-RSL-3	probe	COC(=O)[C@H]1Cc2c([nH]c3ccccc23)[C@@H](N1C(=O)CCl)c1ccc(cc1)C(=O)OC
+609061	CIL55A	probe	CN(C)CCNC(=O)c1cc2CSc3ccc(Cl)cc3-c2s1
+609062	SCH-529074	probe	CN(C)CCCNc1nc(CN2CCN(CC2)C(c2ccc(Cl)cc2)c2ccc(Cl)cc2)nc2ccccc12
+609063	StemRegenin 1	probe	CC(C)n1cnc2c(NCCc3ccc(O)cc3)nc(nc12)-c1csc2ccccc12
+609091	FQI-2	probe	CCOc1ccccc1-c1cc(=O)[nH]c2cc3OCOc3cc12
+609110	ML210	probe	Cc1onc(C(=O)N2CCN(CC2)C(c2ccc(Cl)cc2)c2ccc(Cl)cc2)c1[N+]([O-])=O
+609121	darinaparsin	clinical	C[As](C)SC[C@H](NC(=O)CC[C@H](N)C(O)=O)C(=O)NCC(O)=O
+609124	PX-12	clinical	CCC(C)SSc1ncc[nH]1
+609332	GANT-61	probe	CN(C)c1ccccc1CN1CCCN(Cc2ccccc2N(C)C)C1c1ccncc1
+609440	PL-DI	probe	COc1cc(\C=C\C(=O)N2CCC=CC2=O)cc(OC)c1OCCN(C)CCOc1c(OC)cc(\C=C\C(=O)N2CCC=CC2=O)cc1OC
+609596	TW-37	probe	CC(C)c1ccccc1Cc1cc(C(=O)Nc2ccc(cc2)S(=O)(=O)c2ccccc2C(C)(C)C)c(O)c(O)c1O
+609639	AZD8055	clinical	COc1ccc(cc1CO)-c1ccc2c(nc(nc2n1)N1CCOC[C@@H]1C)N1CCOC[C@@H]1C
+609674	CHM-1	probe	Fc1ccccc1-c1cc(=O)c2cc3OCOc3cc2[nH]1
+609681	QS-11	probe	OC[C@H](Cc1ccccc1)Nc1nc(Oc2ccc3CCCc3c2)nc2n(Cc3ccc(cc3)-c3ccccc3)cnc12
+609781	ML239	probe	Clc1cc(Cl)c(OCC(=O)N\N=C\c2ccc[nH]2)c(Cl)c1
+616352	salermide	probe	CC(C(=O)Nc1cccc(c1)\N=C\c1c(O)ccc2ccccc12)c1ccccc1
+616353	fumonisin B1	probe	CCCC[C@@H](C)[C@@H](OC(=O)C[C@@H](CC(O)=O)C(O)=O)[C@H](CC(C)C[C@H](O)CCCC[C@@H](O)C[C@H](O)[C@H](C)N)OC(=O)C[C@@H](CC(O)=O)C(O)=O
+616354	JQ-1	probe	Cc1sc-2c(c1C)C(=N[C@@H](CC(=O)OC(C)(C)C)c1nnc(C)n-21)c1ccc(Cl)cc1
+616355	BRD-K51490254	probe	ONC(=O)c1cccc(c1)C(=O)Nc1ccccc1
+616408	BRD-K85133207	probe	CC(=O)N[C@H]1C[C@H](C1)C(=O)Nc1cc(ccc1N)-c1ccc(F)cc1
+622911	BMS-345541	probe	Cc1cnc2c(NCCN)nc3ccc(C)cc3n12
+622913	CAY10576	probe	COc1cc2ncn(-c3cc(OCc4ccccc4S(C)(=O)=O)c(s3)C#N)c2cc1OC
+628408	Repligen 136	probe	Cc1ccc(cc1)C(=O)NCCCCCC(=O)Nc1ccc(F)cc1N
+628601	nintedanib	clinical	COC(=O)c1ccc2c(NC(=O)\C2=C(/Nc2ccc(cc2)N(C)C(=O)CN2CCN(C)CC2)c2ccccc2)c1
+628603	crizotinib	FDA	C[C@@H](Oc1cc(cnc1N)-c1cnn(c1)C1CCNCC1)c1c(Cl)ccc(F)c1Cl
+628607	foretinib	clinical	COc1cc2c(Oc3ccc(NC(=O)C4(CC4)C(=O)Nc4ccc(F)cc4)cc3F)ccnc2cc1OCCCN1CCOCC1
+628613	regorafenib	FDA	CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(c3)C(F)(F)F)c(F)c2)ccn1
+628614	WZ8040	probe	CN1CCN(CC1)c1ccc(Nc2ncc(Cl)c(Sc3cccc(NC(=O)C=C)c3)n2)cc1
+628620	OSI-930	clinical	FC(F)(F)Oc1ccc(NC(=O)c2sccc2NCc2ccnc3ccccc23)cc1
+628622	MGCD-265	clinical	Cn1cnc(c1)-c1cc2nccc(Oc3ccc(NC(=S)NC(=O)Cc4ccccc4)cc3F)c2s1
+628639	lenvatinib	FDA	COc1cc2nccc(Oc3ccc(NC(=O)NC4CC4)c(Cl)c3)c2cc1C(N)=O
+632103	YK 4-279	probe	COc1ccc(cc1)C(=O)CC1(O)C(=O)Nc2c1c(Cl)ccc2Cl
+632104	CAY10618	probe	O=C(CCCCCCCn1cc(nn1)-c1cccnc1)Nc1ccccc1-c1ccccc1
+632119	KU 0060648	probe	CCN1CCN(CC(=O)Nc2ccc(-c3cccc4c3oc(cc4=O)N3CCOCC3)c3sc4ccccc4c23)CC1
+632243	narciclasine	probe	O[C@H]1C=C2[C@@H](NC(=O)c3c(O)c4OCOc4cc23)[C@H](O)[C@@H]1O
+632873	MLN2238	clinical	CC(C)C[C@H](NC(=O)CNC(=O)c1cc(Cl)ccc1Cl)B(O)O
+632907	ISOX	probe	CC(C)(C)OC(=O)Nc1ccc(cc1)-c1cc(no1)C(=O)NCCCCCCC(=O)NO
+634309	lapatinib	FDA	CS(=O)(=O)CCNCc1ccc(o1)-c1ccc2ncnc(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2c1
+634814	BRD-K29313308	probe	CC(=O)Nc1ccc(cc1)C(=O)Nc1ccc(F)cc1N
+635576	UNC0321	probe	COc1cc2c(NC3CCN(C)CC3)nc(nc2cc1OCCOCCN(C)C)N1CCCN(C)CC1
+635882	SGX-523	clinical	Cn1cc(cn1)-c1ccc2nnc(Sc3ccc4ncccc4c3)n2n1
+636425	erismodegib	probe	C[C@H]1CN(C[C@@H](C)O1)c1ccc(NC(=O)c2cccc(-c3ccc(OC(F)(F)F)cc3)c2C)cn1
+636711	alisertib	clinical	COc1cc(Nc2ncc3CN=C(c4cc(Cl)ccc4-c3n2)c2c(F)cccc2OC)ccc1C(O)=O
+639390	AZD6482	clinical	C[C@@H](Nc1ccccc1C(O)=O)c1cc(C)cn2c1nc(cc2=O)N1CCOCC1
+639450	ruxolitinib	FDA	N#CC[C@H](C1CCCC1)n1cc(cn1)-c1ncnc2[nH]ccc12
+639531	bleomycin A2	FDA	C[C@@H](O)[C@@H](NC(=O)[C@H](C)[C@@H](O)[C@H](C)NC(=O)[C@@H](NC(=O)c1nc(nc(N)c1C)[C@H](CC(N)=O)NC[C@@H](N)C(N)=O)C(O[C@H]1O[C@H](CO)[C@H](O)[C@@H](O)[C@H]1O[C@H]1O[C@H](CO)[C@@H](O)[C@H](OC(N)=O)[C@@H]1O)c1c[nH]cn1)C(=O)NCCc1nc(cs1)-c1nc(cs1)C(=O)NCCC[S+](C)C
+639759	GDC-0941	clinical	CS(=O)(=O)N1CCN(Cc2cc3nc(nc(N4CCOCC4)c3s2)-c2cccc3[nH]ncc23)CC1
+639962	SB-525334	probe	Cc1cccc(n1)-c1[nH]c(nc1-c1ccc2nccnc2c1)C(C)(C)C
+640007	PHA-793887	clinical	CC(C)CC(=O)Nc1n[nH]c2c1CN(C(=O)C1CCN(C)CC1)C2(C)C
+640011	quizartinib	clinical	CC(C)(C)c1cc(NC(=O)Nc2ccc(cc2)-c2cn3c(n2)sc2cc(OCCN4CCOCC4)ccc32)no1
+640157	fingolimod	FDA	CCCCCCCCc1ccc(CCC(N)(CO)CO)cc1
+640265	pazopanib	FDA	CN(c1ccc2c(C)n(C)nc2c1)c1ccnc(Nc2ccc(C)c(c2)S(N)(=O)=O)n1
+640366	WZ4002	probe	COc1cc(ccc1Nc1ncc(Cl)c(Oc2cccc(NC(=O)C=C)c2)n1)N1CCN(C)CC1
+641721	BRD-K24690302	probe	CN(C)CC1CN(C1)C(=O)Nc1cc(ccc1N)-c1ccc(F)cc1
+648987	BRD-K70511574	probe	COc1ccc(cc1)S(=O)(=O)N(C(=O)C)c2ccccc2C=Cc3cc[n+]([O-])cc3
+649420	PLX-4032	FDA	CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(cc23)-c2ccc(Cl)cc2)c1F
+649754	BRD-K48477130	probe	Cc1n[nH]c2NC3=C([C@@H](c12)c1ccccc1)C(=O)CC(C)(C)C3
+649862	GSK461364	clinical	C[C@@H](Oc1cc(sc1C(N)=O)-n1cnc2ccc(CN3CCN(C)CC3)cc12)c1ccccc1C(F)(F)F
+651298	YL54	probe	CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](CCCNC(N)=N)NC(=O)CCNC(C)=O)C(=O)N[C@]1(C)CCC\C=C/CCC[C@@](C)(NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCSC)NC1=O)C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H](CCCNC(N)=N)C(O)=O
+651304	BRD-K20514654	probe	CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](CCCNC(N)=N)NC(=O)CCNC(C)=O)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](CCSC)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@]1(C)CCC\C=C/CCC[C@@](C)(NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](CCC(O)=O)NC1=O)C(=O)N[C@@H](CCCNC(N)=N)C(N)=O
+651306	BRD-K55473186	probe	CCC(C)C(NC(=O)C(CCCNC(=N)N)NC(=O)C(CCCNC(=N)N)NC(=O)C(CCCNC(=N)N)NC(=O)C(CC(C)C)NC(=O)C(CCCNC(=N)N)NC(=O)C(CCC(=O)O)NC(=O)CCNC(=O)C)C(=O)NC1(C)CCCC=CCCCC(C)(NC(=O)C(CCCNC(=N)N)NC(=O)C(CS)NC(=O)C(CC(C)C)NC1=O)C(=O)NC(Cc2c[nH]cn2)C(=O)NC(Cc3c[nH]cn3)C(=O)NC(CO)C(=O)NC(C(C)O)C(=O)N
+651642	BRD-K28456706	probe	Cc1c(oc2ccc3ccccc3c12)[N+]([O-])=O
+652975	STF-31	probe	CC(C)(C)c1ccc(cc1)S(=O)(=O)NCc1ccc(cc1)C(=O)Nc1cccnc1
+654278	ML334 diastereomer	probe	OC(=O)[C@@H]1CCCC[C@@H]1C(=O)N1CCc2ccccc2[C@H]1CN1C(=O)c2ccccc2C1=O
+657183	spautin-1	probe	Fc1ccc(CNc2ncnc3ccc(F)cc23)cc1
+659226	VAF-347	probe	FC(F)(F)c1ccc(Nc2nccc(n2)-c2cccc(Cl)c2)cc1
+659371	BRD-A02303741	probe	CC(C)N(CCCNC(=O)Nc1ccc(cc1)C(C)(C)C)C[C@H]1O[C@H](C(O)[C@H]1O)n1cnc2c(N)ncnc12
+659682	ML320	probe	COc1ccccc1[C@H]1c2c(NC3=C1C(=O)CC(C)(C)C3)n[nH]c2C(F)(F)F
+659993	tigecycline	FDA	CN(C)[C@H]1[C@@H]2C[C@@H]3Cc4c(cc(NC(=O)CNC(C)(C)C)c(O)c4C(=O)C3C(=O)[C@]2(O)C(=O)C(C(N)=O)C1=O)N(C)C
+660064	BRD-K34099515	probe	CC(C)N1C[C@@H](C)[C@H](CN(C)Cc2ccc(Oc3ccccc3)cc2)Oc2c(NC(=O)c3ccncc3)cccc2C1=O
+660073	PF-543	probe	Cc1cc(CS(=O)(=O)c2ccccc2)cc(OCc2ccc(CN3CCC[C@@H]3CO)cc2)c1
+660075	PF-573228	probe	CS(=O)(=O)c1cccc(CNc2nc(Nc3ccc4NC(=O)CCc4c3)ncc2C(F)(F)F)c1
+660078	ceranib-2	probe	COc1ccc(\C=C\C(=O)c2c(-c3ccccc3)c3ccccc3[nH]c2=O)cc1
+660079	FSC231	probe	CCOC(=O)NC(=O)C(=C\c1ccc(Cl)c(Cl)c1)\C#N
+660080	968	probe	CN(C)c1ccc(cc1Br)C1Nc2ccc3ccccc3c2C2=C1C(=O)CC(C)(C)C2
+660081	GSK4112	probe	CC(C)(C)OC(=O)CN(Cc1ccc(s1)[N+]([O-])=O)Cc1ccc(Cl)cc1
+660082	etomoxir	clinical	OC(=O)[C@@]1(CCCCCCOc2ccc(Cl)cc2)CO1
+660083	HC-067047	probe	Cc1c(cc(-c2ccccc2)n1CCCN1CCOCC1)C(=O)Nc1cccc(c1)C(F)(F)F
+660084	IPR-456	probe	CC1CC(C)CN(C1)c1cc(Nc2ccccc2C(O)=O)c2C(=O)c3ccccc3-c3onc1c23
+660085	KH-CB19	probe	CCOC(=O)c1c(C(=CN)C#N)c2ccc(Cl)c(Cl)c2n1C
+660086	leptomycin B	probe	CCC(\C=C\[C@@H]1OC(=O)C=C[C@@H]1C)=C\[C@H](C)C\C=C\C(C)=C\[C@@H](C)C(=O)[C@@H](C)[C@H](O)[C@@H](C)C\C(C)=C\C(O)=O
+660087	AZ-3146	probe	COc1cc(OC2CCN(C)CC2)ccc1Nc1ncc2n(C)c(=O)n(C3CCCC3)c2n1
+660119	VU0155056	probe	O=C(NCCN1CCC(CC1)n1c2ccccc2[nH]c1=O)c1ccc2ccccc2c1
+660129	JQ-1:UNC0638 (2:1 mol/mol)	probe	Cc1sc-2c(c1C)C(=N[C@@H](CC(=O)OC(C)(C)C)c1nnc(C)n-21)c1ccc(Cl)cc1.COc1cc2c(NC3CCN(CC3)C(C)C)nc(nc2cc1OCCCN1CCCC1)C1CCCCC1
+660130	carboplatin:UNC0638 (2:1 mol/mol)	probe	O=C1O[Pt]OC(=O)C11CCC1.COc1cc2c(NC3CCN(CC3)C(C)C)nc(nc2cc1OCCCN1CCCC1)C1CCCCC1
+660131	vorinostat:carboplatin (1:1 mol/mol)	probe	O=C1O[Pt]OC(=O)C11CCC1.ONC(=O)CCCCCCC(=O)Nc1ccccc1
+660132	serdemetan:SCH-529074 (1:1 mol/mol)	probe	C(Cc1c[nH]c2ccccc12)Nc1ccc(Nc2ccncc2)cc1.CN(C)CCCNc1nc(CN2CCN(CC2)C(c2ccc(Cl)cc2)c2ccc(Cl)cc2)nc2ccccc12
+660133	selumetinib:PLX-4032 (8:1 mol/mol)	probe	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO.CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(cc23)-c2ccc(Cl)cc2)c1F
+660134	sirolimus:bortezomib (250:1 mol/mol)	probe	CC(C)C[C@H](NC(=O)[C@H](Cc1ccccc1)NC(=O)c1cnccn1)B(O)O.CO[C@@H]1C[C@H](C[C@@H](C)[C@@H]2CC(=O)[C@H](C)\C=C(C)\[C@@H](O)[C@@H](OC)C(=O)[C@H](C)C[C@H](C)\C=C\C=C\C=C(C)\[C@H](C[C@@H]3CC[C@@H](C)[C@@](O)(O3)C(=O)C(=O)N3CCCC[C@H]3C(=O)O2)OC)CC[C@H]1O
+660135	BRD-K97651142	probe	CN(CCc1cc(Br)c(OCCCNc2ncnc3n(C)cnc23)c(Br)c1)C(=O)c1ccc(C)cc1
+660136	vorapaxar	clinical	CCOC(=O)N[C@@H]1CC[C@@H]2[C@H](C[C@@H]3[C@@H]([C@@H](C)OC3=O)[C@H]2\C=C\c2ccc(cn2)-c2cccc(F)c2)C1
+660137	Ch-55	probe	CC(C)(C)c1cc(cc(c1)C(C)(C)C)C(=O)\C=C\c1ccc(cc1)C(O)=O
+660139	BRD-K79669418	probe	CC(C)C[C@@H]1NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](Cc2c[nH]c3ccccc23)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(N)=O)NC(=O)[C@@](C)(CCCCCC\C=C/CCC[C@](C)(NC(=O)[C@H](CC(C)C)NC1=O)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](CC(N)=O)C(N)=O)NC(=O)[C@H](Cc1ccccc1)NC(=O)[C@@H](NC(=O)[C@H](CCC(N)=O)NC(=O)[C@H](CCC(N)=O)NC(=O)[C@H](CO)NC(=O)[C@H](CCC(N)=O)NC(C)=O)[C@@H](C)O
+660140	BRD-K99584050	probe	CC[C@H](C)[C@H](NC(C)=O)C(=O)N[C@@H](Cc1c[nH]c2ccccc12)C(=O)N[C@@H]([C@@H](C)CC)C(=O)N[C@@H](C)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@]1(C)CCC\C=C/CCC[C@](C)(NC(=O)[C@H](CC(O)=O)NC(=O)CNC(=O)[C@@H](NC1=O)[C@@H](C)CC)C(=O)N[C@@H](Cc1ccccc1)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](C)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@@H](C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](CCCNC(N)=N)C(N)=O
+660145	BRD-A71883111	probe	Fc1cccc(c1)N(C(C(=O)NC1CCCCC1)c1ccccc1Cl)C(=O)Cc1cccs1
+660172	navitoclax:birinapant (1:1 mol/mol)	probe	CC[C@H](NC(=O)[C@H](C)NC)C(=O)N1C[C@@H](O)C[C@H]1Cc1c([nH]c2cc(F)ccc12)-c1cc2c(C[C@@H]3C[C@H](O)CN3C(=O)[C@H](CC)NC(=O)[C@H](C)NC)cc(F)cc2[nH]1.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660173	ISOX:bortezomib (250:1 mol/mol)	probe	CC(C)C[C@H](NC(=O)[C@H](Cc1ccccc1)NC(=O)c1cnccn1)B(O)O.CC(C)(C)OC(=O)Nc1ccc(cc1)-c1cc(no1)C(=O)NCCCCCCC(=O)NO
+660174	selumetinib:GDC-0941 (4:1 mol/mol)	probe	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO.CS(=O)(=O)N1CCN(Cc2cc3nc(nc(N4CCOCC4)c3s2)-c2cccc3[nH]ncc23)CC1
+660175	selumetinib:tretinoin (2:1 mol/mol)	probe	CC(=C/CO)\C=C\C=C(C)\C=C\C1=C(C)CCCC1(C)C.Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO
+660176	selumetinib:vorinostat (8:1 mol/mol)	probe	ONC(=O)CCCCCCC(=O)Nc1ccccc1.Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO
+660177	selumetinib:JQ-1 (4:1 mol/mol)	probe	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO.Cc1sc-2c(c1C)C(=N[C@@H](CC(=O)OC(C)(C)C)c1nnc(C)n-21)c1ccc(Cl)cc1
+660178	selumetinib:BRD-A02303741 (4:1 mol/mol)	probe	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO.CC(C)N(CCCNC(=O)Nc1ccc(cc1)C(C)(C)C)C[C@H]1O[C@H]([C@H](O)[C@@H]1O)n1ccc2c(N)ncnc12
+660179	tretinoin:navitoclax (4:1 mol/mol)	probe	CC(=C/CO)\C=C\C=C(C)\C=C\C1=C(C)CCCC1(C)C.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660180	decitabine:navitoclax (2:1 mol/mol)	probe	Nc1ncn([C@H]2C[C@H](O)[C@@H](CO)O2)c(=O)n1.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660181	tretinoin:carboplatin (2:1 mol/mol)	probe	O=C1O[Pt]OC(=O)C11CCC1.CC(\C=C\C=C(C)\C=C\C1=C(C)CCCC1(C)C)=C/CO
+660201	necrostatin-7	probe	Fc1ccc(cc1)-c1n[nH]cc1C=C1SC(=N)N(C1=O)c1nccs1
+660202	PYR-41	probe	CCOC(=O)c1ccc(cc1)N1NC(=O)C(=Cc2ccc(o2)[N+]([O-])=O)C1=O
+660206	I-BET151	probe	COc1cc2c3n([C@H](C)c4ccccn4)c(=O)[nH]c3cnc2cc1-c1c(C)noc1C
+660207	lomeguatrib	clinical	Nc1nc(OCc2cc(Br)cs2)c2[nH]cnc2n1
+660208	PF-184	probe	C[C@@]1(CO)CN(C[C@]1(C)CO)c1cc(C(=O)Nc2ccc3CCc4c(nn(c4-c3c2)-c2ccc(F)cc2)C(N)=O)c(Cl)cn1
+660216	tanespimycin:gemcitabine (1:1 mol/mol)	probe	Nc1ccn([C@@H]2O[C@H](CO)[C@@H](O)C2(F)F)c(=O)n1.CO[C@H]1C[C@H](C)CC2=C(NCC=C)C(=O)C=C(NC(=O)\C(C)=C\C=C/[C@H](OC)[C@@H](OC(N)=O)\C(C)=C\[C@H](C)[C@H]1O)C2=O
+660217	docetaxel:tanespimycin (2:1 mol/mol)	probe	CO[C@H]1C[C@H](C)CC2=C(NCC=C)C(=O)C=C(NC(=O)\C(C)=C\C=C/[C@H](OC)[C@@H](OC(N)=O)\C(C)=C\[C@H](C)[C@H]1O)C2=O.CC(=O)O[C@@]12CO[C@@H]1C[C@H](O)[C@]1(C)C2[C@H](OC(=O)c2ccccc2)[C@]2(O)C[C@H](OC(=O)[C@H](O)[C@@H](NC(=O)OC(C)(C)C)c3ccccc3)C(C)=C([C@@H](O)C1=O)C2(C)C
+660218	selumetinib:MK-2206 (8:1 mol/mol)	probe	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO.NC1(CCC1)c1ccc(cc1)-c1nc2ccn3c(n[nH]c3=O)c2cc1-c1ccccc1
+660219	navitoclax:PLX-4032 (1:1 mol/mol)	probe	CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(cc23)-c2ccc(Cl)cc2)c1F.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660220	selumetinib:piperlongumine (8:1 mol/mol)	probe	COc1cc(\C=C\C(=O)N2CCC=CC2=O)cc(OC)c1OC.Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO
+660221	tanespimycin:bortezomib (250:1 mol/mol)	probe	CC(C)C[C@H](NC(=O)[C@H](Cc1ccccc1)NC(=O)c1cnccn1)B(O)O.CO[C@H]1C[C@H](C)CC2=C(NCC=C)C(=O)C=C(NC(=O)\C(C)=C\C=C/[C@H](OC)[C@@H](OC(N)=O)\C(C)=C\[C@H](C)[C@H]1O)C2=O
+660222	navitoclax:MST-312 (1:1 mol/mol)	probe	Oc1cccc(C(=O)Nc2cccc(NC(=O)c3cccc(O)c3O)c2)c1O.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660223	carboplatin:etoposide (40:17 mol/mol)	probe	O=C1O[Pt]OC(=O)C11CCC1.COc1cc(cc(OC)c1O)[C@H]1[C@@H]2[C@H](COC2=O)[C@H](O[C@@H]2O[C@@H]3CO[C@@H](C)O[C@H]3[C@H](O)[C@H]2O)c2cc3OCOc3cc12
+660224	piperlongumine:MST-312 (1:1 mol/mol)	probe	COc1cc(\C=C\C(=O)N2CCC=CC2=O)cc(OC)c1OC.Oc1cccc(C(=O)Nc2cccc(NC(=O)c3cccc(O)c3O)c2)c1O
+660225	navitoclax:gemcitabine (1:1 mol/mol)	probe	Nc1ccn([C@@H]2O[C@H](CO)[C@@H](O)C2(F)F)c(=O)n1.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660227	JW-480	probe	CC(C)c1ccccc1OC(=O)NCCc1ccc2ccccc2c1
+660228	BMS-195614	probe	CC1(C)CC=C(c2cnc3ccccc3c2)c2cc(ccc12)C(=O)Nc1ccc(cc1)C(O)=O
+660229	BRD-K07442505	probe	CCOc1ccccc1N\N=C1C(=O)N(N=C\1C)c1nc(cs1)-c1ccccc1
+660230	BRD-K35604418	probe	Cc1cs\c(=N/C2CCCCC2)n1\N=C\c1ccc(O)c(O)c1O
+660238	SB-743921	clinical	CC(C)[C@H](N(CCCN)C(=O)c1ccc(C)cc1)c1oc2cc(Cl)ccc2c(=O)c1Cc1ccccc1
+660245	GSK525762A	probe	CCNC(=O)C[C@@H]1N=C(c2ccc(Cl)cc2)c2cc(OC)ccc2-n2c(C)nnc12
+660246	navitoclax:pluripotin (1:1 mol/mol)	probe	CN1C(=O)N(Cc2cnc(Nc3cc(C)nn3C)nc12)c1cc(NC(=O)c2cccc(c2)C(F)(F)F)ccc1C.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660247	JQ-1:carboplatin (1:1 mol/mol)	probe	O=C1O[Pt]OC(=O)C11CCC1.Cc1sc-2c(c1C)C(=N[C@@H](CC(=O)OC(C)(C)C)c1nnc(C)n-21)c1ccc(Cl)cc1
+660248	selumetinib:navitoclax (8:1 mol/mol)	probe	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660249	selumetinib:decitabine (4:1 mol/mol)	probe	Nc1ncn([C@H]2C[C@H](O)[C@@H](CO)O2)c(=O)n1.Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO
+660250	decitabine:carboplatin (1:1 mol/mol)	probe	O=C1O[Pt]OC(=O)C11CCC1.Nc1ncn([C@H]2C[C@H](O)[C@@H](CO)O2)c(=O)n1
+660251	SNX-2112:bortezomib (250:1 mol/mol)	probe	CC(C)C[C@H](NC(=O)[C@H](Cc1ccccc1)NC(=O)c1cnccn1)B(O)O.CC1(C)Cc2c(c(nn2-c2ccc(C(N)=O)c(N[C@H]3CC[C@H](O)CC3)c2)C(F)(F)F)C(=O)C1
+660252	JQ-1:navitoclax (2:1 mol/mol)	probe	Cc1sc-2c(c1C)C(=N[C@@H](CC(=O)OC(C)(C)C)c1nnc(C)n-21)c1ccc(Cl)cc1.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660253	JQ-1:MK-0752 (1:1 mol/mol)	probe	OC(=O)CC[C@H]1CC[C@@](CC1)(c1cc(F)ccc1F)S(=O)(=O)c1ccc(Cl)cc1.Cc1sc-2c(c1C)C(=N[C@@H](CC(=O)OC(C)(C)C)c1nnc(C)n-21)c1ccc(Cl)cc1
+660268	BRD-A02303741:navitoclax (2:1 mol/mol)	probe	CC(C)N(CCCNC(=O)Nc1ccc(cc1)C(C)(C)C)C[C@H]1O[C@H]([C@H](O)[C@@H]1O)n1ccc2c(N)ncnc12.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660269	salermide:PLX-4032 (12:1 mol/mol)	probe	CC(C(=O)Nc1cccc(c1)\N=C\c1c(O)ccc2ccccc12)c1ccccc1.CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(cc23)-c2ccc(Cl)cc2)c1F
+660270	UNC0638:navitoclax (1:1 mol/mol)	probe	COc1cc2c(NC3CCN(CC3)C(C)C)nc(nc2cc1OCCCN1CCCC1)C1CCCCC1.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660271	BRD-A02303741:carboplatin (1:1 mol/mol)	probe	O=C1O[Pt]OC(=O)C11CCC1.CC(C)N(CCCNC(=O)Nc1ccc(cc1)C(C)(C)C)C[C@H]1O[C@H]([C@H](O)[C@@H]1O)n1ccc2c(N)ncnc12
+660280	doxorubicin:navitoclax (2:1 mol/mol)	probe	COc1cccc2C(=O)c3c(O)c4C[C@](O)(C[C@H](O[C@H]5C[C@H](N)[C@H](O)[C@H](C)O5)c4c(O)c3C(=O)c12)C(=O)CO.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660281	selumetinib:UNC0638 (4:1 mol/mol)	probe	Cn1cnc2c(F)c(Nc3ccc(Br)cc3Cl)c(cc12)C(=O)NOCCO.COc1cc2c(NC3CCN(CC3)C(C)C)nc(nc2cc1OCCCN1CCCC1)C1CCCCC1
+660282	alisertib:navitoclax (2:1 mol/mol)	probe	COc1cc(Nc2ncc3CN=C(c4cc(Cl)ccc4-c3n2)c2c(F)cccc2OC)ccc1C(O)=O.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660283	navitoclax:sorafenib (1:1 mol/mol)	probe	CNC(=O)c1cc(Oc2ccc(NC(=O)Nc3ccc(Cl)c(c3)C(F)(F)F)cc2)ccn1.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660284	navitoclax:piperlongumine (1:1 mol/mol)	probe	COc1cc(\C=C\C(=O)N2CCC=CC2=O)cc(OC)c1OC.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660286	SMER-3	probe	O=C1c2ccccc2-c2nc3nonc3nc12
+660287	NVP-ADW742	probe	Nc1ncnc2n(cc(-c3cccc(OCc4ccccc4)c3)c12)[C@H]1C[C@H](CN2CCCC2)C1
+660288	clofarabine	FDA	Nc1nc(Cl)nc2n(cnc12)[C@@H]1O[C@H](CO)[C@@H](O)[C@@H]1F
+660301	vorinostat:navitoclax (4:1 mol/mol)	probe	ONC(=O)CCCCCCC(=O)Nc1ccccc1.CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1
+660304	XL765	clinical	COc1cc(Nc2nc3ccccc3nc2NS(=O)(=O)c2ccc(NC(=O)c3ccc(C)c(OC)c3)cc2)cc(OC)c1
+660306	AZD1480	clinical	C[C@H](Nc1ncc(Cl)c(Nc2cc(C)[nH]n2)n1)c1ncc(F)cn1
+660314	ML258	probe	COc1ccc(CN2c3nnnn3C3C(C2=O)C2(CCCC2)Cc2ccccc32)cc1
+660317	SR1001	probe	CC(=O)Nc1nc(C)c(s1)S(=O)(=O)Nc1ccc(cc1)C(O)(C(F)(F)F)C(F)(F)F
+660318	bardoxolone methyl	clinical	COC(=O)[C@@]12CCC(C)(C)C[C@@H]1[C@@H]1C(=O)C=C3[C@]4(C)C=C(C#N)C(=O)C(C)(C)[C@H]4CC[C@]3(C)[C@@]1(C)CC2
+660319	elocalcitol	clinical	CCC(O)(CC)\C=C\CC(C)C1=CC[C@@H]2[C@]1(C)CCC\C2=C/C=C1/C[C@@H](O)C[C@H](F)C1=C
+660321	BMS-270394	probe	CC1(C)CCC(C)(C)c2cc(ccc12)[C@@H](O)C(=O)Nc1ccc(cc1F)C(O)=O
+660322	fluvastatin	FDA	CC(C)N1C(\C=C\C(O)CC(O)CC(O)=O)C(c2ccccc12)c1ccc(F)cc1
+660325	AZD4547	clinical	COc1cc(CCc2cc(NC(=O)c3ccc(cc3)N3C[C@H](C)N[C@H](C)C3)n[nH]2)cc(OC)c1
+660327	hyperforin	clinical	CC(C)C(=O)[C@@]12C(=O)C(CC=C(C)C)C(=O)C(CC=C(C)C)(C[C@H](CC=C(C)C)[C@@]1(C)CCC=C(C)C)C2=O
+660331	NVP-231	probe	O=C(Nc1nc2ccc(NC(=O)C34C[C@H]5C[C@H](C[C@H](C5)C3)C4)cc2s1)c1ccccc1
+660332	MK-0752	clinical	OC(=O)CC[C@H]1CC[C@@](CC1)(c1cc(F)ccc1F)S(=O)(=O)c1ccc(Cl)cc1
+660341	semagacestat	clinical	CC(C)[C@H](O)C(=O)N[C@@H](C)C(=O)N[C@H]1c2ccccc2CCN(C)C1=O
+660342	BRD-A05715709	probe	Cc1ccccc1C(N(C(=O)Cc1ccncc1)c1cccc(F)c1)C(=O)NC1CCCCC1
+660346	bosutinib	FDA	COc1cc(Nc2cc(nc3cc(OCCCN4CCN(C)CC4)c(OC)cc23)C#N)c(Cl)cc1Cl
+660358	temsirolimus	FDA	CO[C@@H]1C[C@H](C[C@@H](C)[C@@H]2CC(=O)[C@H](C)\C=C(C)\[C@@H](O)[C@@H](OC)C(=O)[C@H](C)C[C@H](C)\C=C\C=C\C=C(C)\[C@H](C[C@@H]3CC[C@@H](C)[C@@](O)(O3)C(=O)C(=O)N3CCCC[C@H]3C(=O)O2)OC)CC[C@H]1OC(=O)C(C)(CO)CO
+660363	abiraterone	FDA	C[C@]12CC[C@H]3[C@@H](CC=C4C[C@@H](O)CC[C@]34C)[C@@H]1CC=C2c1cccnc1
+660364	docetaxel	FDA	CC(=O)O[C@@]12CO[C@@H]1C[C@H](O)[C@]1(C)C2[C@H](OC(=O)c2ccccc2)[C@]2(O)C[C@H](OC(=O)[C@H](O)[C@@H](NC(=O)OC(C)(C)C)c3ccccc3)C(C)=C([C@@H](O)C1=O)C2(C)C
+660391	nelarabine	FDA	COc1nc(N)nc2n(cnc12)[C@@H]1O[C@H](CO)[C@@H](O)[C@@H]1O
+660397	rigosertib	clinical	COc1cc(OC)c(\C=C\S(=O)(=O)Cc2ccc(OC)c(NCC(O)=O)c2)c(OC)c1
+660409	AT7867	probe	Clc1ccc(cc1)C1(CCNCC1)c1ccc(cc1)-c1cn[nH]c1
+660410	PD318088	probe	OCC(O)CONC(=O)c1cc(Br)c(F)c(F)c1Nc1ccc(I)cc1F
+660411	KU-60019	probe	C[C@H]1CN(CC(=O)Nc2ccc3Sc4c(Cc3c2)cccc4-c2cc(=O)cc(o2)N2CCOCC2)C[C@@H](C)O1
+660412	BIRB-796	probe	Cc1ccc(cc1)-n1nc(cc1NC(=O)Nc1ccc(OCCN2CCOCC2)c2ccccc12)C(C)(C)C
+660413	KW-2449	clinical	O=C(N1CCNCC1)c1ccc(cc1)\C=C\c1n[nH]c2ccccc12
+660414	RAF265	clinical	Cn1c(Nc2ccc(cc2)C(F)(F)F)nc2cc(Oc3ccnc(c3)-c3ncc([nH]3)C(F)(F)F)ccc12
+660421	silmitasertib	clinical	OC(=O)c1ccc2c(c1)nc(Nc1cccc(Cl)c1)c1ccncc21
+660424	BRD-K03911514	probe	CCCC[C@H](NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](CCC(N)=O)NC(=O)[C@@H](NC(=O)[C@]1(C)CCC\C=C/CCC[C@](C)(NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CO)NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](CCC(O)=O)NC(=O)[C@H](CCCNC(N)=N)NC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@H](CCC(O)=O)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCC(N)=O)NC(=O)[C@H](CCC(O)=O)NC(=O)[C@H](CCC(N)=O)NC(=O)[C@H](CO)NC(=O)[C@H](CC(C)C)NC(C)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N1)[C@@H](C)CC)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](Cc1ccccc1)C(N)=O
+660425	BRD-K16130065	probe	CC[C@H](C)[C@H](NC(C)=O)C(=O)N[C@@H](Cc1c[nH]c2ccccc12)C(=O)N[C@@H]([C@@H](C)CC)C(=O)N[C@@H](C)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CC(O)=O)C(=O)N[C@@]1(C)CCC\C=C/CCC[C@](C)(NC(=O)[C@H](CC(O)=O)NC(=O)CNC(=O)[C@@H](NC1=O)[C@@H](C)CC)C(=O)N[C@@H](Cc1ccccc1)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](C)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)N[C@@H](C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](CCCNC(N)=N)C(N)=O
+660429	momelotinib	clinical	O=C(NCC#N)c1ccc(cc1)-c1ccnc(Nc2ccc(cc2)N2CCOCC2)n1
+660430	CAL-101	clinical	CC[C@H](Nc1ncnc2[nH]cnc12)c1nc2cccc(F)c2c(=O)n1-c1ccccc1
+660431	LY-2157299	probe	Cc1cccc(n1)-c1nn2CCCc2c1-c1ccnc2ccc(cc12)C(N)=O
+660432	WP1130	probe	CCC[C@H](NC(=O)C(=C\c1cccc(Br)n1)\C#N)c1ccccc1
+660433	OSI-027	clinical	COc1cccc2cc([nH]c12)-c1nc([C@H]2CC[C@@H](CC2)C(O)=O)n2ncnc(N)c12
+660434	NVP-BSK805	probe	Fc1cc(cc(F)c1CN1CCOCC1)-c1cccc2ncc(nc12)-c1cnn(c1)C1CCNCC1
+660768	erlotinib:PLX-4032 (2:1 mol/mol)	probe	COCCOc1cc2ncnc(Nc3cccc(c3)C#C)c2cc1OCCOC.CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(cc23)-c2ccc(Cl)cc2)c1F
+660774	PIK-93	probe	CC(=O)Nc1nc(C)c(s1)-c1ccc(Cl)c(c1)S(=O)(=O)NCCO
+660777	AZD7762	clinical	NC(=O)Nc1cc(sc1C(=O)N[C@H]1CCCNC1)-c1cccc(F)c1
+660778	birinapant	clinical	CC[C@H](NC(=O)[C@H](C)NC)C(=O)N1C[C@@H](O)C[C@H]1Cc1c([nH]c2cc(F)ccc12)-c1cc2c(C[C@@H]3C[C@H](O)CN3C(=O)[C@H](CC)NC(=O)[C@H](C)NC)cc(F)cc2[nH]1
+660779	KX2-391	clinical	O=C(Cc1ccc(cn1)-c1ccc(OCCN2CCOCC2)cc1)NCc1ccccc1
+660796	3-Cl-AHPC	probe	OC(=O)\C=C\c1ccc(c(Cl)c1)-c1ccc(O)c(c1)C12C[C@H]3C[C@H](C[C@H](C3)C1)C2
+660797	BRD-K58730230	probe	CC(C)C[C@H](NC(=O)[C@H](C)NC(=O)[C@H](CCCCN)NC(=O)[C@H](CCCNC(N)=N)NC(C)=O)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](C(C)C)C(=O)NCC(=O)N[C@@H](CC(O)=O)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H](C(C)C)C(=O)N[C@@]1(C)CCC\C=C/CCC[C@](C)(NC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@H](CC(N)=O)NC(=O)[C@H](CCCNC(N)=N)NC1=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](C)C(=O)N[C@@H](Cc1ccccc1)C(N)=O
+660798	BRD-K27188169	probe	CC(C)C[C@H](NC(=O)[C@H](C)NC(=O)[C@H](CCCCN)NC(=O)[C@H](CCCNC(N)=N)NC(C)=O)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](C(C)C)C(=O)NCC(=O)N[C@@H](CC(O)=O)C(=O)NCC(=O)N[C@@H](C(C)C)C(=O)N[C@@]1(C)CCC\C=C/CCC[C@](C)(NC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@H](CC(N)=O)NC(=O)[C@H](CCCNC(N)=N)NC1=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](C)C(=O)N[C@@H](Cc1ccccc1)C(N)=O
+660819	KHS101	probe	CC(C)CNc1ccnc(NCc2csc(n2)-c2ccccc2)n1
+660821	WAY-362450	probe	CC(C)OC(=O)C1=CN(CC(C)(C)c2c1[nH]c1ccccc21)C(=O)c1ccc(F)c(F)c1
+660823	JQ-1:vorinostat (2:1 mol/mol)	probe	ONC(=O)CCCCCCC(=O)Nc1ccccc1.Cc1sc-2c(c1C)C(=N[C@@H](CC(=O)OC(C)(C)C)c1nnc(C)n-21)c1ccc(Cl)cc1
+660839	BRD-K13185470	probe	CC(C)C[C@H](NC(=O)[C@H](C)NC(=O)[C@H](CCCCN)NC(=O)[C@H](CCCNC(N)=N)NC(C)=O)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](C(C)C)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H](CC(O)=O)C(=O)NCC(=O)N[C@@H](C(C)C)C(=O)N[C@@]1(C)CCC\C=C/CCC[C@](C)(NC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@H](CC(N)=O)NC(=O)[C@H](CCCNC(N)=N)NC1=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](C)C(=O)N[C@@H](Cc1ccccc1)C(N)=O
+660840	cabozantinib	FDA	COc1cc2nccc(Oc3ccc(NC(=O)C4(CC4)C(=O)Nc4ccc(F)cc4)cc3)c2cc1OC
+660857	crizotinib:PLX-4032 (2:1 mol/mol)	probe	C[C@@H](Oc1cc(cnc1N)-c1cnn(c1)C1CCNCC1)c1c(Cl)ccc(F)c1Cl.CCCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(cc23)-c2ccc(Cl)cc2)c1F
+660890	BRD-M00053801	probe	C[C@H](O)[C@@H]1[C@H](CO)ON(Cc2cccc(CN(CCN(C)C)[C@H](C3CCCCC3)c3ccccc3)c2)[C@@H]1C(=O)N[C@H]1C[C@H]2C[C@@H]([C@@H]1C)C2(C)C.C[C@H](O)[C@@H]1[C@H](CO)ON(Cc2cccc(CN(CCN(C)C)[C@@H](C3CCCCC3)c3ccccc3)c2)[C@@H]1C(=O)N[C@H]1C[C@H]2C[C@@H]([C@@H]1C)C2(C)C
+660935	KPT185	probe	COc1cc(cc(c1)C(F)(F)F)-c1ncn(\C=C/C(=O)OC(C)C)n1
+660985	pitstop2	probe	Brc1ccc(cc1)\C=C1/SC(NS(=O)(=O)c2cccc3ccccc23)=NC1=O
+660993	R428	probe	Nc1nc(Nc2ccc3CC[C@@H](CCc3c2)N2CCCC2)nn1-c1cc2CCCc3ccccc3-c2nn1
+660994	ibrutinib	clinical	Nc1ncnc2n(nc(-c3ccc(Oc4ccccc4)cc3)c12)[C@@H]1CCCN(C1)C(=O)C=C
+661032	sotrastaurin	clinical	CN1CCN(CC1)c1nc(C2=C(C(=O)NC2=O)c2c[nH]c3ccccc23)c2ccccc2n1
+661033	A-804598	probe	C[C@H](\N=C(\NC#N)Nc1cccc2ncccc12)c1ccccc1
+665818	BRD-K27188169:navitoclax (2:1 mol/mol)	probe	CC1(C)CCC(=C(CN2CCN(CC2)c2ccc(cc2)C(=O)NS(=O)(=O)c2ccc(N[C@H](CCN3CCOCC3)CSc3ccccc3)c(c2)S(=O)(=O)C(F)(F)F)C1)c1ccc(Cl)cc1.CC(C)C[C@H](NC(=O)[C@H](C)NC(=O)[C@H](CCCCN)NC(=O)[C@H](CCCNC(N)=N)NC(C)=O)C(=O)N[C@@H](CCC(O)=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](CCCNC(N)=N)C(=O)N[C@@H](C(C)C)C(=O)NCC(=O)N[C@@H](CC(O)=O)C(=O)NCC(=O)N[C@@H](C(C)C)C(=O)N[C@@]1(C)CCC\C=C/CCC[C@](C)(NC(=O)[C@H](Cc2cnc[nH]2)NC(=O)[C@H](CC(N)=O)NC(=O)[C@H](CCCNC(N)=N)NC1=O)C(=O)N[C@@H]([C@@H](C)O)C(=O)N[C@@H](C)C(=O)N[C@@H](Cc1ccccc1)C(N)=O
+665914	COL-3	clinical	NC(=O)C1C(=O)C[C@@H]2C[C@@H]3Cc4cccc(O)c4C(=O)C3C(=O)[C@]2(O)C1=O
+666541	ABT-199	clinical	CC1(C)CCC(CN2CCN(CC2)c2ccc(C(=O)NS(=O)(=O)c3ccc(NCC4CCOCC4)c(c3)[N+]([O-])=O)c(Oc3cnc4[nH]ccc4c3)c2)=C(C1)c1ccc(Cl)cc1
+666716	ETP-46464	probe	CC(C)(C#N)c1ccc(cc1)N1C(=O)OCc2cnc3ccc(cc3c12)-c1cnc2ccccc2c1
+666910	marinopyrrole A	probe	Oc1ccccc1C(=O)c1[nH]c(Cl)c(Cl)c1-n1c(cc(Cl)c1Cl)C(=O)c1ccccc1O
+667933	methylstat	probe	COC(=O)\C=C\C(=O)N(O)CCCCNCc1ccc(COC(=O)Nc2cccc3ccccc23)cc1
+668495	BYL-719	clinical	Cc1nc(NC(=O)N2CCC[C@H]2C(N)=O)sc1-c1ccnc(c1)C(C)(C)C(F)(F)F
+668723	GSK2636771	clinical	Cc1nc2c(cc(cc2n1Cc1cccc(c1C)C(F)(F)F)N1CCOCC1)C(O)=O
+668858	SR8278	probe	CCOC(=O)C1Cc2ccccc2CN1C(=O)c1ccc(SC)s1
+676728	JW-74	probe	COc1ccc(cc1)-n1c(SCc2nc(no2)-c2ccc(C)cc2)nnc1-c1ccncc1
+677522	necrosulfonamide	probe	COc1nccnc1NS(=O)(=O)c1ccc(NC(=O)\C=C\c2ccc(s2)[N+]([O-])=O)cc1
+679843	HBX-41108	probe	Clc1ccc-2c(c1)C(=O)c1nc(C#N)c(nc-21)C#N
+679844	palmostatin B	probe	CCCCCCCCCC[C@H]1[C@H](CCc2ccc(OC)c(OC)c2)OC1=O
+682993	JW-55	probe	COc1ccc(cc1)C1(CNC(=O)c2ccc(NC(=O)c3ccco3)cc2)CCOCC1
+686134	BRD-K03536150	probe	CC1=NN(C(=O)C\1=N\Nc1ccccc1C(O)=O)c1nc(cs1)-c1ccccc1
+687395	BRD-K99006945	probe	CCN(CC)c1ccc(cc1)C1=NNC(=O)C[C@H]1C
+687406	tivantinib	clinical	O=C1NC(=O)[C@H]([C@@H]1c1c[nH]c2ccccc12)c1cn2CCCc3cccc1c23
+687418	trametinib	clinical	CC(=O)Nc1cccc(c1)-n1c2c(C)c(=O)n(C)c(Nc3ccc(I)cc3F)c2c(=O)n(C2CC2)c1=O
+687577	RO4929097	clinical	CC(C)(C(=O)NCC(F)(F)C(F)(F)F)C(=O)N[C@H]1c2ccccc2-c2ccccc2NC1=O
+687578	dinaciclib	clinical	CCc1cnn2c(NCc3ccc[n+]([O-])c3)cc(nc12)N1CCCC[C@H]1CCO
+687579	MLN2480	clinical	C[C@@H](NC(=O)c1ncnc(N)c1Cl)c1ncc(s1)C(=O)Nc1cc(c(Cl)cn1)C(F)(F)F
+687661	BRD-K51831558	probe	CC(C)n1ncc2c(cc(Br)cc12)C(=O)NCc1c(C)cc(C)[nH]c1=O
+687694	istradefylline	clinical	CCn1c2nc(\C=C\c3ccc(OC)c(OC)c3)n(C)c2c(=O)n(CC)c1=O
+687714	MI-2	probe	CCCc1cc2c(ncnc2s1)N1CCN(CC1)C1=NCC(C)(C)S1
+687715	BRD-K42260513	probe	CC(C)n1ncc2c(cc(cc12)-c1ccc(nc1)N1CCNCC1)C(=O)NCc1c(C)cc(C)[nH]c1=O
+687720	alvocidib	clinical	CN1CC[C@H]([C@H](O)C1)c1c(O)cc(O)c2c1oc(cc2=O)-c1ccccc1Cl
+687721	CBB-1007	probe	COC(=O)c1cc(CN2CCN(CC2)C(N)=N)cc(c1)C(=O)N1CCN(CC1)C(=O)c1ccc(cc1)C(N)=N
+687735	GSK-J4	probe	CCOC(=O)CCNc1cc(nc(n1)-c1ccccn1)N1CCc2ccccc2CC1
+687769	BRD-A86708339	probe	Cc1ccc(cc1)C(NC(=O)c1ccccc1)c1ccc2cccnc2c1O
+687953	PF-3758309	probe	CN(C)C[C@@H](NC(=O)N1Cc2c(Nc3nc(C)nc4ccsc34)n[nH]c2C1(C)C)c1ccccc1
+687954	dabrafenib	clinical	CC(C)(C)c1nc(c(s1)-c1ccnc(N)n1)-c1cccc(NS(=O)(=O)c2c(F)cccc2F)c1F
+688138	SZ4TA2	probe	CC1(C)CCN(CC1)c1ccc(cc1)C(=O)NS(=O)(=O)c1ccc(NCCSc2ccccc2)c(c1)[N+]([O-])=O
+688229	AT13387	clinical	CC(C)c1cc(C(=O)N2Cc3ccc(CN4CCN(C)CC4)cc3C2)c(O)cc1O
+688516	BCL-LZH-4	probe	COc1ccc(cc1)C1C(C(=O)Nc2ccccc2)=C(C)N=c2s\c(=C/c3cn(Cc4ccccc4)c4ccccc34)c(=O)n12
+688799	skepinone-L	probe	OC[C@@H](O)COc1ccc2CCc3cc(Nc4ccc(F)cc4F)ccc3C(=O)c2c1
+688888	BRD-K34222889	probe	COc1ccc(cc1)C#CC1=CCCN(C(=O)\C=C\c2cc(OC)c(OC)c(OC)c2)C1=O
+688962	PF-4800567 hydrochloride	probe	Nc1ncnc2n(nc(COc3cccc(Cl)c3)c12)C1CCOCC1
+688975	avicin D	probe	CC1O[C@@H](OCC2O[C@@H](O[C@H]3CC[C@@]4(C)C(CC[C@]5(C)C4CC=C4C6CC(C)(C)[C@H](C[C@@]6([C@H](O)C[C@@]54C)C(=O)O[C@@H]4OC(CO)[C@@H](O)[C@@H](O)[C@@H]4O[C@@H]4OC(C)[C@H](O[C@@H]5O[C@@H](CO)[C@H](O)[C@@H]5O)[C@@H](O[C@@H]5OC(CO)[C@@H](O)[C@@H](O)[C@@H]5O)[C@@H]4O)OC(=O)C(\CO)=C\CC[C@](C)(O[C@@H]4OC(C)[C@@H](OC(=O)C(\CO)=C\CCC(C)(O)C=C)[C@@H](O)[C@@H]4O)C=C)C3(C)C)[C@@H](NC(C)=O)[C@H](O)[C@@H]2O)[C@@H](O[C@@H]2OC[C@@H](O)[C@@H](O)[C@@H]2O)[C@H](O)[C@H]1O
+689136	BRD9876:MK-1775 (4:1 mol/mol)	probe	CC(C)(C)c1ccc2cc(C#N)c(cc2c1)C#N.CN1CCN(CC1)c1ccc(Nc2ncc3c(n2)n(-c2cccc(n2)C(C)(C)O)n(CC=C)c3=O)cc1
+689506	BRD-K30748066	probe	Cc1c(sc(=O)n1C)-c1ccnc(Nc2ccc(cc2)N2CCNCC2)n1
+705300	linsitinib	clinical	CC1(O)CC(C1)c2nc(c3ccc4ccc(nc4c3)c5ccccc5)c6c(N)nccn26
+710154	AT-406	probe	CNC(C)C(=O)NC1CN(CCC2CCC(N2C1=O)C(=O)NC(c3ccccc3)c4ccccc4)C(=O)CC(C)C

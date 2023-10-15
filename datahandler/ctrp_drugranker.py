@@ -2,6 +2,7 @@ import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import Descriptors
 import torch
+import numpy as np
 
 
 class CTRPHandler:
@@ -49,3 +50,35 @@ class CTRPHandler:
             list_feat.append(feat)
         drug_feat_tensor = torch.tensor(list_feat)
         return drug_feat_tensor
+
+    def create_train_test_drug(self, test_percentage=0.2):
+        drug_feat = self.create_tensor_feat_drug()
+        train_drug = drug_feat[:-1 * int(len(drug_feat) * test_percentage)]
+        train_drug = train_drug.to(torch.float32)
+        train_drug = train_drug.to('cuda')
+        test_drug = drug_feat[-1 * int(len(drug_feat) * test_percentage):]
+        test_drug = test_drug.to(torch.float32)
+        test_drug = test_drug.to('cuda')
+        return train_drug, test_drug
+
+    def create_train_test_cll(self, test_percentage=0.2):
+        cll_feat = self.create_tensor_feat_cll()
+        train_cll = cll_feat[:-1 * int(len(cll_feat) * test_percentage)]
+        train_cll = train_cll.to(torch.float32)
+        train_cll = train_cll.to('cuda')
+        test_cll = cll_feat[-1 * int(len(cll_feat) * test_percentage):]
+        test_cll = test_cll.to(torch.float32)
+        test_cll = test_cll.to('cuda')
+        return train_cll, test_cll
+
+    def create_train_test_label(self, test_percentage=0.2):
+        self.read_data_as_df()
+        train_label = self.reponse_df['auc'][:-1 * int(len(self.reponse_df) * test_percentage)]
+        train_label = torch.from_numpy(np.array(train_label))
+        train_label = train_label.reshape((-1, 1)).to(torch.float32)
+        train_label = train_label.to('cuda')
+        test_label = self.reponse_df['auc'][-1 * int(len(self.reponse_df) * test_percentage):]
+        test_label = torch.from_numpy(np.array(test_label))
+        test_label = test_label.reshape((-1, 1)).to(torch.float32)
+        test_label = test_label.to('cuda')
+        return train_label, test_label

@@ -8,10 +8,10 @@ class TrainModel:
         self.optimizer = optimizer
         self.num_epochs = num_epochs
 
-    def train_model(self, number_of_data_to_train=100):
+    def train_model(self):
         for n in range(self.num_epochs):
-            y_pred = self.model(self.train_cll[:number_of_data_to_train], self.train_drug[:number_of_data_to_train])
-            loss = self.loss_fn(y_pred, self.train_label[:number_of_data_to_train])
+            y_pred = self.model(self.train_cll, self.train_drug)
+            loss = self.loss_fn(y_pred, self.train_label)
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()

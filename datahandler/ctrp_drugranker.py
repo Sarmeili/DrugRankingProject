@@ -18,11 +18,15 @@ class CTRPHandler:
             self.reponse_df = self.reponse_df[:int(len(self.reponse_df) * self.data_volume)]
             self.exp_ccl_df = pd.read_csv('data/CCLE_expression.csv', index_col=0)
 
-    def create_tensor_feat_cll(self):
+    def create_tensor_feat_cll(self, is_pca=True):
 
         self.read_data_as_df()
         feat_ccl = self.exp_ccl_df.reindex(self.reponse_df['broadid'])
         ccl_feat_tensor = torch.from_numpy(feat_ccl.to_numpy())
+        ccl_feat_tensor = ccl_feat_tensor.to('cuda')
+        if is_pca:
+            pca = torch.pca_lowrank(ccl_feat_tensor, q=3000)
+            ccl_feat_tensor = pca[0]
         return ccl_feat_tensor
 
     def add_drug_data_to_df(self, features_type):

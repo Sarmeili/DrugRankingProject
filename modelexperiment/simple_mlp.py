@@ -43,7 +43,7 @@ class Model1(torch.nn.Module):
         self.activation3_concat = torch.nn.ReLU()
 
         self.linear4_concat = torch.nn.Linear(250, 1)
-        self.mseloss = torch.nn.MSELoss()
+        # self.mseloss = torch.nn.MSELoss()
 
     def forward(self, train_ccl, train_drug):
         train_ccl = self.linear1_ccl(train_ccl)
@@ -73,3 +73,86 @@ class Model1(torch.nn.Module):
         # concat_data = self.mseloss(concat_data)
 
         return concat_data
+
+
+class Model2(torch.nn.Module):
+
+    def __init__(self, cll_input_layer_size, drug_input_layer_size):
+        super(Model2, self).__init__()
+        self.cll_input_layer_size = cll_input_layer_size
+        self.drug_input_layer_size = drug_input_layer_size
+        self.model = torch.nn.Sequential(
+            torch.nn.Linear(self.cll_input_layer_size, int(self.cll_input_layer_size * 0.5)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(int(self.cll_input_layer_size * 0.5), int(self.cll_input_layer_size * 0.25)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(int(self.cll_input_layer_size * 0.25),
+                            int(self.cll_input_layer_size * 0.125)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(int(self.cll_input_layer_size * 0.125),
+                            int(self.cll_input_layer_size * 0.0625)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(self.drug_input_layer_size, self.drug_input_layer_size - 100),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(self.drug_input_layer_size - 100, self.drug_input_layer_size - 200),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(self.drug_input_layer_size - 200,
+                            int((self.drug_input_layer_size - 200) * 0.5)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(
+                int(self.cll_input_layer_size * 0.0625) + int((self.drug_input_layer_size - 200) * 0.5), 1000),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(1000, 500),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(500, 250),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(250, 1)
+        )
+        # self.mseloss = torch.nn.MSELoss()
+
+    def forward(self, train_ccl, train_drug):
+        logits = self.model(train_ccl, train_drug)
+        return logits
+
+
+class Model3(torch.nn.Module):
+
+    def __init__(self, cll_input_layer_size, drug_input_layer_size):
+        super(Model3, self).__init__()
+        self.cll_input_layer_size = cll_input_layer_size
+        self.drug_input_layer_size = drug_input_layer_size
+        self.model = torch.nn.Sequential(
+            torch.nn.Linear(self.cll_input_layer_size + self.drug_input_layer_size,
+                            int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.5)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.5),
+                            int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.25)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.25),
+                            int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.125)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.125),
+                            int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.0625)),
+            torch.nn.ReLU(),
+
+            torch.nn.Linear(int((self.cll_input_layer_size + self.drug_input_layer_size) * 0.0625),
+                            1)
+        )
+
+    def forward(self, train_ccl, train_drug):
+        feat = torch.concat((train_ccl, train_drug), 1)
+        output = self.model(feat)
+        return output

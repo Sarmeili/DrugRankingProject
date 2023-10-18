@@ -3,6 +3,7 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 import torch
 import numpy as np
+from torch.utils.data import Dataset
 
 
 class CTRPHandler:
@@ -23,7 +24,6 @@ class CTRPHandler:
         self.read_data_as_df()
         feat_ccl = self.exp_ccl_df.reindex(self.reponse_df['broadid'])
         ccl_feat_tensor = torch.from_numpy(feat_ccl.to_numpy())
-        ccl_feat_tensor = ccl_feat_tensor.to('cuda')
         if is_pca:
             pca = torch.pca_lowrank(ccl_feat_tensor, q=3000)
             ccl_feat_tensor = pca[0]
@@ -86,3 +86,34 @@ class CTRPHandler:
         test_label = test_label.reshape((-1, 1)).to(torch.float32)
         test_label = test_label.to('cuda')
         return train_label, test_label
+
+
+class CTRPDatasetTorch(Dataset):
+
+    def __init__(self, ctrp_handler, train):
+        self.ctrp_handler = ctrp_handler
+        self.train = train
+        if self.train:
+            self.train_cll = self.ctrp_handler.create_train_test_cll()[0]
+            self.train_drug = self.ctrp_handler.create_train_test_drug()[0]
+            self.train_label = self.ctrp_handler.create_train_test_label()[0]
+        else:
+            self.test_cll = self.ctrp_handler.create_train_test_cll()[1]
+            self.test_drug = self.ctrp_handler.create_train_test_drug()[1]
+            self.test_label = self.ctrp_handler.create_train_test_label()[1]
+
+    def __len__(self):
+        if self.train:
+            lenght = len(self.train_label)
+        else:
+            lenght = len(self.test_label)
+        return lenght
+
+    def __getitem__(self, idx):
+        if self.train:
+            X = self.train_cll[idx], self.train_drug[idx]
+            y = self.train_label[idx]
+        else:
+            X = self.test_cll[idx], self.test_drug[idx]
+            y = self.test_label[idx]
+        return X, y

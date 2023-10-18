@@ -10,5 +10,4 @@ class EvaluateModel:
         self.model.eval()
         y_pred_test = self.model(self.test_cll, self.test_drug)
         test_loss = self.loss_fn(y_pred_test, self.test_label)
-
         return test_loss

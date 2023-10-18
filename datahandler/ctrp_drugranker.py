@@ -60,9 +60,11 @@ class CTRPHandler:
         train_drug = drug_feat[:-1 * int(len(drug_feat) * test_percentage)]
         train_drug = train_drug.to(torch.float32)
         train_drug = train_drug.to('cuda')
+        train_drug = torch.nan_to_num(train_drug, nan=1)
         test_drug = drug_feat[-1 * int(len(drug_feat) * test_percentage):]
         test_drug = test_drug.to(torch.float32)
         test_drug = test_drug.to('cuda')
+        test_drug = torch.nan_to_num(test_drug, nan=1)
         return train_drug, test_drug
 
     def create_train_test_cll(self, test_percentage=0.2):
@@ -70,9 +72,11 @@ class CTRPHandler:
         train_cll = cll_feat[:-1 * int(len(cll_feat) * test_percentage)]
         train_cll = train_cll.to(torch.float32)
         train_cll = train_cll.to('cuda')
+        train_cll = torch.nan_to_num(train_cll, nan=1)
         test_cll = cll_feat[-1 * int(len(cll_feat) * test_percentage):]
         test_cll = test_cll.to(torch.float32)
         test_cll = test_cll.to('cuda')
+        test_cll = torch.nan_to_num(test_cll, nan=1)
         return train_cll, test_cll
 
     def create_train_test_label(self, test_percentage=0.2):

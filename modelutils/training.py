@@ -1,3 +1,6 @@
+import torch
+
+
 class TrainModel:
     def __init__(self, model, train_feat, loss_fn, optimizer, num_epochs):
         self.model = model
@@ -15,5 +18,6 @@ class TrainModel:
                 loss = self.loss_fn(y_pred, train_label)
                 self.optimizer.zero_grad()
                 loss.backward()
+                torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1)
                 self.optimizer.step()
         return self.model

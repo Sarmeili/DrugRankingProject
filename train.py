@@ -9,7 +9,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-data = CTRPHandler('DrugRanker', 0.5)
+data = CTRPHandler('DrugRanker', 1)
 train_dataset = CTRPDatasetTorch(data, True)
 train_dataloader = DataLoader(train_dataset, batch_size=64)
 test_dataset = CTRPDatasetTorch(data, False)

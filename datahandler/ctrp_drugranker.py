@@ -9,6 +9,9 @@ from torch.utils.data import Dataset
 class CTRPHandler:
 
     def __init__(self, source, data_volume):
+        self.reponse_df = None
+        self.exp_ccl_df = None
+        self.cmpd_df = None
         self.source = source
         self.data_volume = data_volume
 
@@ -22,7 +25,8 @@ class CTRPHandler:
     def create_tensor_feat_cll(self, is_pca=True):
 
         self.read_data_as_df()
-        feat_ccl = self.exp_ccl_df.reindex(self.reponse_df['broadid'])
+        exp_cll_df = self.exp_ccl_df.astype('float32')
+        feat_ccl = exp_cll_df.reindex(self.reponse_df['broadid'])
         ccl_feat_tensor = torch.from_numpy(feat_ccl.to_numpy())
         if is_pca:
             pca = torch.pca_lowrank(ccl_feat_tensor, q=3000)

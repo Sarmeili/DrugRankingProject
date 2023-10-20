@@ -22,7 +22,7 @@ class CTRPHandler:
             self.reponse_df = self.reponse_df[:int(len(self.reponse_df) * self.data_volume)]
             self.exp_ccl_df = pd.read_csv('data/CCLE_expression.csv', index_col=0)
 
-    def create_tensor_feat_cll(self, is_pca=True):
+    def create_tensor_feat_cll(self, is_pca=False):
 
         self.read_data_as_df()
         exp_cll_df = self.exp_ccl_df.astype('float32')

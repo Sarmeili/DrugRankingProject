@@ -19,7 +19,7 @@ class CTRPHandler:
         if self.source == 'DrugRanker':
             self.cmpd_df = pd.read_csv('data/ctrp_drugranker/cmpd_id_name_group_smiles.txt', sep='\t')
             self.reponse_df = pd.read_csv('data/ctrp_drugranker/final_list_auc.txt')
-            self.reponse_df = self.reponse_df[:int(len(self.reponse_df) * self.data_volume)]
+            self.reponse_df = self.reponse_df[int(len(self.reponse_df) * self.data_volume[0]):int(len(self.reponse_df) * self.data_volume[1])]
             self.exp_ccl_df = pd.read_csv('data/CCLE_expression.csv', index_col=0)
 
     def create_tensor_feat_cll(self, is_pca=True):

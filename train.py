@@ -44,6 +44,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 num_epochs = 100
 del data
 del train_dataset
+
 for i in np.arange(0, 1, 0.01):
 
     print(i)
@@ -58,8 +59,6 @@ for i in np.arange(0, 1, 0.01):
         test_cll, test_drug = test_X
         y_pred = model(test_cll, test_drug)
         model.eval()
-        print('y_pred', y_pred)
-        print('y_label', test_label)
         evaluator = EvaluateModel(model, test_cll, test_drug, test_label, loss_fn)
         final_loss = evaluator.evaluate()
         print('Final Loss : ' + str(final_loss))

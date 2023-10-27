@@ -1,4 +1,5 @@
 import torch
+from tqdm import tqdm
 
 
 class TrainModel:
@@ -10,7 +11,7 @@ class TrainModel:
         self.num_epochs = num_epochs
 
     def train_model(self):
-        for n in range(self.num_epochs):
+        for n in tqdm(range(self.num_epochs)):
             for train_X, train_label in self.train_feat:
                 train_cll = train_X[0]
                 train_drug = train_X[1]

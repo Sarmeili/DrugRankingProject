@@ -8,6 +8,7 @@ import torch
 import numpy as np
 import warnings
 
+
 warnings.filterwarnings('ignore')
 
 '''data = CTRPHandler('DrugRanker', [0, 0.01])
@@ -61,6 +62,8 @@ for i in np.arange(0, 1, 0.01):
         model.eval()
         evaluator = EvaluateModel(model, test_cll, test_drug, test_label, loss_fn)
         final_loss = evaluator.evaluate()
+        print(test_label)
+        print(y_pred)
         print('Final Loss : ' + str(final_loss))
     del data
     del train_dataset

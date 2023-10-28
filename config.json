@@ -1,0 +1,9 @@
+{
+  "datahandler" : {
+    "ctrp_drugranker" : {
+      "cll_is_pca" : true,
+      "test_percentage" : 0.2,
+      "drug_feat" : ["rdkit_fp"]
+    }
+  }
+}

@@ -4,13 +4,20 @@ from datahandler.ctrp_drugranker import CTRPDatasetTorch
 import warnings
 from torch.utils.data import DataLoader
 import numpy as np
+import json
+
+
+with open('config.json') as config_file:
+    data = json.load(config_file)
+is_pca = data['datahandler']['ctrp_drugranker']['drug_feat']
+print(is_pca)
 
 warnings.filterwarnings('ignore')
 
 print(torch.cuda.is_available())
 print(torch.__version__)
 
-data = CTRPHandler('DrugRanker', [0, 0.01])
+'''data = CTRPHandler('DrugRanker', [0, 0.01])
 train_cll, test_cll = data.create_train_test_cll()
 train_drug, test_drug = data.create_train_test_drug()
 train_label, test_label = data.create_train_test_label()
@@ -19,7 +26,7 @@ print(torch.sum(torch.isnan(test_cll)))
 print(torch.sum(torch.isnan(train_drug)))
 print(torch.sum(torch.isnan(test_drug)))
 print(torch.sum(torch.isnan(train_label)))
-print(torch.sum(torch.isnan(test_label)))
+print(torch.sum(torch.isnan(test_label)))'''
 
 '''train_dataset = CTRPDatasetTorch(data, True)
 print(train_dataset[0][0][0].shape[0])

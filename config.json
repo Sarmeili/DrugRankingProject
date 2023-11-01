@@ -1,9 +1,24 @@
 {
   "datahandler" : {
     "ctrp_drugranker" : {
-      "cll_is_pca" : true,
+      "source" : "DrugRanker",
+      "dim_reduction" : {
+        "pca" : {
+          "is_pca" : true,
+          "q" : 500
+        }
+      },
       "test_percentage" : 0.2,
-      "drug_feat" : ["rdkit_fp"]
+      "drug_feat" : ["rdkit_fp"],
+      "cll_feat" : ["gene_exp", "gene_mut"]
     }
+  },
+  "training_hp" : {
+    "loss_fn" : "MSE",
+    "optimizer": {
+      "optim_kind" : "adam",
+      "lr" : 0.001
+    },
+    "num_epochs" : 100
   }
 }

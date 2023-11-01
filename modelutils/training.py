@@ -1,21 +1,29 @@
 import torch
 from tqdm import tqdm
-
+import json
 
 class TrainModel:
-    def __init__(self, model, train_feat, loss_fn, optimizer, num_epochs):
+    def __init__(self, model, train_feat):
+        with open('config.json') as config_file:
+            config = json.load(config_file)
         self.model = model
         self.train_feat = train_feat
-        self.loss_fn = loss_fn
-        self.optimizer = optimizer
-        self.num_epochs = num_epochs
+        loss_type = config['training_hp']['loss_fn']
+        opt_type = config['training_hp']['optimizer']['optim_kind']
+        self.lr = config['training_hp']['optimizer']['lr']
+        if loss_type == 'MSE':
+            self.loss_fn = torch.nn.MSELoss()
+        if opt_type == 'adam':
+            self.optimizer = torch.optim.Adam(model.parameters(), lr=self.lr)
+        self.num_epochs = config['training_hp']['num_epochs']
 
     def train_model(self):
         for n in tqdm(range(self.num_epochs)):
             for train_X, train_label in self.train_feat:
-                train_cll = train_X[0]
-                train_drug = train_X[1]
-                y_pred = self.model(train_cll, train_drug)
+                train_exp = train_X[0]
+                train_mut = train_X[1]
+                train_drug = train_X[2]
+                y_pred = self.model(train_exp, train_drug)
                 loss = self.loss_fn(y_pred, train_label)
                 self.optimizer.zero_grad()
                 loss.backward()

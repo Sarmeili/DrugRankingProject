@@ -15,7 +15,8 @@ drug_feat = data.create_tensor_feat_drug()
 print(len(drug_feat))
 print(torch.cuda.is_available())
 print(torch.__version__)
-'''tg_list = []
+'''
+tg_list = []
 for smile in cmpd_df['cpd_smiles']:
     tg_list.append(tg.utils.from_smiles(smile))
 loader = DataLoader(tg_list, batch_size=8)

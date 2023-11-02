@@ -2,6 +2,7 @@ import torch
 from tqdm import tqdm
 import json
 
+
 class TrainModel:
     def __init__(self, model, train_feat):
         with open('config.json') as config_file:

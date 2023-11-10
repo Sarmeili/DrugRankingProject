@@ -5,11 +5,11 @@
       "dim_reduction" : {
         "pca" : {
           "is_pca" : true,
-          "q" : 500
+          "q" : 300
         }
       },
       "test_percentage" : 0.2,
-      "drug_feat" : ["rdkit_fp"],
+      "drug_feat" : ["graph"],
       "cll_feat" : ["gene_exp", "gene_mut"]
     }
   },
@@ -20,5 +20,10 @@
       "lr" : 0.001
     },
     "num_epochs" : 100
+  },
+  "model_experiments": {
+    "graphmol_mlp": {
+      "last_layer" : 30
+    }
   }
 }

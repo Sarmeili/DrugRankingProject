@@ -27,6 +27,7 @@ class CTRPHandler:
         self.q = config['datahandler']['ctrp_drugranker']['dim_reduction']['pca']['q']
         self.test_percentage = config['datahandler']['ctrp_drugranker']['test_percentage']
         self.source = config['datahandler']['ctrp_drugranker']['source']
+        self.last_layer = config['model_experiments']['graphmol_mlp']['last_layer']
 
     def z_score_calculation(self, x):
         return (x - self.mean) / self.std
@@ -84,7 +85,7 @@ class CTRPHandler:
             if 'rdkit_fp' in self.drug_feat:
                 drug_feature += list(Chem.RDKFingerprint(rdkit_mol).ToList())
             if 'graph' in self.drug_feat:
-                self.cmpd_df['DrugFeature'][i] = tg.utils.from_smiles(self.cmpd_df['cpd_smiles'][i])
+                self.cmpd_df['DrugFeature'][i] = tg.utils.from_smiles(self.cmpd_df['cpd_smiles'][i]).to('cuda:0')
             if drug_feature:
                 self.cmpd_df['DrugFeature'][i] = drug_feature
 
@@ -186,7 +187,7 @@ class CTRPHandler:
 
     def get_drug_dim(self):
         if 'graph' in self.drug_feat:
-            drug_dim = None
+            drug_dim = 9
         else:
             self.add_drug_data_to_df()
             drug_dim = len(self.cmpd_df['DrugFeature'][0])

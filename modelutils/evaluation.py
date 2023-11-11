@@ -22,10 +22,6 @@ class EvaluateModel:
         if 'graph' in self.drug_feat:
             loader = tg.loader.DataLoader(self.test_drug, batch_size=len(self.test_drug))
             self.test_drug = next(iter(loader))
-            self.test_drug.x = torch.tensor(self.test_drug.x, dtype=torch.float32)
-            self.test_drug = self.test_drug.to('cuda')
-            self.test_exp = self.test_exp.to('cuda')
-            self.test_label = self.test_label.to('cuda')
         y_pred_test = self.model(self.test_exp, self.test_drug)
         test_loss = self.loss_fn(y_pred_test, self.test_label)
         return test_loss

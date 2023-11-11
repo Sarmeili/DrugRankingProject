@@ -85,7 +85,11 @@ class CTRPHandler:
             if 'rdkit_fp' in self.drug_feat:
                 drug_feature += list(Chem.RDKFingerprint(rdkit_mol).ToList())
             if 'graph' in self.drug_feat:
-                self.cmpd_df['DrugFeature'][i] = tg.utils.from_smiles(self.cmpd_df['cpd_smiles'][i]).to('cuda:0')
+                mol_graph = tg.utils.from_smiles(self.cmpd_df['cpd_smiles'][i])
+                mol_graph = mol_graph.to('cuda')
+                mol_graph.x = torch.tensor(mol_graph.x, dtype=torch.float32)
+                mol_graph.edge_attr = torch.tensor(mol_graph.edge_attr, dtype=torch.float32)
+                self.cmpd_df['DrugFeature'][i] = mol_graph
             if drug_feature:
                 self.cmpd_df['DrugFeature'][i] = drug_feature
 

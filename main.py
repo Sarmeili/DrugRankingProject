@@ -11,9 +11,11 @@ from torch_geometric.utils import scatter
 from modelexperiment.graphmol_mlp import GCNMol
 from torch_geometric.utils import scatter
 from modelutils.training import TrainModel
+import torch_scatter
+import torch_sparse
+
 
 warnings.filterwarnings('ignore')
-
 data = CTRPHandler(data_volume=[0, 0.01])
 exp_shape = data.get_exp_dim()
 drug_shape = data.get_drug_dim()

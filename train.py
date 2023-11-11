@@ -8,9 +8,6 @@ import torch_geometric as tg
 import torch
 import numpy as np
 import warnings
-import sys
-
-sys.setrecursionlimit(15000)
 
 
 warnings.filterwarnings('ignore')
@@ -36,9 +33,6 @@ for i in np.arange(0, 1, 0.01):
     model = trainer.train_model()
     for test_X, test_label in test_dataloader:
         test_exp, test_mut, test_drug = test_X
-        test_drug.x = torch.tensor(test_drug.x, dtype=torch.float32)
-        test_drug = test_drug.to('cuda')
-        test_exp = test_exp.to('cuda')
         y_pred = model(test_exp, test_drug)
         model.eval()
         evaluator = EvaluateModel(model, test_exp, test_mut, test_drug, test_label)

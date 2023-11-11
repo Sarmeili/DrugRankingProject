@@ -29,10 +29,6 @@ class TrainModel:
                 if 'graph' in self.drug_feat:
                     loader = tg.loader.DataLoader(train_drug, batch_size=len(train_drug))
                     train_drug = next(iter(loader))
-                    train_drug.x = torch.tensor(train_drug.x, dtype=torch.float32)
-                    train_drug = train_drug.to('cuda')
-                    train_exp = train_exp.to('cuda')
-                    train_label = train_label.to('cuda')
                 y_pred = self.model(train_exp, train_drug)
                 loss = self.loss_fn(y_pred, train_label)
                 self.optimizer.zero_grad()

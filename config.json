@@ -1,16 +1,22 @@
 {
+  "task" : "ranking",
   "datahandler" : {
+    "netprop" : {
+      "alpha" : 0.7,
+      "number_of_selection" : 100
+    },
     "ctrp_drugranker" : {
       "source" : "DrugRanker",
+      "k_of_list" : 50,
       "dim_reduction" : {
         "pca" : {
-          "is_pca" : true,
+          "is_pca" : false,
           "q" : 300
         }
       },
       "test_percentage" : 0.2,
       "drug_feat" : ["graph"],
-      "cll_feat" : ["gene_exp", "gene_mut"]
+      "cll_feat" : ["gene_exp"]
     }
   },
   "training_hp" : {
@@ -23,7 +29,7 @@
   },
   "model_experiments": {
     "graphmol_mlp": {
-      "last_layer" : 30
+      "last_layer" : 300
     }
   }
 }

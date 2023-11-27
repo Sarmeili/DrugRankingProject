@@ -8,7 +8,7 @@ import json
 from scipy.stats import zscore
 import torch_geometric as tg
 import random
-
+from tqdm import tqdm
 from torch_geometric.data import Data
 
 from datahandler.netprop import NetProp
@@ -39,6 +39,8 @@ class CTRPHandler:
         self.last_layer = config['model_experiments']['graphmol_mlp']['last_layer']
         self.k_of_list = config['datahandler']['ctrp_drugranker']['k_of_list']
         self.num_selected = config['datahandler']['netprop']['number_of_selection']
+        self.is_netprop = config['datahandler']['ctrp_drugranker']['dim_reduction']['netprop']['is_netprop']
+        self.top_k = config['datahandler']['ctrp_drugranker']['dim_reduction']['netprop']['top_k']
 
     def z_score_calculation(self, x):
         return (x - self.mean) / self.std
@@ -86,6 +88,33 @@ class CTRPHandler:
         del response_list
         return response_ranking_df
 
+    def dim_reduction(self,):
+        self.read_drug_target_df()
+        self.read_ppi_df()
+        self.read_cll_df()
+        selected_index = []
+        if self.is_netprop:
+            netprop = NetProp()
+            genes = self.exp_cll_df.columns[1:]
+            drugs = self.drug_target_df['master_cpd_id'].unique()
+            for drug in tqdm(drugs, total=len(drugs)):
+                targets = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_of_edge'])
+                x = [0.00001 for i in range(len(genes))]
+                for target in targets:
+                    x[target] = 1.0
+                x = np.array(x).reshape((-1, 1))
+                edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
+                edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
+                bio_graph = tg.data.Data(x=torch.from_numpy(x).to(torch.float32), edge_index=torch.from_numpy(edges),
+                                         edges_attrib=edges_attrib)
+                wt = netprop.netpropagete(bio_graph)
+                selected_index += wt[:self.top_k].tolist()
+                print(f'targets of drug {drug} : {wt[:self.top_k].tolist()}')
+                selected_index = list(set(selected_index))
+                drug_chosen = pd.Series(selected_index)
+                drug_chosen.to_csv('data/chosen_drug.csv')
+        return selected_index
+
     def listwise_drug_molecule_bio(self, response_ranking_df):
         self.read_cmpd_df()
         self.read_drug_target_df()
@@ -94,7 +123,7 @@ class CTRPHandler:
         list_of_graphs_mol = []
         list_of_graphs_bio = []
         netprop = NetProp()
-        for i, data in response_ranking_df.iterrows():
+        for i, data in tqdm(response_ranking_df.iterrows(), total=response_ranking_df.shape[0]):
             cpd_df = self.cmpd_df.set_index('master_cpd_id')
             cpd_df = cpd_df.reindex(data['drug'])
             graph_of_q_mol = []
@@ -108,7 +137,7 @@ class CTRPHandler:
             del cpd_df
             list_of_graphs_mol.append(graph_of_q_mol)
             graph_of_q_bio = []
-            for drug in data['drug']:
+            for drug in tqdm(data['drug']):
                 target = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_of_edge'])
                 gene_exp = self.exp_cll_df[self.exp_cll_df['nana'] == data['cll']]
                 edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
@@ -123,11 +152,9 @@ class CTRPHandler:
                 wt = netprop.netpropagete(bio_graph)
                 selected_index = wt[:self.num_selected]
                 edges = edges.reshape(-1, 2)
-                mask = np.isin(edges, selected_index).all(axis=1)
+                mask = np.isin(edges, selected_index).all(where=[[True, True]], axis = 1)
                 edges = edges[mask]
-                print(len(edges_attrib))
                 edges_attrib = edges_attrib[mask]
-                print(len(edges_attrib))
                 edges = edges.reshape(2, -1)
                 for i in range(len(selected_index)):
                     edges[0][edges[0] == selected_index[i].numpy()] = i
@@ -151,79 +178,8 @@ class CTRPHandler:
                 del edges
                 del edges_attrib
                 graph_of_q_bio.append(bio_graph)
-                break
             list_of_graphs_bio.append(graph_of_q_bio)
-            break
         return list_of_graphs_mol, list_of_graphs_bio
-
-    def listwise_drug_molecule(self, response_ranking_df):
-        self.read_cmpd_df()
-        list_of_graphs = []
-        for i, data in response_ranking_df.iterrows():
-            cpd_df = self.cmpd_df.set_index('master_cpd_id')
-            cpd_df = cpd_df.reindex(data['drug'])
-            graph_of_q = []
-            for smile in list(cpd_df['cpd_smiles']):
-                mol_graph = tg.utils.from_smiles(smile)
-                mol_graph = mol_graph.to('cuda')
-                mol_graph.x = torch.tensor(mol_graph.x, dtype=torch.float32)
-                mol_graph.edge_attr = torch.tensor(mol_graph.edge_attr, dtype=torch.float32)
-                graph_of_q.append(mol_graph)
-            list_of_graphs.append(graph_of_q)
-        del mol_graph
-        del cpd_df
-        return list_of_graphs
-
-    def listwise_drug_bio(self, response_ranking_df):
-        self.read_drug_target_df()
-        self.read_ppi_df()
-        self.read_cll_df()
-        list_of_graphs = []
-        for i, data in response_ranking_df.iterrows():
-            graph_of_q = []
-            for drug in data['drug']:
-                target = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_of_edge'])
-                gene_exp = self.exp_cll_df[self.exp_cll_df['nana'] == data['cll']]
-                drug_feat = [0.0001]
-                x = np.array(list(gene_exp.iloc[0][1:])).reshape((-1, 1))
-                drug_index = len(x) + 1
-                edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
-                edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
-                for target_of_drug in target:
-                    np.append(edges[0], [target_of_drug, drug_index])
-                    np.append(edges[1], [drug_index, target_of_drug])
-                    np.append(edges_attrib, [[edges_attrib.max()]])
-                np.append(x, [drug_feat])
-                bio_graph = tg.data.Data(x=x, edge_index=edges, edges_attrib=edges_attrib)
-                graph_of_q.append(bio_graph)
-            list_of_graphs.append(graph_of_q)
-        return list_of_graphs
-
-    def bio_dimreduction(self, response_ranking_df):
-        self.read_drug_target_df()
-        self.read_ppi_df()
-        self.read_cll_df()
-        list_of_graphs = []
-        netprop = NetProp()
-        for i, data in response_ranking_df.iterrows():
-            graph_of_q = []
-            for drug in data['drug']:
-                target = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_of_edge'])
-                gene_exp = self.exp_cll_df[self.exp_cll_df['nana'] == data['cll']]
-                x = [0.00001 for i in range(len(list(gene_exp.iloc[0][1:])))]
-                for target_drug in target:
-                    x[target_drug] = 1.0
-                x = np.array(x).reshape((-1, 1))
-                edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
-                edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
-                bio_graph = tg.data.Data(x=torch.from_numpy(x).to(torch.float32), edge_index=torch.from_numpy(edges), edges_attrib=edges_attrib)
-                graph_of_q.append(bio_graph)
-
-            break
-        return graph_of_q
-
-            #list_of_graphs.append(graph_of_q)
-        #return list_of_graphs
 
     def read_drug_target_df(self):
         self.drug_target_df = pd.read_csv('data/ctrp_drugranker/drugs_with_target.csv')

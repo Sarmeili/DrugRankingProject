@@ -3,7 +3,7 @@
   "datahandler" : {
     "netprop" : {
       "alpha" : 0.7,
-      "number_of_selection" : 100
+      "number_of_selection" : 1000
     },
     "ctrp_drugranker" : {
       "source" : "DrugRanker",
@@ -12,6 +12,10 @@
         "pca" : {
           "is_pca" : false,
           "q" : 300
+        },
+        "netprop" : {
+          "is_netprop" : true,
+          "top_k" : 20
         }
       },
       "test_percentage" : 0.2,

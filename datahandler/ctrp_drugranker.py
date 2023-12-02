@@ -262,10 +262,10 @@ class CTRPHandler:
             edges = np.append(edges, [drug_index, target_of_drug])
             edges_attrib = np.append(edges_attrib, [[edges_attrib.max()]])
         edges = edges.reshape(2, -1)
-        x = np.append(x, [[drug_feat]])
+        x = np.append(x, [[drug_feat]]).reshape(-1, 1)
         bio_graph = tg.data.Data(x=torch.from_numpy(x.astype(np.float32)),
                                  edge_index=torch.from_numpy(edges.astype(np.int32)),
-                                 edge_attr=torch.from_numpy(edges_attrib.astype(np.float32)))
+                                 edge_attr=torch.from_numpy(edges_attrib.astype(np.float32).reshape(-1, 1)))
         return cll_graph, bio_graph
 
     def listwise_drug_molecule_bio_for_each_drug(self, response_ranking_df):

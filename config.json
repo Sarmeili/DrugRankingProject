@@ -7,6 +7,7 @@
     },
     "ctrp_drugranker" : {
       "source" : "DrugRanker",
+      "batch_size" : 2,
       "k_of_list" : 50,
       "dim_reduction" : {
         "pca" : {
@@ -32,6 +33,11 @@
     "num_epochs" : 100
   },
   "model_experiments": {
+    "drugrank" : {
+      "mol_ll": 100,
+      "bio_ll": 100,
+      "cll_ll" : 200
+    },
     "graphmol_mlp": {
       "last_layer" : 300
     }

@@ -18,11 +18,14 @@ class DrugRank(torch.nn.Module):
 
         self.conv1_bio = tg.nn.GCNConv(bio_siz, 200)
         self.conv2_bio = tg.nn.GCNConv(200, 200)
-        self.linear_bio = tg.nn.Linear(200, self.mol_ll)
+        self.linear_bio = tg.nn.Linear(200, self.bio_ll)
 
         self.conv1_cll = tg.nn.GCNConv(cll_size, 200)
         self.conv2_cll = tg.nn.GCNConv(200, 200)
-        self.linear_cll = tg.nn.Linear(200, self.mol_ll)
+        self.linear_cll = tg.nn.Linear(200, self.cll_ll)
+
+        self.W = torch.nn.Parameter(torch.randn(self.cll_ll, self.bio_ll + self.mol_ll))
+        self.bias = torch.nn.Parameter(torch.randn(1))
 
     def forward(self, cll, mol, bio):
 
@@ -51,5 +54,6 @@ class DrugRank(torch.nn.Module):
         x_bio = x_bio[-1].reshape((1, -1))
         x_bio = self.linear_bio(x_bio)
 
-        concat_data = torch.cat((x_cll, x_mol, x_bio), 1)
-        return concat_data
+        x_drug = torch.cat((x_mol, x_bio), 1)
+        scores = torch.matmul(x_cll @ self.W, x_drug.t()) + self.bias
+        return scores

@@ -68,6 +68,7 @@ class CTRPHandler:
                     len(self.response_df) * self.data_volume[1])]
             elif self.task == 'ranking':
                 self.response_df = pd.read_csv('data/res.csv')
+                self.response_df['auc'] = self.response_df['auc'].apply(lambda x: x*-1)
 
     def read_top_20_df(self):
         self.top_20_df = pd.read_csv('data/top_20_chosen_drug.csv', index_col=0).astype(int)
@@ -165,11 +166,13 @@ class CTRPHandler:
                                             'response': response_list})
         response_ranking_df = response_ranking_df[int(len(response_ranking_df) * self.data_volume[0]):int(
             len(response_ranking_df) * self.data_volume[1])]
+        response_ranking_train = response_ranking_df[:int(-1 * len(response_ranking_df)*0.8)]
+        response_ranking_test = response_ranking_df[int(-1 * len(response_ranking_df) * 0.8):]
         del cll_list
         del cd_df
         del drug_list
         del response_list
-        return response_ranking_df
+        return response_ranking_train, response_ranking_test
 
     def generate_cll_drug_response(self, response_ranking_df):
         clls = list(response_ranking_df['cll'])
@@ -240,10 +243,12 @@ class CTRPHandler:
         cpd_df = self.cmpd_df.set_index('master_cpd_id')
         cpd_df = cpd_df.reindex([drug_code])
         smile = list(cpd_df['cpd_smiles'])
+
         mol_graph = tg.utils.from_smiles(smile[0])
         mol_graph = mol_graph.to('cuda')
         mol_graph.x = torch.tensor(mol_graph.x, dtype=torch.float32)
         mol_graph.edge_attr = torch.tensor(mol_graph.edge_attr, dtype=torch.float32)
+
         return mol_graph
 
     def create_cll_bio_graph(self, drug_code, cll_code):

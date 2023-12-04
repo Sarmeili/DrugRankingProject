@@ -29,6 +29,7 @@ loss_fn = LambdaMARTLoss()
 epochs = 20
 history_train = []
 history_test = []
+
 for j in tqdm(np.arange(0, 1, 0.1)):
     data = CTRPHandler(data_volume=[j, j+0.1])
     rank_train, rank_test = data.listwise_ranking_df()

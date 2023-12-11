@@ -1,6 +1,6 @@
 import torch
-from datahandler.ctrp_drugranker import CTRPHandler
-from datahandler.ctrp_drugranker import CTRPDatasetTorch
+from datahandler.ctrp_handler import CTRPHandler
+from datahandler.ctrp_handler import CTRPDatasetTorch
 import warnings
 from torch.utils.data import DataLoader
 import numpy as np
@@ -17,9 +17,20 @@ from datahandler.netprop import NetProp
 from modelutils.loss_functions import LambdaMARTLoss
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from datawrangling.wrangling import Wrangler
 
 warnings.filterwarnings('ignore')
-print(torch.cuda.is_available())
+with open('config.json') as config_file:
+    config = json.load(config_file)
+wrangle_data = config['data_wrangling']['wrangle_data']
+netprop = config['network_propagation']['is_netprop']
+
+if wrangle_data:
+    wrangle = Wrangler()
+    wrangle.save_wrangled_data()
+if netprop:
+    netprop = CTRPHandler([0, 1])
+    netprop.netprop_dim_reduction()
 
 model = DrugRank(1, 9, 1)
 model = model.to('cuda')
@@ -51,7 +62,7 @@ for j in tqdm(np.arange(0, 1, 0.1)):
                     cll_graph = cll_graph.to('cuda')
                     bio_graph = bio_graph.to('cuda')
                     y_pred_drug = model(cll_graph, mol_graph, bio_graph)
-                    y_pred = torch.concat((y_pred_drug, y_pred), dim=1)
+                    y_pred = torch.concat( (y_pred_drug, y_pred), dim=1)
                 responses = torch.reshape(responses, (1, list_size))
                 loss = loss_fn(y_pred, responses)
                 history_train.append(loss)
@@ -81,7 +92,7 @@ for j in tqdm(np.arange(0, 1, 0.1)):
                 loss = loss_fn(y_pred, responses)
                 history_test.append(loss)
 
-
+torch.save(model, 'models/official_first.pt')
 history_train = [loss.item() for loss in history_train]
 history_test = [loss.item() for loss in history_test]
 plt.plot(range(1, len(history_train) + 1), history_train, label='Training Loss')
@@ -91,11 +102,6 @@ plt.ylabel('Loss')
 plt.title('Training Loss Over Epochs')
 plt.legend()
 plt.show()
-
-'''loss_fn = LambdaMARTLoss()
-a = torch.tensor([[1.0, 2.3, 3.7, 4.9]])
-b = torch.tensor([[1.7, 2.8, 3.7, 4.1]])
-print(loss_fn(a, b))'''
 
 
 

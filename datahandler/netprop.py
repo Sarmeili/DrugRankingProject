@@ -26,7 +26,6 @@ class NetProp:
             diff = wt - wt0
             if diff.mean() < 10 ^ (-6):
                 break
-        #print(f'top 20 : {index[-20:]}')
         return torch.flip(index, [0])
 
     def create_reduced_graph(self, graph, ppi_df):

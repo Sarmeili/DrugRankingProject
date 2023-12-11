@@ -17,7 +17,7 @@ from datahandler.netprop import NetProp
 class CTRPHandler:
 
     def __init__(self, data_volume):
-        self.top_20_df = None
+        self.propagated_graph_df = None
         self.ppi_index_df = None
         self.ppi_df = None
         self.drug_target_df = None
@@ -31,55 +31,48 @@ class CTRPHandler:
         with open('config.json') as config_file:
             config = json.load(config_file)
         self.task = config['task']
-        self.drug_feat = config['datahandler']['ctrp_drugranker']['drug_feat']
-        self.cll_feat = config['datahandler']['ctrp_drugranker']['cll_feat']
-        self.is_pca = config['datahandler']['ctrp_drugranker']['dim_reduction']['pca']['is_pca']
-        self.q = config['datahandler']['ctrp_drugranker']['dim_reduction']['pca']['q']
-        self.test_percentage = config['datahandler']['ctrp_drugranker']['test_percentage']
-        self.source = config['datahandler']['ctrp_drugranker']['source']
+        self.drug_feat = config['datahandler']['ctrp_handler']['drug_feat']
+        self.cll_feat = config['datahandler']['ctrp_handler']['cll_feat']
+        self.is_pca = config['datahandler']['ctrp_handler']['dim_reduction']['pca']['is_pca']
+        self.q = config['datahandler']['ctrp_handler']['dim_reduction']['pca']['q']
+        self.test_percentage = config['datahandler']['ctrp_handler']['test_percentage']
         self.last_layer = config['model_experiments']['graphmol_mlp']['last_layer']
-        self.k_of_list = config['datahandler']['ctrp_drugranker']['k_of_list']
-        self.num_selected = config['datahandler']['netprop']['number_of_selection']
-        self.is_netprop = config['datahandler']['ctrp_drugranker']['dim_reduction']['netprop']['is_netprop']
-        self.top_k = config['datahandler']['ctrp_drugranker']['dim_reduction']['netprop']['top_k']
-        self.batch_size = config['datahandler']['ctrp_drugranker']['batch_size']
+        self.top_k = config['network_propagation']['top_k']
+        self.is_netprop = config['network_propagation']['is_netprop']
+        self.batch_size = config['datahandler']['ctrp_handler']['batch_size']
 
     def z_score_calculation(self, x):
         return (x - self.mean) / self.std
 
     def read_cll_df(self):
         if "gene_exp" in self.cll_feat:
-            self.exp_cll_df = pd.read_csv('data/new_ccle_exp.csv', index_col=0)
-        if "gene_mut" in self.cll_feat:
-            self.mut_cll_df = pd.read_csv('data/CCLE_mutations_bool_damaging.csv', index_col=0)
+            self.exp_cll_df = pd.read_csv('data/wrangled/ccle_exp.csv', index_col=0)
 
     def read_cmpd_df(self):
-        if self.source == 'DrugRanker':
-            self.cmpd_df = pd.read_csv('data/ctrp_drugranker/cmpd_id_name_group_smiles.txt', sep='\t')
+        self.cmpd_df = pd.read_csv('data/wrangled/cmpd.csv', index_col=0)
 
     def read_response_df(self):
-        if self.source == 'DrugRanker':
-            if self.task == 'regression':
-                self.response_df = pd.read_csv('data/ctrp_drugranker/final_list_auc.txt')
-                # self.mean = self.response_df['auc'].mean()
-                # self.std = self.response_df['auc'].std()
-                # self.response_df['auc'] = self.response_df['auc'].apply(self.z_score_calculation)
-                self.response_df = self.response_df[int(len(self.response_df) * self.data_volume[0]):int(
-                    len(self.response_df) * self.data_volume[1])]
-            elif self.task == 'ranking':
-                self.response_df = pd.read_csv('data/res.csv')
-                self.response_df['auc'] = self.response_df['auc'].apply(lambda x: x*-1)
+        if self.task == 'regression':
+            self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
+            # self.mean = self.response_df['auc'].mean()
+            # self.std = self.response_df['auc'].std()
+            # self.response_df['auc'] = self.response_df['auc'].apply(self.z_score_calculation)
+            self.response_df = self.response_df[int(len(self.response_df) * self.data_volume[0]):int(
+                len(self.response_df) * self.data_volume[1])]
+        elif self.task == 'ranking':
+            self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
+            self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: x*-1)
 
-    def read_top_20_df(self):
-        self.top_20_df = pd.read_csv('data/top_20_chosen_drug.csv', index_col=0).astype(int)
+    def read_propagated_graph_df(self):
+        self.propagated_graph_df = pd.read_csv('data/netprop/top_'+str(self.top_k)+'_chosen_drug.csv', index_col=0).astype(int)
 
     def select_gene_feature(self):
         self.read_cll_df()
-        self.read_top_20_df()
+        self.read_propagated_graph_df()
         self.read_drug_target_df()
         self.read_ppi_df()
         self.drug_target_df['new_index'] = None
-        selected_index = list(self.top_20_df['0'])
+        selected_index = list(self.propagated_graph_df['0'])
         selected_gene_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
         edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
         edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
@@ -91,8 +84,8 @@ class CTRPHandler:
         for i in range(len(selected_index)):
             edges[0][edges[0] == selected_index[i]] = i
             edges[1][edges[1] == selected_index[i]] = i
-            if selected_index[i] in list(self.drug_target_df['index_of_edge']):
-                target_index = self.drug_target_df[self.drug_target_df['index_of_edge'] == selected_index[i]].index
+            if selected_index[i] in list(self.drug_target_df['index_target']):
+                target_index = self.drug_target_df[self.drug_target_df['index_target'] == selected_index[i]].index
                 self.drug_target_df.loc[target_index, 'new_index'] = i
         return selected_gene_df.reset_index(), edges, edges_attrib
 
@@ -153,14 +146,14 @@ class CTRPHandler:
 
     def listwise_ranking_df(self):
         self.read_response_df()
-        cll_list = list(self.response_df['broadid'])
+        cll_list = list(self.response_df['DepMap_ID'])
         cll_list = list(set(sorted(cll_list)))
-        cd_df = self.response_df.set_index(['broadid', 'cpdid'])
+        cd_df = self.response_df.set_index(['DepMap_ID', 'master_cpd_id'])
         drug_list = []
         response_list = []
         for cll in cll_list:
             drug_list.append(list(cd_df.loc[cll].index))
-            response_list.append(list(cd_df.loc[cll]['auc']))
+            response_list.append(list(cd_df.loc[cll]['area_under_curve']))
         response_ranking_df = pd.DataFrame({'cll': cll_list,
                                             'drug': drug_list,
                                             'response': response_list})
@@ -187,7 +180,7 @@ class CTRPHandler:
             end = min(start + self.batch_size, n_samples)
             yield clls[start:end], drugs[start:end], responses[start:end]
 
-    def dim_reduction(self):
+    def netprop_dim_reduction(self):
         """
            Propagate PPI network with regard to drugs targets in order to find
            top 20, top 30, top 40 and top 50 genes in the big graph as a way
@@ -206,7 +199,7 @@ class CTRPHandler:
             genes = self.exp_cll_df.columns[1:]
             drugs = self.drug_target_df['master_cpd_id'].unique()
             for drug in tqdm(drugs, total=len(drugs)):
-                targets = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_of_edge'])
+                targets = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_target'])
                 x = [0.00001 for i in range(len(genes))]
                 for target in targets:
                     x[target] = 1.0
@@ -230,13 +223,13 @@ class CTRPHandler:
                 selected_index_50 = list(set(selected_index_50))
 
             drug_chosen = pd.Series(selected_index_20)
-            drug_chosen.to_csv('data/top_20_chosen_drug.csv')
+            drug_chosen.to_csv('data/netprop/top_20_chosen_drug.csv')
             drug_chosen = pd.Series(selected_index_30)
-            drug_chosen.to_csv('data/top_30_chosen_drug.csv')
+            drug_chosen.to_csv('data/netprop/top_30_chosen_drug.csv')
             drug_chosen = pd.Series(selected_index_40)
-            drug_chosen.to_csv('data/top_40_chosen_drug.csv')
+            drug_chosen.to_csv('data/netprop/top_40_chosen_drug.csv')
             drug_chosen = pd.Series(selected_index_50)
-            drug_chosen.to_csv('data/top_50_chosen_drug.csv')
+            drug_chosen.to_csv('data/netprop/top_50_chosen_drug.csv')
 
     def create_mol_graph(self, drug_code):
         self.read_cmpd_df()
@@ -265,6 +258,7 @@ class CTRPHandler:
         for target_of_drug in target:
             edges = np.append(edges, [target_of_drug, drug_index])
             edges = np.append(edges, [drug_index, target_of_drug])
+            edges_attrib = np.append(edges_attrib, [[edges_attrib.max()]])
             edges_attrib = np.append(edges_attrib, [[edges_attrib.max()]])
         edges = edges.reshape(2, -1)
         x = np.append(x, [[drug_feat]]).reshape(-1, 1)
@@ -308,7 +302,7 @@ class CTRPHandler:
                 bio_graph = tg.data.Data(x=torch.from_numpy(x).to(torch.float32), edge_index=torch.from_numpy(edges),
                                          edges_attrib=edges_attrib)
                 wt = netprop.netpropagete(bio_graph)
-                selected_index = wt[:self.num_selected]
+                selected_index = wt[:self.top_k]
                 edges = edges.reshape(-1, 2)
                 mask = np.isin(edges, selected_index).all(where=[[True, True]], axis=1)
                 edges = edges[mask]
@@ -342,18 +336,17 @@ class CTRPHandler:
         return list_of_graphs_mol, list_of_graphs_bio
 
     def read_drug_target_df(self):
-        self.drug_target_df = pd.read_csv('data/ctrp_drugranker/drugs_with_target.csv')
+        self.drug_target_df = pd.read_csv('data/wrangled/drug_target.csv')
 
     def read_ppi_df(self):
-        self.ppi_df = pd.read_csv('data/9606.protein.links.v12.0.txt', sep='\t')
-        self.ppi_index_df = pd.read_csv('data/ppi_new_edge.csv')
+        self.ppi_index_df = pd.read_csv('data/wrangled/ppi.csv')
 
     def create_tensor_feat_cll(self):
         self.read_cll_df()
         self.read_response_df()
         if 'gene_exp' in self.cll_feat:
             self.exp_cll_df = self.exp_cll_df.astype('float32')
-            exp_cll = self.exp_cll_df.reindex(self.response_df['broadid'])
+            exp_cll = self.exp_cll_df.reindex(self.response_df['master_cpd_id'])
             cll_exp_tensor = torch.from_numpy(exp_cll.to_numpy())
             if self.is_pca:
                 pca = torch.pca_lowrank(cll_exp_tensor, q=self.q)
@@ -362,7 +355,7 @@ class CTRPHandler:
             cll_exp_tensor = None
         if 'gene_mut' in self.cll_feat:
             self.mut_cll_df = self.mut_cll_df.astype('float32')
-            mut_cll = self.mut_cll_df.reindex(self.response_df['broadid'])
+            mut_cll = self.mut_cll_df.reindex(self.response_df['master_cpd_id'])
             cll_mut_tensor = torch.from_numpy(mut_cll.to_numpy())
             if self.is_pca:
                 pca = torch.pca_lowrank(cll_mut_tensor, q=self.q)
@@ -470,11 +463,11 @@ class CTRPHandler:
 
     def create_train_test_label(self):
         self.read_response_df()
-        train_label = self.response_df['auc'][:-1 * int(len(self.response_df) * self.test_percentage)]
+        train_label = self.response_df['area_under_curve'][:-1 * int(len(self.response_df) * self.test_percentage)]
         train_label = torch.from_numpy(np.array(train_label))
         train_label = train_label.reshape((-1, 1)).to(torch.float32)
         train_label = train_label.to('cuda')
-        test_label = self.response_df['auc'][-1 * int(len(self.response_df) * self.test_percentage):]
+        test_label = self.response_df['area_under_curve'][-1 * int(len(self.response_df) * self.test_percentage):]
         test_label = torch.from_numpy(np.array(test_label))
         test_label = test_label.reshape((-1, 1)).to(torch.float32)
         test_label = test_label.to('cuda')

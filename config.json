@@ -1,22 +1,24 @@
 {
+  "data_wrangling" : {
+    "wrangle_data" : false,
+    "response_type" : ["auc", "ic50", "senscore"],
+    "response_task" : "auc",
+    "min_combined_score" : 600
+  },
+  "network_propagation": {
+    "is_netprop" : false,
+    "alpha" : 0.7,
+    "top_k" : 20
+  },
   "task" : "ranking",
   "datahandler" : {
-    "netprop" : {
-      "alpha" : 0.7,
-      "number_of_selection" : 1000
-    },
-    "ctrp_drugranker" : {
-      "source" : "DrugRanker",
+    "ctrp_handler" : {
       "batch_size" : 2,
       "k_of_list" : 50,
       "dim_reduction" : {
         "pca" : {
           "is_pca" : false,
           "q" : 300
-        },
-        "netprop" : {
-          "is_netprop" : true,
-          "top_k" : 20
         }
       },
       "test_percentage" : 0.2,

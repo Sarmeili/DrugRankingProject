@@ -10,7 +10,7 @@ import torch_geometric as tg
 import random
 from tqdm import tqdm
 from torch_geometric.data import Data
-
+import rdkit
 from datahandler.netprop import NetProp
 
 
@@ -235,9 +235,123 @@ class CTRPHandler:
         self.read_cmpd_df()
         cpd_df = self.cmpd_df.set_index('master_cpd_id')
         cpd_df = cpd_df.reindex([drug_code])
-        smile = list(cpd_df['cpd_smiles'])
+        smile = list(cpd_df['cpd_smiles'])[0]
+        mol = Chem.MolFromSmiles(smile)
+        atoms = mol.GetAtoms()
+        edges = mol.GetBonds()
+        atoms_feature = []
+        edges_list = [[], []]
+        edges_feature = []
+        for atom in atoms:
+            atom_feature = []
+            atom_feature.append(atom.GetAtomicNum())
+            atom_feature.append(atom.GetDegree())
+            atom_feature.append(atom.GetTotalNumHs())
+            atom_feature.append(atom.GetTotalValence())
+            atom_feature.append(atom.GetNumRadicalElectrons())
+            atom_feature.append(atom.GetFormalCharge())
+            atom_feature.append(atom.GetIsAromatic())
+            atom_feature.append(atom.GetMass())
+            atom_feature.append(atom.GetIsotope())
+            atom_feature.append(atom.InvertChirality())
+            chiral_tags = [rdkit.Chem.rdchem.ChiralType.CHI_UNSPECIFIED,
+                           rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL_CW,
+                           rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL_CCW,
+                           rdkit.Chem.rdchem.ChiralType.CHI_OTHER,
+                           rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL,
+                           rdkit.Chem.rdchem.ChiralType.CHI_ALLENE,
+                           rdkit.Chem.rdchem.ChiralType.CHI_SQUAREPLANAR,
+                           rdkit.Chem.rdchem.ChiralType.CHI_TRIGONALBIPYRAMIDAL ,
+                           rdkit.Chem.rdchem.ChiralType.CHI_OCTAHEDRAL]
+            for i in range(len(chiral_tags)):
+                if atom.GetChiralTag() == chiral_tags[i]:
+                    atom_feature.append(1)
+                else:
+                    atom_feature.append(0)
+            hybride_type = [rdkit.Chem.rdchem.HybridizationType.S,
+                            rdkit.Chem.rdchem.HybridizationType.SP,
+                            rdkit.Chem.rdchem.HybridizationType.SP2,
+                            rdkit.Chem.rdchem.HybridizationType.SP3,
+                            rdkit.Chem.rdchem.HybridizationType.SP2D,
+                            rdkit.Chem.rdchem.HybridizationType.SP3D,
+                            rdkit.Chem.rdchem.HybridizationType.SP3D2,
+                            rdkit.Chem.rdchem.HybridizationType.OTHER]
+            for i in range(len(hybride_type)):
+                if atom.GetHybridization() == hybride_type[i]:
+                    atom_feature.append(1)
+                else:
+                    atom_feature.append(0)
+            atoms_feature.append(atom_feature)
 
-        mol_graph = tg.utils.from_smiles(smile[0])
+        for edge in edges:
+            atom1_idx = edge.GetBeginAtomIdx()
+            atom2_idx = edge.GetEndAtomIdx()
+            edges_list[0].append(atom1_idx)
+            edges_list[0].append(atom2_idx)
+            edges_list[1].append(atom2_idx)
+            edges_list[1].append(atom1_idx)
+            edge_feature = []
+            bond_type = [rdkit.Chem.rdchem.BondType.UNSPECIFIED,
+                         rdkit.Chem.rdchem.BondType.SINGLE,
+                         rdkit.Chem.rdchem.BondType.DOUBLE,
+                         rdkit.Chem.rdchem.BondType.TRIPLE,
+                         rdkit.Chem.rdchem.BondType.QUADRUPLE,
+                         rdkit.Chem.rdchem.BondType.QUINTUPLE,
+                         rdkit.Chem.rdchem.BondType.HEXTUPLE,
+                         rdkit.Chem.rdchem.BondType.ONEANDAHALF,
+                         rdkit.Chem.rdchem.BondType.TWOANDAHALF,
+                         rdkit.Chem.rdchem.BondType.THREEANDAHALF,
+                         rdkit.Chem.rdchem.BondType.FOURANDAHALF,
+                         rdkit.Chem.rdchem.BondType.FIVEANDAHALF,
+                         rdkit.Chem.rdchem.BondType.AROMATIC,
+                         rdkit.Chem.rdchem.BondType.IONIC,
+                         rdkit.Chem.rdchem.BondType.THREECENTER,
+                         rdkit.Chem.rdchem.BondType.DATIVEONE,
+                         rdkit.Chem.rdchem.BondType.DATIVE,
+                         rdkit.Chem.rdchem.BondType.DATIVEL,
+                         rdkit.Chem.rdchem.BondType.DATIVER,
+                         rdkit.Chem.rdchem.BondType.OTHER,
+                         rdkit.Chem.rdchem.BondType.ZERO]
+            for i in range(len(bond_type)):
+                if edge.GetBondType() == bond_type[i]:
+                    edge_feature.append(1)
+                else:
+                    edge_feature.append(0)
+            edge_feature.append(edge.GetBondTypeAsDouble())
+            # edge_feature.append(edge.GetValenceContrib())
+            edge_feature.append(edge.GetIsAromatic())
+            edge_feature.append(edge.GetIsConjugated())
+            bond_dir = [rdkit.Chem.rdchem.BondDir.NONE,
+                        rdkit.Chem.rdchem.BondDir.BEGINWEDGE,
+                        rdkit.Chem.rdchem.BondDir.BEGINDASH,
+                        rdkit.Chem.rdchem.BondDir.ENDDOWNRIGHT,
+                        rdkit.Chem.rdchem.BondDir.ENDUPRIGHT,
+                        rdkit.Chem.rdchem.BondDir.EITHERDOUBLE,
+                        rdkit.Chem.rdchem.BondDir.UNKNOWN,
+                        rdkit.Chem.rdchem.BondDir.NONE]
+            for i in range(len(bond_dir)):
+                if edge.GetBondDir() == bond_dir[i]:
+                    edge_feature.append(1)
+                else:
+                    edge_feature.append(0)
+            bond_stereo = [rdkit.Chem.rdchem.BondStereo.STEREONONE,
+                           rdkit.Chem.rdchem.BondStereo.STEREOANY,
+                           rdkit.Chem.rdchem.BondStereo.STEREOZ,
+                           rdkit.Chem.rdchem.BondStereo.STEREOE,
+                           rdkit.Chem.rdchem.BondStereo.STEREOCIS,
+                           rdkit.Chem.rdchem.BondStereo.STEREOTRANS]
+            for i in range(len(bond_stereo)):
+                if edge.GetStereo() == bond_stereo[i]:
+                    edge_feature.append(1)
+                else:
+                    edge_feature.append(0)
+            edges_feature.append(edge_feature)
+            edges_feature.append(edge_feature)
+
+        mol_graph = tg.data.Data(x=atoms_feature,
+                                 edge_index=torch.tensor(edges_list),
+                                 edge_attr=edges_feature)
+        # mol_graph = tg.utils.from_smiles(smile)
         mol_graph = mol_graph.to('cuda')
         mol_graph.x = torch.tensor(mol_graph.x, dtype=torch.float32)
         mol_graph.edge_attr = torch.tensor(mol_graph.edge_attr, dtype=torch.float32)

@@ -32,12 +32,12 @@ if netprop:
     netprop = CTRPHandler([0, 1])
     netprop.netprop_dim_reduction()
 
-model = DrugRank(1, 9, 1)
+model = DrugRank(1, 27, 1)
 model = model.to('cuda')
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 loss_fn = LambdaMARTLoss()
-epochs = 20
+epochs = 50
 history_train = []
 history_test = []
 
@@ -101,6 +101,7 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Training Loss Over Epochs')
 plt.legend()
+plt.savefig('loss_plot.png')
 plt.show()
 
 

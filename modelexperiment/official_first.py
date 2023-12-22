@@ -12,8 +12,8 @@ class DrugRank(torch.nn.Module):
         self.bio_ll = config['model_experiments']['drugrank']['bio_ll']
         self.cll_ll = config['model_experiments']['drugrank']['cll_ll']
 
-        self.conv1_mol = tg.nn.GCNConv(mol_size, 200)
-        self.conv2_mol = tg.nn.GCNConv(200, 200)
+        self.conv1_mol = tg.nn.GraphConv(mol_size, 200)
+        self.conv2_mol = tg.nn.GraphConv(200, 200)
         self.linear_mol = tg.nn.Linear(200, self.mol_ll)
 
         self.conv1_bio = tg.nn.GCNConv(bio_siz, 200)
@@ -30,7 +30,7 @@ class DrugRank(torch.nn.Module):
     def forward(self, cll, mol, bio):
 
         x_cll, edge_cll = cll.x, cll.edge_index
-        x_mol, edge_mol = mol.x, mol.edge_index
+        x_mol, edge_mol, attr_mol = mol.x, mol.edge_index, mol.edge_attr
         x_bio, edge_bio = bio.x, bio.edge_index
 
         x_cll = self.conv1_cll(x_cll, edge_cll)

@@ -37,7 +37,7 @@ model = model.to('cuda')
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 loss_fn = LambdaMARTLoss()
-epochs = 50
+epochs = 30
 history_train = []
 history_test = []
 

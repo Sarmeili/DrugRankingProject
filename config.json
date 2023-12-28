@@ -14,7 +14,6 @@
   "datahandler" : {
     "ctrp_handler" : {
       "batch_size" : 2,
-      "k_of_list" : 50,
       "dim_reduction" : {
         "pca" : {
           "is_pca" : false,

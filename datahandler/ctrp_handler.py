@@ -52,14 +52,7 @@ class CTRPHandler:
         self.cmpd_df = pd.read_csv('data/wrangled/cmpd.csv', index_col=0)
 
     def read_response_df(self):
-        if self.task == 'regression':
-            self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
-            # self.mean = self.response_df['auc'].mean()
-            # self.std = self.response_df['auc'].std()
-            # self.response_df['auc'] = self.response_df['auc'].apply(self.z_score_calculation)
-            self.response_df = self.response_df[int(len(self.response_df) * self.data_volume[0]):int(
-                len(self.response_df) * self.data_volume[1])]
-        elif self.task == 'ranking':
+        if self.task == 'ranking':
             self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
             self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: x*-1)
 
@@ -160,12 +153,15 @@ class CTRPHandler:
         response_ranking_df = response_ranking_df[int(len(response_ranking_df) * self.data_volume[0]):int(
             len(response_ranking_df) * self.data_volume[1])]
         response_ranking_train = response_ranking_df[:int(-1 * len(response_ranking_df)*0.8)]
-        response_ranking_test = response_ranking_df[int(-1 * len(response_ranking_df) * 0.8):]
+        response_ranking_val = response_ranking_df[
+                               int(-1 * len(response_ranking_df) * 0.8):int(-1 * len(response_ranking_df) * 0.9)]
+        response_ranking_test = response_ranking_df[
+                               int(-1 * len(response_ranking_df) * 0.9):]
         del cll_list
         del cd_df
         del drug_list
         del response_list
-        return response_ranking_train, response_ranking_test
+        return response_ranking_train, response_ranking_val, response_ranking_test
 
     def generate_cll_drug_response(self, response_ranking_df):
         clls = list(response_ranking_df['cll'])
@@ -173,9 +169,6 @@ class CTRPHandler:
         responses = list(response_ranking_df['response'])
         n_samples = len(response_ranking_df)
         indices = np.arange(n_samples)
-        '''cll_loadr = tg.loader.DataLoader(clls, batch_size=self.batch_size)
-        drug_loadr = tg.loader.DataLoader([drugs], batch_size=self.batch_size)
-        response_loader = tg.loader.DataLoader([responses], batch_size=self.batch_size)'''
         for start in range(0, n_samples, self.batch_size):
             end = min(start + self.batch_size, n_samples)
             yield clls[start:end], drugs[start:end], responses[start:end]
@@ -358,8 +351,7 @@ class CTRPHandler:
 
         return mol_graph
 
-    def create_cll_bio_graph(self, drug_code, cll_code):
-        exp_cll_df, edges, edges_attrib = self.select_gene_feature()
+    def create_cll_bio_graph(self, drug_code, cll_code, exp_cll_df, edges, edges_attrib):
         target = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug_code]['new_index'])
         gene_exp = exp_cll_df[exp_cll_df['nana'] == cll_code]
         x = np.array(list(gene_exp.iloc[0][1:])).reshape((-1, 1))

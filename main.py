@@ -14,7 +14,7 @@ from modelutils.training_reg import TrainModel
 import pandas as pd
 from torch_geometric.utils import degree
 from datahandler.netprop import NetProp
-from modelutils.loss_functions import LambdaMARTLoss
+from modelutils.loss_functions import LambdaMARTLoss, LambdaLoss
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from datawrangling.wrangling import Wrangler
@@ -37,7 +37,7 @@ model = model.to('cuda')
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 loss_fn = LambdaMARTLoss()
-epochs = 30
+epochs = 50
 history_train = []
 history_test = []
 data = CTRPHandler(data_volume=[0, 1])

@@ -54,7 +54,8 @@ class CTRPHandler:
     def read_response_df(self):
         if self.task == 'ranking':
             self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
-            self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: x*-1)
+            max_auc = self.response_df['area_under_curve'].max()
+            self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)
 
     def read_propagated_graph_df(self):
         self.propagated_graph_df = pd.read_csv('data/netprop/top_'+str(self.top_k)+'_chosen_drug.csv', index_col=0).astype(int)
@@ -152,11 +153,11 @@ class CTRPHandler:
                                             'response': response_list})
         response_ranking_df = response_ranking_df[int(len(response_ranking_df) * self.data_volume[0]):int(
             len(response_ranking_df) * self.data_volume[1])]
-        response_ranking_train = response_ranking_df[:int(-1 * len(response_ranking_df)*0.8)]
+        response_ranking_train = response_ranking_df[:int( len(response_ranking_df)*0.8)]
         response_ranking_val = response_ranking_df[
-                               int(-1 * len(response_ranking_df) * 0.8):int(-1 * len(response_ranking_df) * 0.9)]
+                               int(len(response_ranking_df) * 0.8):int(len(response_ranking_df) * 0.9)]
         response_ranking_test = response_ranking_df[
-                               int(-1 * len(response_ranking_df) * 0.9):]
+                               int(len(response_ranking_df) * 0.9):]
         del cll_list
         del cd_df
         del drug_list
@@ -236,17 +237,9 @@ class CTRPHandler:
         edges_list = [[], []]
         edges_feature = []
         for atom in atoms:
-            atom_feature = []
-            atom_feature.append(atom.GetAtomicNum())
-            atom_feature.append(atom.GetDegree())
-            atom_feature.append(atom.GetTotalNumHs())
-            atom_feature.append(atom.GetTotalValence())
-            atom_feature.append(atom.GetNumRadicalElectrons())
-            atom_feature.append(atom.GetFormalCharge())
-            atom_feature.append(atom.GetIsAromatic())
-            atom_feature.append(atom.GetMass())
-            atom_feature.append(atom.GetIsotope())
-            atom_feature.append(atom.InvertChirality())
+            atom_feature = [atom.GetAtomicNum(), atom.GetDegree(), atom.GetTotalNumHs(), atom.GetTotalValence(),
+                            atom.GetNumRadicalElectrons(), atom.GetFormalCharge(), atom.GetIsAromatic(), atom.GetMass(),
+                            atom.GetIsotope(), atom.InvertChirality()]
             chiral_tags = [rdkit.Chem.rdchem.ChiralType.CHI_UNSPECIFIED,
                            rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL_CW,
                            rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL_CCW,
@@ -254,7 +247,7 @@ class CTRPHandler:
                            rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL,
                            rdkit.Chem.rdchem.ChiralType.CHI_ALLENE,
                            rdkit.Chem.rdchem.ChiralType.CHI_SQUAREPLANAR,
-                           rdkit.Chem.rdchem.ChiralType.CHI_TRIGONALBIPYRAMIDAL ,
+                           rdkit.Chem.rdchem.ChiralType.CHI_TRIGONALBIPYRAMIDAL,
                            rdkit.Chem.rdchem.ChiralType.CHI_OCTAHEDRAL]
             for i in range(len(chiral_tags)):
                 if atom.GetChiralTag() == chiral_tags[i]:

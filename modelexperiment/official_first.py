@@ -86,7 +86,7 @@ class DrugRank(torch.nn.Module):
         x_cat = self.linear1_concat(x_cat)
         x_cat = torch.nn.functional.relu(x_cat)
         x_cat = self.linear2_concat(x_cat)
-        x_cat = torch.nn.functional.relu(x_cat)
+        # x_cat = torch.nn.functional.relu(x_cat)
 
         # scores = torch.matmul(x_cll @ self.W, x_drug.t()) + self.bias
         return x_cat

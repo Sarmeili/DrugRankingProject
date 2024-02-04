@@ -13,7 +13,7 @@
   "task" : "ranking",
   "datahandler" : {
     "ctrp_handler" : {
-      "batch_size" : 2,
+      "batch_size" : 1,
       "dim_reduction" : {
         "pca" : {
           "is_pca" : false,

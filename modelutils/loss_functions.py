@@ -253,9 +253,10 @@ def rankNetWeightedByGTDiffPowed_scheme(G, D, *args):
     return torch.abs(torch.pow(args[1][:, :, None], 2) - torch.pow(args[1][:, None, :], 2))
 
 
-loss_fn = LambdaLossLTR()
+'''loss_fn = LambdaLossLTR()
 a = torch.tensor([[10.0, 20.0, 30.0, 40.0, 50.0]])
 b = torch.tensor([[10.0, 20.0, 30.0, 40.0, 50.0]])
 # b = torch.flip(b, dims=(0,1))
 print(loss_fn(a, b))
 print(ndcg_score(a, b))
+'''

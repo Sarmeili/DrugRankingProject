@@ -237,9 +237,17 @@ class CTRPHandler:
         edges_list = [[], []]
         edges_feature = []
         for atom in atoms:
-            atom_feature = [atom.GetAtomicNum(), atom.GetDegree(), atom.GetTotalNumHs(), atom.GetTotalValence(),
-                            atom.GetNumRadicalElectrons(), atom.GetFormalCharge(), atom.GetIsAromatic(), atom.GetMass(),
-                            atom.GetIsotope(), atom.InvertChirality()]
+            atom_feature = []
+            atom_feature.append(atom.GetAtomicNum())
+            atom_feature.append(atom.GetDegree())
+            atom_feature.append(atom.GetTotalNumHs())
+            atom_feature.append(atom.GetTotalValence())
+            atom_feature.append(atom.GetNumRadicalElectrons())
+            atom_feature.append(atom.GetFormalCharge())
+            atom_feature.append(atom.GetIsAromatic())
+            atom_feature.append(atom.GetMass())
+            atom_feature.append(atom.GetIsotope())
+            atom_feature.append(atom.InvertChirality())
             chiral_tags = [rdkit.Chem.rdchem.ChiralType.CHI_UNSPECIFIED,
                            rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL_CW,
                            rdkit.Chem.rdchem.ChiralType.CHI_TETRAHEDRAL_CCW,

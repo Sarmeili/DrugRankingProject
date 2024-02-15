@@ -1,6 +1,5 @@
 import torch
 from datahandler.ctrp_handler import CTRPHandler
-from datahandler.ctrp_handler import CTRPDatasetTorch
 import warnings
 from torch.utils.data import DataLoader
 import numpy as np
@@ -8,10 +7,7 @@ import json
 from rdkit import Chem
 import torch_geometric as tg
 from modelexperiment.official_first import DrugRank
-from modelutils.training_reg import TrainModel
 import pandas as pd
-from torch_geometric.utils import degree
-from datahandler.netprop import NetProp
 from modelutils.loss_functions import MyListNetLoss, LambdaLossLTR
 from tqdm import tqdm
 import matplotlib.pyplot as plt
@@ -28,21 +24,21 @@ if wrangle_data:
     wrangle = Wrangler()
     wrangle.save_wrangled_data()
 if netprop:
-    netprop = CTRPHandler([0, 1])
+    netprop = CTRPHandler()
     netprop.netprop_dim_reduction()
 
 model = DrugRank(1, 27, 1)
 model = model.to('cuda')
 
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-loss_fn = MyListNetLoss()
+loss_fn = LambdaLossLTR()
 epochs = 30
 list_size = 5
 history_train = []
 history_test = []
 ndcg_train = []
 ndcg_test = []
-data = CTRPHandler(data_volume=[0, 1])
+data = CTRPHandler()
 exp_cll_df, edges, edges_attrib = data.select_gene_feature()
 rank_train, rank_val, rank_test = data.listwise_ranking_df()
 for i in tqdm(range(epochs)):
@@ -71,8 +67,6 @@ for i in tqdm(range(epochs)):
             del mol_graph
             del cll_graph
             del bio_graph
-            break
-        break
     history_train.append(loss)
     ndcg_train.append(ndcg_score(responses.cpu().detach().numpy(), y_pred.cpu().detach().numpy()))
     model.eval()
@@ -98,8 +92,6 @@ for i in tqdm(range(epochs)):
                 del mol_graph
                 del cll_graph
                 del bio_graph
-                break
-            break
     history_test.append(loss)
     ndcg_test.append(ndcg_score(responses.cpu().detach().numpy(), y_pred.cpu().detach().numpy()))
 

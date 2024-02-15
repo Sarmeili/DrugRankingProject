@@ -12,7 +12,12 @@ class NetProp:
         self.num_selec = config['datahandler']['netprop']['number_of_selection']
 
     def netpropagete(self, graph):
-
+        """
+        Propagate through ppi network with considering node of our drug target as 1
+        The formula can be seen at article.
+        :param graph: large ppi graph
+        :return: ranked index of each protein or gene
+        """
         A = tg.utils.to_dense_adj(graph.edge_index)[0]
         w0 = graph.x.reshape(1, -1)[0]
         wt = graph.x.reshape(1, -1)[0]
@@ -28,7 +33,5 @@ class NetProp:
                 break
         return torch.flip(index, [0])
 
-    def create_reduced_graph(self, graph, ppi_df):
-        sorted_index = self.netpropagete(graph)
 
 

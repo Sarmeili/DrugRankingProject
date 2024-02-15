@@ -219,38 +219,32 @@ class LambdaLossLTR(nn.Module):
         return loss
 
 
-def ndcgLoss1_scheme(G, D, *args):
-    return (G / D)[:, :, None]
+    def ndcgLoss1_scheme(self, G, D, *args):
+        return (G / D)[:, :, None]
 
+    def ndcgLoss2_scheme(self, G, D, *args):
+        pos_idxs = torch.arange(1, G.shape[1] + 1, device=G.device)
+        delta_idxs = torch.abs(pos_idxs[:, None] - pos_idxs[None, :])
+        deltas = torch.abs(torch.pow(torch.abs(D[0, delta_idxs - 1]), -1.) - torch.pow(torch.abs(D[0, delta_idxs]), -1.))
+        deltas.diagonal().zero_()
 
-def ndcgLoss2_scheme(G, D, *args):
-    pos_idxs = torch.arange(1, G.shape[1] + 1, device=G.device)
-    delta_idxs = torch.abs(pos_idxs[:, None] - pos_idxs[None, :])
-    deltas = torch.abs(torch.pow(torch.abs(D[0, delta_idxs - 1]), -1.) - torch.pow(torch.abs(D[0, delta_idxs]), -1.))
-    deltas.diagonal().zero_()
+        return deltas[None, :, :] * torch.abs(G[:, :, None] - G[:, None, :])
 
-    return deltas[None, :, :] * torch.abs(G[:, :, None] - G[:, None, :])
+    def lambdaRank_scheme(self, G, D, *args):
+        return torch.abs(torch.pow(D[:, :, None], -1.) - torch.pow(D[:, None, :], -1.)) * torch.abs(
+            G[:, :, None] - G[:, None, :])
 
+    def ndcgLoss2PP_scheme(self, G, D, *args):
+        return args[0] * ndcgLoss2_scheme(G, D) + lambdaRank_scheme(G, D)
 
-def lambdaRank_scheme(G, D, *args):
-    return torch.abs(torch.pow(D[:, :, None], -1.) - torch.pow(D[:, None, :], -1.)) * torch.abs(
-        G[:, :, None] - G[:, None, :])
+    def rankNet_scheme(self, G, D, *args):
+        return 1.
 
+    def rankNetWeightedByGTDiff_scheme(self, G, D, *args):
+        return torch.abs(args[1][:, :, None] - args[1][:, None, :])
 
-def ndcgLoss2PP_scheme(G, D, *args):
-    return args[0] * ndcgLoss2_scheme(G, D) + lambdaRank_scheme(G, D)
-
-
-def rankNet_scheme(G, D, *args):
-    return 1.
-
-
-def rankNetWeightedByGTDiff_scheme(G, D, *args):
-    return torch.abs(args[1][:, :, None] - args[1][:, None, :])
-
-
-def rankNetWeightedByGTDiffPowed_scheme(G, D, *args):
-    return torch.abs(torch.pow(args[1][:, :, None], 2) - torch.pow(args[1][:, None, :], 2))
+    def rankNetWeightedByGTDiffPowed_scheme(self, G, D, *args):
+        return torch.abs(torch.pow(args[1][:, :, None], 2) - torch.pow(args[1][:, None, :], 2))
 
 
 '''loss_fn = LambdaLossLTR()

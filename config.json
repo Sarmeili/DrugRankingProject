@@ -10,28 +10,11 @@
     "alpha" : 0.7,
     "top_k" : 20
   },
-  "task" : "ranking",
   "datahandler" : {
     "ctrp_handler" : {
       "batch_size" : 1,
-      "dim_reduction" : {
-        "pca" : {
-          "is_pca" : false,
-          "q" : 300
-        }
-      },
-      "test_percentage" : 0.2,
-      "drug_feat" : ["graph"],
       "cll_feat" : ["gene_exp"]
     }
-  },
-  "training_hp" : {
-    "loss_fn" : "MSE",
-    "optimizer": {
-      "optim_kind" : "adam",
-      "lr" : 0.001
-    },
-    "num_epochs" : 100
   },
   "model_experiments": {
     "drugrank" : {

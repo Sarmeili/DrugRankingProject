@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from sklearn.metrics import ndcg_score
+import torch.nn.functional as f
 
 
 class LambdaMARTLoss(nn.Module):
@@ -245,6 +246,28 @@ class LambdaLossLTR(nn.Module):
 
     def rankNetWeightedByGTDiffPowed_scheme(self, G, D, *args):
         return torch.abs(torch.pow(args[1][:, :, None], 2) - torch.pow(args[1][:, None, :], 2))
+
+class ListOneLoss(nn.Module):
+    def __init__(self, M=1):
+        super(ListOneLoss, self).__init__()
+        self.M = M
+
+    def forward(self, y_pred, y_true):
+        pred_max = f.softmax(y_pred/self.M, dim=0) + 1e-9
+        true_max = f.softmax(-y_true/self.M, dim=0)  # need to reverse the sign
+        pred_log = torch.log(pred_max)
+        return torch.mean(-torch.sum(true_max*pred_log))
+
+
+class ListAllLoss(nn.Module):
+    def __init__(self, M=0.5):
+        super(ListAllLoss, self).__init__()
+        self.M = M
+
+    def forward(self, y_pred, y_label):
+        pred_max = f.softmax(y_pred/self.M, dim=1) + 1e-9
+        pred_log = torch.log(pred_max)
+        return torch.mean(-torch.sum(y_label*pred_log))
 
 
 '''loss_fn = LambdaLossLTR()

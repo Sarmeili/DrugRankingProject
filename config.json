@@ -27,6 +27,6 @@
     }
   },
   "main" : {
-    "device" : "cpu"
+    "device" : "cuda"
   }
 }

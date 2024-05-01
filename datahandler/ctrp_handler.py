@@ -74,7 +74,8 @@ class CTRPHandler:
         Read selected node data after network propagation has been done. The top_k can be entered through config.json
         file. top_k can be 20, 30, 40, 50
         """
-        self.propagated_graph_df = pd.read_csv('data/netprop/top_'+str(self.top_k)+'_chosen_drug.csv', index_col=0).astype(int)
+        self.propagated_graph_df = pd.read_csv('data/netprop/top_'+str(self.top_k)+'_chosen_drug.csv',
+                                               index_col=0).astype(int)
 
     def select_gene_feature(self):
         """

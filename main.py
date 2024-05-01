@@ -30,10 +30,10 @@ if netprop:
 model = DrugRank(1, 27, 1)
 model = model.to('cuda')
 
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001)
 loss_fn = LambdaLossLTR()
-epochs = 30
-list_size = 5
+epochs = 10
+list_size = 3
 history_train = []
 history_test = []
 ndcg_train = []
@@ -117,8 +117,3 @@ plt.title('NDCG on train and test')
 plt.legend()
 plt.savefig('metric_plot.png')
 plt.show()
-
-
-
-
-

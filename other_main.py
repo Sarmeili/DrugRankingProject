@@ -16,7 +16,7 @@ device = config['main']['device']
 dh = CTRPHandler()
 model = DrugRank(3451, 27)
 model = model.to(device)
-loss_fn = ListAllLoss()
+loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 epochs = 10
 hist = []
@@ -24,13 +24,13 @@ for i in tqdm(range(epochs)):
     model.train()
     for batch in dh.get_npgenes_drugs():
         cll, drug, response = batch
-        cll = cll.to(torch.float).to(device)
+        cll = cll.to(torch.float32).to(device)
         # drug = drug.to(device)
         drug = DataLoader(drug, batch_size=128)
         response = response.to(device)
         for cmpd in drug:
-            y_pred = model(cll, cmpd)
-        loss = loss_fn(y_pred, response)
+            y_pred = model(cll, cmpd.to(device))
+        loss = loss_fn(y_pred.to(torch.float32), response.to(torch.float32))
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()

@@ -14,7 +14,7 @@ import rdkit
 from datahandler.netprop import NetProp
 import networkx as nx
 import matplotlib.pyplot as plt
-
+from tqdm import tqdm
 
 class CTRPHandler:
     def __init__(self):
@@ -38,6 +38,7 @@ class CTRPHandler:
         self.top_k = config['network_propagation']['top_k']
         self.is_netprop = config['network_propagation']['is_netprop']
         self.batch_size = config['datahandler']['ctrp_handler']['batch_size']
+        self.device = config['main']['device']
 
     def z_score_calculation(self, x):
         """
@@ -107,6 +108,30 @@ class CTRPHandler:
                 target_index = self.drug_target_df[self.drug_target_df['index_target'] == selected_index[i]].index
                 self.drug_target_df.loc[target_index, 'new_index'] = i
         return selected_gene_df.reset_index(), edges, edges_attrib
+
+    def get_npgenes_drugs(self):
+        self.read_cll_df()
+        self.read_propagated_graph_df()
+        self.read_drug_target_df()
+        self.read_ppi_df()
+        self.read_response_df()
+        response_df = self.response_df
+        n_samples = len(response_df)
+        for start in range(0, n_samples, self.batch_size):
+            end = min(start + self.batch_size, n_samples)
+            response_df = self.response_df[start:end]
+            cpd_ids = response_df['master_cpd_id']
+            response = torch.tensor(response_df['area_under_curve'].values)
+            self.drug_target_df['new_index'] = None
+            selected_index = list(self.propagated_graph_df['0'])
+            selected_gene_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
+            cll_feat = torch.tensor(selected_gene_df.reindex(response_df['DepMap_ID']).values)
+            cpd_graphs = []
+            for id in cpd_ids:
+                graph = self.create_mol_graph(id)
+                cpd_graphs.append(graph)
+                # print(graph)
+            yield cll_feat, cpd_graphs, response
 
     def listwise_ranking_df(self):
         """
@@ -326,7 +351,7 @@ class CTRPHandler:
         mol_graph = tg.data.Data(x=atoms_feature,
                                  edge_index=torch.tensor(edges_list),
                                  edge_attr=edges_feature)
-        mol_graph = mol_graph.to('cuda')
+        mol_graph = mol_graph.to(self.device)
         mol_graph.x = torch.tensor(mol_graph.x, dtype=torch.float32)
         mol_graph.edge_attr = torch.tensor(mol_graph.edge_attr, dtype=torch.float32)
 

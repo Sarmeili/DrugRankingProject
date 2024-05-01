@@ -12,7 +12,7 @@
   },
   "datahandler" : {
     "ctrp_handler" : {
-      "batch_size" : 1,
+      "batch_size" : 128,
       "cll_feat" : ["gene_exp"]
     }
   },
@@ -25,5 +25,8 @@
     "graphmol_mlp": {
       "last_layer" : 300
     }
+  },
+  "main" : {
+    "device" : "cpu"
   }
 }

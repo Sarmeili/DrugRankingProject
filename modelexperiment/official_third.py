@@ -14,7 +14,11 @@ class DrugRank(torch.nn.Module):
         self.linear1_mol = tg.nn.Linear(500, 400)
         self.linear2_mol = tg.nn.Linear(400, 300)
 
-        self.linear1_cll = tg.nn.Linear(cll_size, 2000)
+        self.conv1_cll = tg.nn.GraphConv(cll_size, 2000)
+        self.conv2_cll = tg.nn.GraphConv(2000, 2000)
+        self.conv3_cll = tg.nn.GraphConv(2000, 2000)
+
+        self.linear1_cll = tg.nn.Linear(2000, 2000)
         self.linear2_cll = tg.nn.Linear(2000, 1000)
         self.linear3_cll = tg.nn.Linear(1000, 500)
         self.linear4_cll = tg.nn.Linear(500, 300)
@@ -27,10 +31,20 @@ class DrugRank(torch.nn.Module):
         # self.bias = torch.nn.Parameter(torch.randn(1))
 
     def forward(self, cll, mol):
-
         x_mol, edge_mol, attr_mol = mol.x, mol.edge_index, mol.edge_attr
+        x_cll, edge_cll, attr_cll = cll.x, cll.edge_index, cll.edge_attr
 
-        cll = self.linear1_cll(cll)
+        edge_cll = edge_cll.to(torch.int64)
+        x_cll = x_cll.to(torch.float32)
+        #attr_cll = attr_cll.to(torch.float64)
+        x_cll = self.conv1_cll(x_cll, edge_cll)
+        x_cll = torch.nn.functional.relu(x_cll)
+        x_cll = self.conv2_cll(x_cll, edge_cll)
+        x_cll = torch.nn.functional.relu(x_cll)
+        x_cll = self.conv3_cll(x_cll, edge_cll)
+        # x_cll = torch.nn.functional.relu(x_cll)
+        x_cll = tg.nn.global_mean_pool(x_cll, cll.batch)
+        cll = self.linear1_cll(x_cll)
         cll = torch.nn.functional.relu(cll)
         cll = self.linear2_cll(cll)
         cll = torch.nn.functional.relu(cll)
@@ -46,8 +60,9 @@ class DrugRank(torch.nn.Module):
         x_mol = self.linear1_mol(x_mol)
         x_mol = torch.nn.functional.relu(x_mol)
         x_mol = self.linear2_mol(x_mol)
-        #x_mol = torch.nn.functional.relu(x_mol)
-        x_cat = torch.cat((x_mol, cll), dim=1)
+        x_mol = torch.nn.functional.relu(x_mol)
+
+        x_cat = torch.cat((x_mol, cll), 1)
         x_cat = self.linear1_comb(x_cat)
         x_cat = torch.nn.functional.relu(x_cat)
         x_cat = self.linear2_comb(x_cat)

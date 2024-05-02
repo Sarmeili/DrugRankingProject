@@ -12,8 +12,8 @@
   },
   "datahandler" : {
     "ctrp_handler" : {
-      "batch_size" : 128,
-      "cll_feat" : ["gene_exp"]
+      "use_netprop" : true,
+      "batch_size" : 128
     }
   },
   "model_experiments": {

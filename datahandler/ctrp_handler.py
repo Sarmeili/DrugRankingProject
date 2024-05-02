@@ -15,6 +15,8 @@ from datahandler.netprop import NetProp
 import networkx as nx
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+from torch_geometric.data import DataLoader
+
 
 class CTRPHandler:
     def __init__(self):
@@ -22,38 +24,39 @@ class CTRPHandler:
         Data handling class. It is used after data is wrangled and dimensionality reduction is done
         by network propagation.
         """
-        self.propagated_graph_df = None
-        self.ppi_index_df = None
-        self.ppi_df = None
-        self.drug_target_df = None
-        self.mean = None
-        self.std = None
-        self.cmpd_df = None
-        self.exp_cll_df = None
-        self.mut_cll_df = None
-        self.response_df = None
         with open('config.json') as config_file:
             config = json.load(config_file)
-        self.cll_feat = config['datahandler']['ctrp_handler']['cll_feat']
-        self.top_k = config['network_propagation']['top_k']
-        self.is_netprop = config['network_propagation']['is_netprop']
+        self.top_k_netprop = config['network_propagation']['top_k']
         self.batch_size = config['datahandler']['ctrp_handler']['batch_size']
+        self.use_netprop = config['datahandler']['ctrp_handler']['use_netprop']
         self.device = config['main']['device']
 
-    def z_score_calculation(self, x):
-        """
-        Normalize set of data with z score formula.Make average = 0 and std = 1
-        :param x: Data
-        :return: Normalized data
-        """
-        return (x - self.mean) / self.std
+        self.propagated_graph_df = None
+        self.read_propagated_graph_df()
 
-    def read_cll_df(self):
+        self.response_df = None
+        self.read_response_df()
+
+        self.exp_cll_df = None
+        self.read_exp_df()
+
+        self.ppi_index_df = None
+        self.read_ppi_index_df()
+
+        self.drug_target_df = None
+        self.read_drug_target_df()
+
+        self.cmpd_df = None
+        self.read_cmpd_df()
+
+    def read_exp_df(self):
         """
         Read cell line gene expression data
         """
-        if "gene_exp" in self.cll_feat:
-            self.exp_cll_df = pd.read_csv('data/wrangled/ccle_exp.csv', index_col=0)
+        self.exp_cll_df = pd.read_csv('data/wrangled/ccle_exp.csv', index_col=0)
+        if self.use_netprop:
+            selected_index = list(self.propagated_graph_df['0'])
+            self.exp_cll_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
 
     def read_cmpd_df(self):
         """
@@ -61,22 +64,52 @@ class CTRPHandler:
         """
         self.cmpd_df = pd.read_csv('data/wrangled/cmpd.csv', index_col=0)
 
-    def read_response_df(self):
+    def read_response_df(self, reverse=True):
         """
         Read response data. Because AUC and IC50 have negative relationship with the response score, all of them got
         negative and then the maximum of response in terms of absolute number has been added to all data.
+        :param reverse:
         """
         self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
         max_auc = self.response_df['area_under_curve'].max()
-        self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)
+        if reverse:
+            self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)
 
     def read_propagated_graph_df(self):
         """
         Read selected node data after network propagation has been done. The top_k can be entered through config.json
         file. top_k can be 20, 30, 40, 50
         """
-        self.propagated_graph_df = pd.read_csv('data/netprop/top_'+str(self.top_k)+'_chosen_drug.csv',
+        self.propagated_graph_df = pd.read_csv('data/netprop/top_'+str(self.top_k_netprop)+'_chosen_drug.csv',
                                                index_col=0).astype(int)
+
+    def get_reg_y(self):
+        y = self.response_df['area_under_curve'].values
+        return y
+
+    def load_y(self, y):
+        return DataLoader(y, batch_size=self.batch_size)
+
+    def get_cll_x(self):
+        cll_feat = torch.tensor(self.exp_cll_df.reindex(self.response_df['DepMap_ID']).values)
+        return cll_feat
+
+    def load_cll(self, cll_feat):
+        return DataLoader(cll_feat, batch_size=self.batch_size)
+
+    def get_cmpd_x(self):
+        cpd_ids = self.response_df['master_cpd_id'].unique()
+        data = []
+        for id in cpd_ids:
+            data.append({'ID': id,
+                        'Graph': self.create_mol_graph(id)})
+        df = pd.DataFrame(data)
+        df = df.set_index('ID').reindex(self.response_df['master_cpd_id'])
+        x = df['Graph'].values
+        return x
+
+    def load_cmpd(self, cmpd_feat):
+        return DataLoader(cmpd_feat, batch_size=self.batch_size)
 
     def select_gene_feature(self):
         """
@@ -88,10 +121,10 @@ class CTRPHandler:
         edges: updated index of each pair of nodes known as edges
         edges_attrib: feature of each edge
         """
-        self.read_cll_df()
+        self.read_exp_df()
         self.read_propagated_graph_df()
         self.read_drug_target_df()
-        self.read_ppi_df()
+        self.read_ppi_index_df()
         self.drug_target_df['new_index'] = None
         selected_index = list(self.propagated_graph_df['0'])
         selected_gene_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
@@ -110,13 +143,37 @@ class CTRPHandler:
                 self.drug_target_df.loc[target_index, 'new_index'] = i
         return selected_gene_df.reset_index(), edges, edges_attrib
 
-    def get_npgenes_drugs(self):
-        self.read_cll_df()
+    def get_npgenes_drugs_train(self):
+        self.read_exp_df()
         self.read_propagated_graph_df()
         self.read_drug_target_df()
-        self.read_ppi_df()
+        self.read_ppi_index_df()
         self.read_response_df()
-        response_df = self.response_df
+        response_df = self.response_df[:int(0.8*len(self.response_df))]
+        n_samples = len(response_df)
+        for start in range(0, n_samples, self.batch_size):
+            end = min(start + self.batch_size, n_samples)
+            response_df = self.response_df[start:end]
+            cpd_ids = response_df['master_cpd_id']
+            response = torch.tensor(response_df['area_under_curve'].values)
+            self.drug_target_df['new_index'] = None
+            selected_index = list(self.propagated_graph_df['0'])
+            selected_gene_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
+            cll_feat = torch.tensor(selected_gene_df.reindex(response_df['DepMap_ID']).values)
+            cpd_graphs = []
+            for id in cpd_ids:
+                graph = self.create_mol_graph(id)
+                cpd_graphs.append(graph)
+                # print(graph)
+            yield cll_feat, cpd_graphs, response
+
+    def get_npgenes_drugs_val(self):
+        self.read_exp_df()
+        self.read_propagated_graph_df()
+        self.read_drug_target_df()
+        self.read_ppi_index_df()
+        self.read_response_df()
+        response_df = self.response_df[int(0.8*len(self.response_df)):]
         n_samples = len(response_df)
         for start in range(0, n_samples, self.batch_size):
             end = min(start + self.batch_size, n_samples)
@@ -191,48 +248,47 @@ class CTRPHandler:
            csv files can be found in data folder
         """
         self.read_drug_target_df()
-        self.read_ppi_df()
-        self.read_cll_df()
+        self.read_ppi_index_df()
+        self.read_exp_df()
         selected_index_20 = []
         selected_index_30 = []
         selected_index_40 = []
         selected_index_50 = []
-        if self.is_netprop:
-            netprop = NetProp()
-            genes = self.exp_cll_df.columns[1:]
-            drugs = self.drug_target_df['master_cpd_id'].unique()
-            for drug in tqdm(drugs, total=len(drugs)):
-                targets = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_target'])
-                x = [0.00001 for i in range(len(genes))]
-                for target in targets:
-                    x[target] = 1.0
-                x = np.array(x).reshape((-1, 1))
-                edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
-                edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
-                bio_graph = tg.data.Data(x=torch.from_numpy(x).to(torch.float32), edge_index=torch.from_numpy(edges),
-                                         edges_attrib=edges_attrib)
-                wt = netprop.netpropagete(bio_graph)
+        netprop = NetProp()
+        genes = self.exp_cll_df.columns[1:]
+        drugs = self.drug_target_df['master_cpd_id'].unique()
+        for drug in tqdm(drugs, total=len(drugs)):
+            targets = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_target'])
+            x = [0.00001 for i in range(len(genes))]
+            for target in targets:
+                x[target] = 1.0
+            x = np.array(x).reshape((-1, 1))
+            edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
+            edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
+            bio_graph = tg.data.Data(x=torch.from_numpy(x).to(torch.float32), edge_index=torch.from_numpy(edges),
+                                     edges_attrib=edges_attrib)
+            wt = netprop.netpropagete(bio_graph)
 
-                selected_index_20 += wt[:20].tolist()
-                selected_index_20 = list(set(selected_index_20))
+            selected_index_20 += wt[:20].tolist()
+            selected_index_20 = list(set(selected_index_20))
 
-                selected_index_30 += wt[:30].tolist()
-                selected_index_30 = list(set(selected_index_30))
+            selected_index_30 += wt[:30].tolist()
+            selected_index_30 = list(set(selected_index_30))
 
-                selected_index_40 += wt[:40].tolist()
-                selected_index_40 = list(set(selected_index_40))
+            selected_index_40 += wt[:40].tolist()
+            selected_index_40 = list(set(selected_index_40))
 
-                selected_index_50 += wt[:50].tolist()
-                selected_index_50 = list(set(selected_index_50))
+            selected_index_50 += wt[:50].tolist()
+            selected_index_50 = list(set(selected_index_50))
 
-            drug_chosen = pd.Series(selected_index_20)
-            drug_chosen.to_csv('data/netprop/top_20_chosen_drug.csv')
-            drug_chosen = pd.Series(selected_index_30)
-            drug_chosen.to_csv('data/netprop/top_30_chosen_drug.csv')
-            drug_chosen = pd.Series(selected_index_40)
-            drug_chosen.to_csv('data/netprop/top_40_chosen_drug.csv')
-            drug_chosen = pd.Series(selected_index_50)
-            drug_chosen.to_csv('data/netprop/top_50_chosen_drug.csv')
+        drug_chosen = pd.Series(selected_index_20)
+        drug_chosen.to_csv('data/netprop/top_20_chosen_drug.csv')
+        drug_chosen = pd.Series(selected_index_30)
+        drug_chosen.to_csv('data/netprop/top_30_chosen_drug.csv')
+        drug_chosen = pd.Series(selected_index_40)
+        drug_chosen.to_csv('data/netprop/top_40_chosen_drug.csv')
+        drug_chosen = pd.Series(selected_index_50)
+        drug_chosen.to_csv('data/netprop/top_50_chosen_drug.csv')
 
     def create_mol_graph(self, drug_code):
         """
@@ -358,6 +414,30 @@ class CTRPHandler:
 
         return mol_graph
 
+    def get_cll_graph_x(self):
+        selected_index = list(self.propagated_graph_df['0'])
+        edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
+        edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
+        edges = edges.reshape(-1, 2)
+        mask = np.isin(edges, selected_index).all(where=[[True, True]], axis=1)
+        edges = edges[mask]
+        edges = edges.reshape(2, -1)
+        edges_attrib = edges_attrib[mask]
+        for i in range(len(selected_index)):
+            edges[0][edges[0] == selected_index[i]] = i
+            edges[1][edges[1] == selected_index[i]] = i
+
+        x_blank = torch.zeros(len(self.exp_cll_df.iloc[0])).reshape(-1, 1)
+        print(edges)
+        blank_graph = tg.data.Data(x=x_blank, edge_index=torch.from_numpy(edges).to(torch.int32), edge_attr=edges_attrib)
+        cll_feat = torch.tensor(self.exp_cll_df.reindex(self.response_df['DepMap_ID']).values)
+        graphs = []
+        for feats in cll_feat:
+            blank_graph.x = feats.reshape(-1, 1).to(torch.int64)
+            graphs.append(blank_graph)
+        return graphs
+
+
     def create_cll_bio_graph(self, drug_code, cll_code, exp_cll_df, edges, edges_attrib):
         """
         Create ppi graph with each node be the expression of gene of that protein. Also Creates same graph but with an
@@ -398,7 +478,7 @@ class CTRPHandler:
         """
         self.drug_target_df = pd.read_csv('data/wrangled/drug_target.csv')
 
-    def read_ppi_df(self):
+    def read_ppi_index_df(self):
         """
         Read ppi dataframe
         """

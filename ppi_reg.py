@@ -65,6 +65,7 @@ for i in tqdm(range(epochs)):
             loss = loss_fn(y_pred.to(torch.float32), batch_y.to(torch.float32).to(device))
         hist_val.append(loss)
 
+torch.save(model, 'models/official_third.pt')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)

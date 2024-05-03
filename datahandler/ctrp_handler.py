@@ -428,7 +428,6 @@ class CTRPHandler:
             edges[1][edges[1] == selected_index[i]] = i
 
         x_blank = torch.zeros(len(self.exp_cll_df.iloc[0])).reshape(-1, 1)
-        print(edges)
         blank_graph = tg.data.Data(x=x_blank, edge_index=torch.from_numpy(edges).to(torch.int32), edge_attr=edges_attrib)
         cll_feat = torch.tensor(self.exp_cll_df.reindex(self.response_df['DepMap_ID']).values)
         graphs = []

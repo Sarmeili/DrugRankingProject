@@ -32,7 +32,7 @@ x_cmpd = dh.get_cmpd_x()
 x_cmpd = x_cmpd[int(len(x_cmpd) * 0.9):]
 loader_cmpd_test = dh.load_cmpd(x_cmpd)
 
-x_cll = dh.get_cll_x()
+x_cll = dh.get_cll_graph_x()
 x_cll = x_cll[int(len(x_cll) * 0.9):]
 loader_cll_test = dh.load_cll(x_cll)
 
@@ -61,7 +61,7 @@ for i in tqdm(range(epochs)):
     model.eval()
     with torch.no_grad():
         for batch_cll, batch_cmpd, batch_y in zip(loader_cll_test, loader_cmpd_test, loader_y_test):
-            y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
+            y_pred = model(batch_cll.to(device), batch_cmpd.to(device))
             loss = loss_fn(y_pred.to(torch.float32), batch_y.to(torch.float32).to(device))
         hist_val.append(loss)
 

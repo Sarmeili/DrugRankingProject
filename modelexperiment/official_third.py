@@ -29,6 +29,7 @@ class DrugRank(torch.nn.Module):
 
         # self.W = torch.nn.Parameter(torch.randn(self.cll_ll, self.bio_ll + self.mol_ll))
         # self.bias = torch.nn.Parameter(torch.randn(1))
+        self.dropout = torch.nn.Dropout(p=0.5)
 
     def forward(self, cll, mol):
         x_mol, edge_mol, attr_mol = mol.x, mol.edge_index, mol.edge_attr

@@ -44,8 +44,8 @@ loader_y_test = dh.load_y(y)
 model = DrugRank(3451, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-epochs = 30
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
+epochs = 10
 hist_train = []
 hist_val = []
 for i in tqdm(range(epochs)):

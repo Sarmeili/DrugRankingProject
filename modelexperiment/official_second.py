@@ -19,6 +19,8 @@ class DrugRank(torch.nn.Module):
         self.linear3_cll = tg.nn.Linear(1000, 500)
         self.linear4_cll = tg.nn.Linear(500, 300)
 
+        self.bilinear = torch.nn.Bilinear(300, 300, 1)
+
         self.linear1_comb = tg.nn.Linear(600, 500)
         self.linear2_comb = tg.nn.Linear(500, 100)
         self.linear3_comb = tg.nn.Linear(100, 1)
@@ -54,14 +56,16 @@ class DrugRank(torch.nn.Module):
         x_mol = self.dropout(x_mol)
         x_mol = self.linear2_mol(x_mol)
         #x_mol = torch.nn.functional.relu(x_mol)
-        x_cat = torch.cat((x_mol, cll), dim=1)
+
+        x_cat = self.bilinear(x_mol, cll)
+        '''x_cat = torch.cat((x_mol, cll), dim=1)
         x_cat = self.linear1_comb(x_cat)
         x_cat = torch.nn.functional.relu(x_cat)
         x_cat = self.dropout(x_cat)
         x_cat = self.linear2_comb(x_cat)
         x_cat = torch.nn.functional.relu(x_cat)
         x_cat = self.dropout(x_cat)
-        x_cat = self.linear3_comb(x_cat)
+        x_cat = self.linear3_comb(x_cat)'''
 
         # x_cat = torch.nn.functional.relu(x_cat)
 

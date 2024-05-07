@@ -16,6 +16,9 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from torch_geometric.data import DataLoader
+from scipy.ndimage import convolve1d
+from scipy.ndimage import gaussian_filter1d
+from scipy.signal.windows import triang
 
 
 class CTRPHandler:
@@ -70,10 +73,60 @@ class CTRPHandler:
         negative and then the maximum of response in terms of absolute number has been added to all data.
         :param reverse:
         """
-        self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
+        self.response_df = pd.read_csv('data/wrangled/ctrp.csv')[:1000]
+        self.response_df = self.add_weight_column(self.response_df, 'area_under_curve', reweight='sqrt_inv', lds=True)
         max_auc = self.response_df['area_under_curve'].max()
         if reverse:
             self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)
+
+    def add_weight_column(self, df, label_column, reweight='sqrt_inv', max_target=121, lds=False, lds_kernel='gaussian',
+                          lds_ks=5,
+                          lds_sigma=2):
+        # Function to prepare weights
+        def prepare_weights(labels):
+            value_dict = {x: 0 for x in range(max_target)}
+            for label in labels:
+                value_dict[min(max_target - 1, int(label))] += 1
+            if reweight == 'sqrt_inv':
+                value_dict = {k: np.sqrt(v) for k, v in value_dict.items()}
+            elif reweight == 'inverse':
+                value_dict = {k: np.clip(v, 5, 1000) for k, v in value_dict.items()}
+            num_per_label = [value_dict[min(max_target - 1, int(label))] for label in labels]
+            if not len(num_per_label) or reweight == 'none':
+                return None
+
+            if lds:
+                lds_kernel_window = get_lds_kernel_window(lds_kernel, lds_ks, lds_sigma)
+                smoothed_value = convolve1d(
+                    np.asarray([v for _, v in value_dict.items()]), weights=lds_kernel_window, mode='constant')
+                num_per_label = [smoothed_value[min(max_target - 1, int(label))] for label in labels]
+
+            weights = [np.float32(1 / x) for x in num_per_label]
+            scaling = len(weights) / np.sum(weights)
+            weights = [scaling * x for x in weights]
+            return weights
+
+        # Function to get LDS kernel window
+        def get_lds_kernel_window(kernel, ks, sigma):
+            assert kernel in ['gaussian', 'triang', 'laplace']
+            half_ks = (ks - 1) // 2
+            if kernel == 'gaussian':
+                base_kernel = [0.] * half_ks + [1.] + [0.] * half_ks
+                kernel_window = gaussian_filter1d(base_kernel, sigma=sigma) / max(
+                    gaussian_filter1d(base_kernel, sigma=sigma))
+            elif kernel == 'triang':
+                kernel_window = triang(ks)
+            else:
+                laplace = lambda x: np.exp(-abs(x) / sigma) / (2. * sigma)
+                kernel_window = list(map(laplace, np.arange(-half_ks, half_ks + 1))) / max(
+                    map(laplace, np.arange(-half_ks, half_ks + 1)))
+            return kernel_window
+
+        labels = df[label_column].values
+        weights = prepare_weights(labels)
+        if weights is not None:
+            df['weight'] = weights
+        return df
 
     def read_propagated_graph_df(self):
         """
@@ -89,6 +142,13 @@ class CTRPHandler:
 
     def load_y(self, y):
         return DataLoader(y, batch_size=self.batch_size)
+
+    def get_reg_weigth(self):
+        y = self.response_df['weight'].values
+        return y
+
+    def load_weight(self, weight):
+        return DataLoader(weight, batch_size=self.batch_size)
 
     def get_cll_x(self):
         cll_feat = torch.tensor(self.exp_cll_df.reindex(self.response_df['DepMap_ID']).values)

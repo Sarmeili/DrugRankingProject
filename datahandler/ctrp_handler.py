@@ -73,7 +73,7 @@ class CTRPHandler:
         negative and then the maximum of response in terms of absolute number has been added to all data.
         :param reverse:
         """
-        self.response_df = pd.read_csv('data/wrangled/ctrp.csv')[:1000]
+        self.response_df = pd.read_csv('data/wrangled/ctrp.csv')[:30]
         self.response_df = self.add_weight_column(self.response_df, 'area_under_curve', reweight='sqrt_inv', lds=True)
         max_auc = self.response_df['area_under_curve'].max()
         if reverse:

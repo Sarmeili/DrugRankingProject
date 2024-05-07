@@ -1,12 +1,10 @@
 from datahandler.ctrp_handler import CTRPHandler
 from modelexperiment.official_second import DrugRank
-from modelutils.loss_functions import ListAllLoss
 import torch
 import warnings
 import json
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-from torch_geometric.data import DataLoader
 import numpy as np
 
 warnings.filterwarnings('ignore')

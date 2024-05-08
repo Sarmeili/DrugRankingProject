@@ -53,7 +53,7 @@ class CllGraphAutoencoder(nn.Module):
         x_cll = torch.nn.functional.relu(x_cll)
         x_cll = self.conv3_cll(x_cll, edge_cll)
         x_cll = torch.nn.functional.relu(x_cll)
-        encoded = tg.nn.global_mean_pool(x_cll, x_cll.batch)
+        encoded = tg.nn.global_mean_pool(x_cll, cll.batch)
 
         x_cll = self.conv4_cll(x_cll, edge_cll)
         x_cll = torch.nn.functional.relu(x_cll)

@@ -62,7 +62,7 @@ for i in tqdm(range(epochs)):
                                                             loader_weight_train, loader_y_train):
         # print(batch_cmpd)
         y_pred, _ = model(batch_cll.to(device))
-        loss = loss_fn(y_pred.to(torch.float32), batch_cll.to(device).x)
+        loss = loss_fn(y_pred.to(torch.float32), batch_cll.to(device).x.to(torch.float32))
         '''loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
                              batch_weight.to(torch.float32).to(device))'''
         optimizer.zero_grad()

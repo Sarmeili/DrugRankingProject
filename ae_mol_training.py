@@ -52,7 +52,7 @@ loader_weight_test = dh.load_y(y)
 model = MolGraphAutoencoder(27,100)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
 epochs = 10
 hist_train = []
 hist_val = []

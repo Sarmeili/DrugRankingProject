@@ -86,6 +86,7 @@ for fold in range(k):
                                      batch_weight.to(torch.float32).to(device))
             hist_val.append(loss)
 
+torch.save(model, 'models/official_second.pt')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)

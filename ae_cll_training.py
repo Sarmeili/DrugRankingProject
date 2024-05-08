@@ -80,6 +80,7 @@ for i in tqdm(range(epochs)):
 
         hist_val.append(loss)
 
+torch.save(model, 'models/cll_ae.pt')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)
@@ -89,5 +90,5 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Loss on train and validation')
 plt.legend()
-plt.savefig('cll_without_graph.png')
+plt.savefig('cll_ae.png')
 plt.close()

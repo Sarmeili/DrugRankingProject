@@ -37,7 +37,7 @@ def weighted_loss(output, target, weights):
     return weighted_loss.mean()
 
 
-model = DrugRank(3451, 27)
+model = DrugRank(1, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
@@ -52,16 +52,17 @@ for fold in range(k):
     indices = list(range(len(y_train)))
     val_indices = indices[start_val:end_val]
     train_indices = indices[:start_val] + indices[end_val:]
-    for x in x_cll_train:
-        print(type(x))
-    print(np.array(x_cll_train, dtype=tg.data.data.Data))
+    print(type(x_cll))
+    print(x_cll)
     loader_cmpd_train = dh.load_cmpd(np.take(x_cmpd_train, train_indices, axis=0))
-    loader_cll_train = dh.load_cll(np.take(np.array(x_cll_train), train_indices, axis=0))
+    x_cll_trn = [x_cll_train[i] for i in train_indices]
+    loader_cll_train = dh.load_cll(x_cll_trn)
     loader_y_train = dh.load_y(np.take(y_train, train_indices, axis=0))
     loader_weight_train = dh.load_weight(np.take(weight_train, train_indices, axis=0))
 
     loader_cmpd_val = dh.load_cmpd(np.take(x_cmpd_train, val_indices, axis=0))
-    loader_cll_val = dh.load_cll(np.take(np.array(x_cll_train), val_indices, axis=0))
+    x_cll_val = [x_cll_train[i] for i in val_indices]
+    loader_cll_val = dh.load_cll(x_cll_val)
     loader_y_val = dh.load_y(np.take(y_train, val_indices, axis=0))
     loader_weight_val = dh.load_weight(np.take(weight_train, val_indices, axis=0))
 

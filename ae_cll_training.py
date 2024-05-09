@@ -15,39 +15,12 @@ device = config['main']['device']
 
 dh = CTRPHandler()
 
-x_cmpd = dh.get_cmpd_x()
-x_cmpd = x_cmpd[:int(len(x_cmpd) * 0.9)]
-loader_cmpd_train = dh.load_cmpd(x_cmpd)
-
 x_cll = dh.get_cll_graph_x()
-x_cll = x_cll[:int(len(x_cll) * 0.9)]
-loader_cll_train = dh.load_cll(x_cll)
+x_cll_train = x_cll[:int(len(x_cll) * 0.9)]
+loader_cll_train = dh.load_cll(x_cll_train)
 
-
-y = dh.get_reg_y()
-y = y[:int(len(y) * 0.9)]
-loader_y_train = dh.load_y(y)
-
-weight = dh.get_reg_weigth()
-weight = weight[:int(len(weight) * 0.9)]
-loader_weight_train = dh.load_weight(weight)
-
-
-x_cmpd = dh.get_cmpd_x()
-x_cmpd = x_cmpd[int(len(x_cmpd) * 0.9):]
-loader_cmpd_test = dh.load_cmpd(x_cmpd)
-
-x_cll = dh.get_cll_graph_x()
-x_cll = x_cll[int(len(x_cll) * 0.9):]
-loader_cll_test = dh.load_cll(x_cll)
-
-y = dh.get_reg_y()
-y = y[int(len(y) * 0.9):]
-loader_y_test = dh.load_y(y)
-
-weight = dh.get_reg_weigth()
-y = y[int(len(y) * 0.9):]
-loader_weight_test = dh.load_y(y)
+x_cll_val = x_cll[int(len(x_cll) * 0.9):]
+loader_cll_val = dh.load_cll(x_cll_val)
 
 model = CllGraphAutoencoder(1,1000)
 model = model.to(device)
@@ -58,13 +31,10 @@ hist_train = []
 hist_val = []
 for i in tqdm(range(epochs)):
     model.train()
-    for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_train, loader_cmpd_train,
-                                                            loader_weight_train, loader_y_train):
+    for batch_cll in loader_cll_train:
         # print(batch_cmpd)
         y_pred, _ = model(batch_cll.to(device))
         loss = loss_fn(y_pred.to(torch.float32), batch_cll.to(device).x.to(torch.float32))
-        '''loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
-                             batch_weight.to(torch.float32).to(device))'''
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -73,8 +43,7 @@ for i in tqdm(range(epochs)):
 
     model.eval()
     with torch.no_grad():
-        for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_test, loader_cmpd_test,
-                                                                loader_weight_test, loader_y_test):
+        for batch_cll in loader_cll_val:
             y_pred, _ = model(batch_cll.to(device))
             loss = loss_fn(y_pred.to(torch.float32), batch_cll.to(device).x)
 

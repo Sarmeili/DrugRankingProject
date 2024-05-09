@@ -29,7 +29,8 @@ x_cll_test = x_cll[int(len(x_cll) * 0.9):]
 y_test = y[int(len(y) * 0.9):]
 weight_test = weight[int(len(weight) * 0.9):]
 
-
+print(type(x_cmpd))
+print(x_cmpd)
 def weighted_loss(output, target, weights):
     loss = loss_fn(output, target)
     weighted_loss = loss * weights  # Element-wise multiplication
@@ -39,12 +40,13 @@ def weighted_loss(output, target, weights):
 model = DrugRank(3451, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
 epochs = 10
 hist_train = []
 hist_val = []
 k = 5
 fold_size = len(y_train)//k
+print(fold_size)
 for fold in range(k):
     start_val = fold * fold_size
     end_val = start_val + fold_size
@@ -61,13 +63,11 @@ for fold in range(k):
     loader_cll_val = dh.load_cll(np.take(x_cll_train, val_indices, axis=0))
     loader_y_val = dh.load_y(np.take(y_train, val_indices, axis=0))
     loader_weight_val = dh.load_weight(np.take(weight_train, val_indices, axis=0))
-
     for i in tqdm(range(epochs)):
         model.train()
         for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_train, loader_cmpd_train,
                                                                 loader_weight_train, loader_y_train):
             y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
-            #loss = loss_fn(y_pred.to(torch.float32), batch_y.to(torch.float32).to(device))
             loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
                                  batch_weight.to(torch.float32).to(device))
             optimizer.zero_grad()
@@ -81,7 +81,6 @@ for fold in range(k):
             for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_val, loader_cmpd_val,
                                                                     loader_weight_val, loader_y_val):
                 y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
-                # loss = loss_fn(y_pred.to(torch.float32), batch_y.to(torch.float32).to(device))
                 loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
                                      batch_weight.to(torch.float32).to(device))
             hist_val.append(loss)

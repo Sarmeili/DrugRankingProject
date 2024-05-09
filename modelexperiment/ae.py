@@ -9,10 +9,12 @@ class MolGraphAutoencoder(nn.Module):
         super(MolGraphAutoencoder, self).__init__()
         # Encoder
         self.conv1_mol = tg.nn.GraphConv(input_dim, 1000)
-        self.conv2_mol = tg.nn.GraphConv(1000, encoded_dim)
+        self.conv2_mol = tg.nn.GraphConv(1000, 1000)
+        self.conv3_mol = tg.nn.GraphConv(1000, encoded_dim)
         # Decoder
-        self.conv3_mol = tg.nn.GraphConv(encoded_dim, 1000)
-        self.conv4_mol = tg.nn.GraphConv(1000, input_dim)
+        self.conv4_mol = tg.nn.GraphConv(encoded_dim, 1000)
+        self.conv5_mol = tg.nn.GraphConv(1000, 1000)
+        self.conv6_mol = tg.nn.GraphConv(1000, input_dim)
 
         self.dropout = torch.nn.Dropout(p=0.5)
 
@@ -75,23 +77,47 @@ class CllGraphAutoencoder(nn.Module):
 
         return x_cll, encoded
 
+
 class LinearAutoencoder(nn.Module):
     def __init__(self, input_dim, encoded_dim):
         super(LinearAutoencoder, self).__init__()
-        self.encoder = nn.Sequential(
-            nn.Linear(input_dim, encoded_dim),
-            nn.ReLU(True),
-            nn.Linear(encoded_dim, encoded_dim),
-            nn.ReLU(True)
-        )
-        self.decoder = nn.Sequential(
-            nn.Linear(encoded_dim, encoded_dim),
-            nn.ReLU(True),
-            nn.Linear(encoded_dim, input_dim),
-            nn.ReLU(True)
-        )
+        self.linear1_cll = tg.nn.Linear(input_dim, 2000)
+        self.linear2_cll = tg.nn.Linear(2000, 1000)
+        self.linear3_cll = tg.nn.Linear(1000, 500)
+        self.linear4_cll = tg.nn.Linear(500, encoded_dim)
+
+        self.linear5_cll = tg.nn.Linear(encoded_dim, 500)
+        self.linear6_cll = tg.nn.Linear(500, 1000)
+        self.linear7_cll = tg.nn.Linear(1000, 2000)
+        self.linear8_cll = tg.nn.Linear(2000, input_dim)
+
+        self.dropout = torch.nn.Dropout(p=0.5)
 
     def forward(self, x):
-        encoded = self.encoder(x)
-        decoded = self.decoder(encoded)
-        return decoded, encoded
+
+        x = self.linear1_cll(x)
+        x = torch.nn.functional.relu(x)
+        x = self.dropout(x)
+        x = self.linear2_cll(x)
+        x = torch.nn.functional.relu(x)
+        x = self.dropout(x)
+        x = self.linear3_cll(x)
+        x = torch.nn.functional.relu(x)
+        x = self.dropout(x)
+        x = self.linear4_cll(x)
+        encoded = x
+        x = torch.nn.functional.relu(x)
+        x = self.dropout(x)
+
+        x = self.linear5_cll(x)
+        x = torch.nn.functional.relu(x)
+        x = self.dropout(x)
+        x = self.linear6_cll(x)
+        x = torch.nn.functional.relu(x)
+        x = self.dropout(x)
+        x = self.linear7_cll(x)
+        x = torch.nn.functional.relu(x)
+        x = self.dropout(x)
+        x = self.linear8_cll(x)
+
+        return x, encoded

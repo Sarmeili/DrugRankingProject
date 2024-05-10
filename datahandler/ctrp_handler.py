@@ -19,6 +19,8 @@ from torch_geometric.data import DataLoader
 from scipy.ndimage import convolve1d
 from scipy.ndimage import gaussian_filter1d
 from scipy.signal.windows import triang
+import random
+
 
 
 class CTRPHandler:
@@ -81,10 +83,41 @@ class CTRPHandler:
         if reverse:
             self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)
 
-    def get_list_dataset(self):
+    def get_cmpdran_x(self):
+        rows = []
+        df = self.get_list_dataset()
+        for drugs_list in tqdm(df['drug'].values):
+            row = []
+            for drug in drugs_list:
+                row.append(self.create_mol_graph(drug))
+            rows.append(row)
+        return rows
+
+
+    def get_cllran_x(self):
+        df = self.get_list_dataset()
+        cll_feat = torch.tensor(self.exp_cll_df.reindex(df['cll']).values)
+        return cll_feat
+
+    def get_list_dataset(self, list_size=4):
         rank_df = self.listwise_ranking_df()
+        clls = []
+        drugs_list = []
+        reses = []
         for index, row in rank_df.iterrows():
-            print(row['cll'])
+            rep_size = int(len(row['drug'])/list_size)
+            for _ in range(rep_size):
+                indices = random.sample(range(len(row['drug'])), list_size)
+                drugs = [row['drug'][i] for i in indices]
+                res = [row['response'][i] for i in indices]
+                clls.append(row['cll'])
+                drugs_list.append(drugs)
+                reses.append(res)
+
+        df = pd.DataFrame({'cll': clls,
+                            'drug': drugs_list,
+                            'response': reses})
+        return df[:30]
 
 
     def add_weight_column(self, df, label_column, reweight='sqrt_inv', max_target=121, lds=False, lds_kernel='gaussian',
@@ -147,6 +180,10 @@ class CTRPHandler:
     def get_reg_y(self):
         y = self.response_df['area_under_curve'].values
         return y
+
+    def get_rank_y(self):
+        df = self.get_list_dataset()
+        return df['response'].values
 
     def load_y(self, y):
         return DataLoader(y, batch_size=self.batch_size)

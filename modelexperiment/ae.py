@@ -28,12 +28,18 @@ class MolGraphAutoencoder(nn.Module):
         x_mol = self.conv2_mol(x_mol, edge_mol)
         x_mol = torch.nn.functional.relu(x_mol)
         x_mol = self.dropout(x_mol)
-        encoded = tg.nn.global_mean_pool(x_mol, mol.batch)
-
         x_mol = self.conv3_mol(x_mol, edge_mol)
+        encoded = tg.nn.global_mean_pool(x_mol, mol.batch)
         x_mol = torch.nn.functional.relu(x_mol)
         x_mol = self.dropout(x_mol)
+
         x_mol = self.conv4_mol(x_mol, edge_mol)
+        x_mol = torch.nn.functional.relu(x_mol)
+        x_mol = self.dropout(x_mol)
+        x_mol = self.conv5_mol(x_mol, edge_mol)
+        x_mol = torch.nn.functional.relu(x_mol)
+        x_mol = self.dropout(x_mol)
+        x_mol = self.conv6_mol(x_mol, edge_mol)
 
         return x_mol, encoded
 

@@ -1,6 +1,5 @@
 from datahandler.ctrp_handler import CTRPHandler
-from modelexperiment.official_third import DrugRank
-import torch_geometric as tg
+from modelexperiment.official_second import DrugRank
 import torch
 import warnings
 import json
@@ -15,8 +14,10 @@ device = config['main']['device']
 
 dh = CTRPHandler()
 
-x_cmpd = dh.get_cmpd_x()
-x_cll = dh.get_cll_graph_x()
+dh.get_list_dataset()
+
+'''x_cmpd = dh.get_cmpd_x()
+x_cll = dh.get_cll_x()
 y = dh.get_reg_y()
 weight = dh.get_reg_weigth()
 
@@ -30,22 +31,23 @@ x_cll_test = x_cll[int(len(x_cll) * 0.9):]
 y_test = y[int(len(y) * 0.9):]
 weight_test = weight[int(len(weight) * 0.9):]
 
-
 def weighted_loss(output, target, weights):
     loss = loss_fn(output, target)
     weighted_loss = loss * weights  # Element-wise multiplication
     return weighted_loss.mean()
 
 
-model = DrugRank(1, 27)
+model = DrugRank(3451, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
+list_size = 5
 epochs = 10
 hist_train = []
 hist_val = []
 k = 5
 fold_size = len(y_train)//k
+print(fold_size)
 for fold in range(k):
     start_val = fold * fold_size
     end_val = start_val + fold_size
@@ -54,23 +56,19 @@ for fold in range(k):
     train_indices = indices[:start_val] + indices[end_val:]
 
     loader_cmpd_train = dh.load_cmpd(np.take(x_cmpd_train, train_indices, axis=0))
-    x_cll_trn = [x_cll_train[i] for i in train_indices]
-    loader_cll_train = dh.load_cll(x_cll_trn)
+    loader_cll_train = dh.load_cll(np.take(x_cll_train, train_indices, axis=0))
     loader_y_train = dh.load_y(np.take(y_train, train_indices, axis=0))
     loader_weight_train = dh.load_weight(np.take(weight_train, train_indices, axis=0))
 
     loader_cmpd_val = dh.load_cmpd(np.take(x_cmpd_train, val_indices, axis=0))
-    x_cll_val = [x_cll_train[i] for i in val_indices]
-    loader_cll_val = dh.load_cll(x_cll_val)
+    loader_cll_val = dh.load_cll(np.take(x_cll_train, val_indices, axis=0))
     loader_y_val = dh.load_y(np.take(y_train, val_indices, axis=0))
     loader_weight_val = dh.load_weight(np.take(weight_train, val_indices, axis=0))
-
     for i in tqdm(range(epochs)):
         model.train()
-        for batch_cll, batch_cmpd, batch_y, batch_weight in zip(loader_cll_train, loader_cmpd_train,
-                                                                loader_y_train, loader_weight_train):
-            y_pred = model(batch_cll.to(device), batch_cmpd.to(device))
-            # loss = loss_fn(y_pred.to(torch.float32), batch_y.to(torch.float32).to(device))
+        for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_train, loader_cmpd_train,
+                                                                loader_weight_train, loader_y_train):
+            y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
             loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
                                  batch_weight.to(torch.float32).to(device))
             optimizer.zero_grad()
@@ -81,15 +79,14 @@ for fold in range(k):
 
         model.eval()
         with torch.no_grad():
-            for batch_cll, batch_cmpd, batch_y, batch_weight in zip(loader_cll_val, loader_cmpd_val,
-                                                                    loader_y_val, loader_weight_val):
-                y_pred = model(batch_cll.to(device), batch_cmpd.to(device))
-                # loss = loss_fn(y_pred.to(torch.float32), batch_y.to(torch.float32).to(device))
+            for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_val, loader_cmpd_val,
+                                                                    loader_weight_val, loader_y_val):
+                y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
                 loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
                                      batch_weight.to(torch.float32).to(device))
             hist_val.append(loss)
 
-torch.save(model, 'models/official_third.pt')
+torch.save(model, 'models/official_second.pt')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)
@@ -99,9 +96,5 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Loss on train and validation')
 plt.legend()
-plt.savefig('cll_with_graph.png')
-plt.close()
-
-
-
-
+plt.savefig('cll_without_graph.png')
+plt.close()'''

@@ -81,6 +81,12 @@ class CTRPHandler:
         if reverse:
             self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)
 
+    def get_list_dataset(self):
+        rank_df = self.listwise_ranking_df()
+        for index, row in rank_df.iterrows():
+            print(row['cll'])
+
+
     def add_weight_column(self, df, label_column, reweight='sqrt_inv', max_target=121, lds=False, lds_kernel='gaussian',
                           lds_ks=5,
                           lds_sigma=2):
@@ -274,16 +280,11 @@ class CTRPHandler:
         response_ranking_df = pd.DataFrame({'cll': cll_list,
                                             'drug': drug_list,
                                             'response': response_list})
-        response_ranking_train = response_ranking_df[:int(len(response_ranking_df)*0.8)]
-        response_ranking_val = response_ranking_df[
-                               int(len(response_ranking_df) * 0.8):int(len(response_ranking_df) * 0.9)]
-        response_ranking_test = response_ranking_df[
-                               int(len(response_ranking_df) * 0.9):]
         del cll_list
         del cd_df
         del drug_list
         del response_list
-        return response_ranking_train, response_ranking_val, response_ranking_test
+        return response_ranking_df
 
     def generate_cll_drug_response(self, response_ranking_df):
         """

@@ -25,8 +25,8 @@ loader_cll_val = dh.load_cll(x_cll_val)
 model = LinearAutoencoder(3451,500)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
-epochs = 10
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.005)
+epochs = 50
 hist_train = []
 hist_val = []
 for i in tqdm(range(epochs)):

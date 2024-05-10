@@ -29,8 +29,6 @@ x_cll_test = x_cll[int(len(x_cll) * 0.9):]
 y_test = y[int(len(y) * 0.9):]
 weight_test = weight[int(len(weight) * 0.9):]
 
-print(type(x_cmpd))
-print(x_cmpd)
 def weighted_loss(output, target, weights):
     loss = loss_fn(output, target)
     weighted_loss = loss * weights  # Element-wise multiplication

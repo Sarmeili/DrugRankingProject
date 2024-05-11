@@ -97,7 +97,7 @@ class LinearAutoencoder(nn.Module):
         self.linear7_cll = tg.nn.Linear(1000, 2000)
         self.linear8_cll = tg.nn.Linear(2000, input_dim)
 
-        self.dropout = torch.nn.Dropout(p=0.5)
+        self.dropout = torch.nn.Dropout(p=0.6)
 
     def forward(self, x):
 

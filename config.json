@@ -13,7 +13,7 @@
   "datahandler" : {
     "ctrp_handler" : {
       "use_netprop" : true,
-      "batch_size" : 1
+      "batch_size" : 256
     }
   },
   "model_experiments": {
@@ -27,6 +27,6 @@
     }
   },
   "main" : {
-    "device" : "cuda"
+    "device" : "cpu"
   }
 }

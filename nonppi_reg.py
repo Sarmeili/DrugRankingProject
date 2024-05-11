@@ -39,12 +39,11 @@ model = DrugRank(3451, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
-epochs = 10
+epochs = 30
 hist_train = []
 hist_val = []
 k = 5
 fold_size = len(y_train)//k
-print(fold_size)
 for fold in range(k):
     start_val = fold * fold_size
     end_val = start_val + fold_size
@@ -83,7 +82,7 @@ for fold in range(k):
                                      batch_weight.to(torch.float32).to(device))
             hist_val.append(loss)
 
-torch.save(model, 'models/official_second.pt')
+torch.save(model.state_dict(), 'models/official_second.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)

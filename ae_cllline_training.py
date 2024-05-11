@@ -49,7 +49,7 @@ for i in tqdm(range(epochs)):
 
         hist_val.append(loss)
 
-torch.save(model, 'models/cllline_ae.pt')
+torch.save(model.state_dict(), 'models/cllline_ae.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)

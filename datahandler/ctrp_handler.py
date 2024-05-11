@@ -117,7 +117,7 @@ class CTRPHandler:
         df = pd.DataFrame({'cll': clls,
                             'drug': drugs_list,
                             'response': reses})
-        return df[:30]
+        return df
 
 
     def add_weight_column(self, df, label_column, reweight='sqrt_inv', max_target=121, lds=False, lds_kernel='gaussian',

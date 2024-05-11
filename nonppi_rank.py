@@ -32,15 +32,8 @@ with open('drugs.pk1', 'wb') as f:
 with open('drugs.pk1', 'rb') as f:
     cmpds = pickle.load(f)
 
-clls = dh.get_cllran_x()
-responses = dh.get_rank_y()
 
-for cll, cmpd, response in zip(dh.load_cll(clls), load_data(cmpds, batch_size=batch_size),
-                               load_data(responses, batch_size=batch_size)):
-    break
-
-
-x_cmpd = dh.get_cmpdran_x()
+x_cmpd = cmpds
 x_cll = dh.get_cllran_x()
 y = dh.get_rank_y()
 
@@ -55,9 +48,9 @@ y_test = y[int(len(y) * 0.9):]
 
 model = DrugRank(3451, 27)
 model = model.to(device)
-loss_fn = ListAllLoss()
+loss_fn = LambdaLossLTR()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
-epochs = 10
+epochs = 30
 hist_train = []
 hist_val = []
 k = 5
@@ -85,34 +78,40 @@ for fold in range(k):
     for i in tqdm(range(epochs)):
         model.train()
         for batch_cll, batch_cmpd, batch_y in zip(loader_cll_train, loader_cmpd_train, loader_y_train):
+            y_batch_pred = []
             for cll, cmpds, ys in zip(batch_cll, batch_cmpd, batch_y):
                 y_preds = []
                 for cmpd, y in zip(cmpds, ys):
                     y_pred = model(cll.to(torch.float32).to(device).reshape(1, -1), cmpd.to(device))
                     y_preds.append(y_pred)
-                ys = torch.tensor(ys).reshape(1, -1)
-                y_preds = torch.tensor(y_preds).reshape(1, -1)
-                print(ys)
-                print(y_preds)
-                loss = loss_fn(ys.to(torch.float32).to(device), y_preds.to(torch.float32).to(device))
-                optimizer.zero_grad()
-                loss.requires_grad = True
-                loss.backward()
-                optimizer.step()
+                y_batch_pred.append(y_preds)
+
+            y_batch_pred = torch.tensor(y_batch_pred)
+            batch_y = torch.tensor(batch_y)
+            loss = loss_fn(batch_y.to(torch.float32).to(device), y_batch_pred.to(torch.float32).to(device))
+            optimizer.zero_grad()
+            loss.requires_grad = True
+            loss.backward()
+            optimizer.step()
 
         hist_train.append(loss)
 
         model.eval()
         with torch.no_grad():
             for batch_cll, batch_cmpd, batch_y in zip(loader_cll_val, loader_cmpd_val, loader_y_val):
-
-                y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
-
-                loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
-                                     batch_weight.to(torch.float32).to(device))
+                y_batch_pred = []
+                for cll, cmpds, ys in zip(batch_cll, batch_cmpd, batch_y):
+                    y_preds = []
+                    for cmpd, y in zip(cmpds, ys):
+                        y_pred = model(cll.to(torch.float32).to(device).reshape(1, -1), cmpd.to(device))
+                        y_preds.append(y_pred)
+                    y_batch_pred.append(y_preds)
+                y_batch_pred = torch.tensor(y_batch_pred)
+                batch_y = torch.tensor(batch_y)
+                loss = loss_fn(batch_y.to(torch.float32).to(device), y_batch_pred.to(torch.float32).to(device))
             hist_val.append(loss)
 
-torch.save(model, 'models/official_second.pt')
+torch.save(model.state_dict(), 'models/official_second_rank.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)
@@ -122,5 +121,5 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Loss on train and validation')
 plt.legend()
-plt.savefig('cll_without_graph.png')
+plt.savefig('cll_without_graph_rank.png')
 plt.close()

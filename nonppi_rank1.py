@@ -97,6 +97,7 @@ torch.save(model.state_dict(), 'models/official_second_rank.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 print(hist_train)
+pirint(hist_val)
 plt.figure(1)
 plt.plot(hist_train, label='Training Loss')
 plt.plot(hist_val, label='Validation Loss')

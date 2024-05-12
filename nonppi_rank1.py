@@ -6,6 +6,7 @@ import json
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import numpy as np
+from modelutils.loss_functions import ListAllLoss, LambdaLossLTR
 
 warnings.filterwarnings('ignore')
 with open('config.json') as config_file:
@@ -37,8 +38,9 @@ def weighted_loss(output, target, weights):
 
 model = DrugRank(3451, 27)
 model = model.to(device)
-loss_fn = torch.nn.MSELoss()
+loss_fn = LambdaLossLTR()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
+list_size = 5
 epochs = 30
 hist_train = []
 hist_val = []
@@ -64,12 +66,12 @@ for fold in range(k):
         model.train()
         for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_train, loader_cmpd_train,
                                                                 loader_weight_train, loader_y_train):
-
             y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
-            batch_y = batch_y.reshape(-1, 1)
-            loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
-                                 batch_weight.to(torch.float32).to(device))
+            y_pred = y_pred.reshape(-1, list_size)
+            batch_y = batch_y.reshape(-1, list_size)
+            loss = loss_fn(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32))
             optimizer.zero_grad()
+            loss.requires_grad = True
             loss.backward()
             optimizer.step()
 
@@ -80,9 +82,9 @@ for fold in range(k):
             for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_val, loader_cmpd_val,
                                                                     loader_weight_val, loader_y_val):
                 y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
-                batch_y = batch_y.reshape(-1, 1)
-                loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
-                                     batch_weight.to(torch.float32).to(device))
+                y_pred = y_pred.reshape(-1, list_size)
+                batch_y = batch_y.reshape(-1, list_size)
+                loss = loss_fn(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32))
             hist_val.append(loss)
 
 torch.save(model.state_dict(), 'models/official_second.pth')

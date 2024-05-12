@@ -38,6 +38,7 @@ def weighted_loss(output, target, weights):
 
 model = DrugRank(3451, 27)
 model = model.to(device)
+model.load_state_dict(torch.load('models/official_second.pth'))
 loss_fn = LambdaLossLTR()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
 list_size = 5

@@ -93,6 +93,20 @@ class CTRPHandler:
             rows.append(row)
         return rows
 
+    def create_chunks(self, df, chunk_size=5):
+        grouped = df.groupby('DepMap_ID')
+        new_data = []
+
+        for name, group in grouped:
+            num_rows = len(group)
+            if num_rows < chunk_size:
+                repeats = np.ceil(chunk_size / num_rows).astype(int)
+                group = pd.concat([group] * repeats, ignore_index=True)
+            group = group.sample(frac=1).reset_index(drop=True)  # Shuffle within each group
+            chunks = [group.iloc[i:i + chunk_size] for i in range(0, len(group), chunk_size)]
+            new_data.extend(chunks[:len(group) // chunk_size])
+
+        return pd.concat(new_data).reset_index(drop=True)
 
     def get_cllran_x(self):
         df = self.get_list_dataset()
@@ -582,15 +596,4 @@ class CTRPHandler:
         Read ppi dataframe
         """
         self.ppi_index_df = pd.read_csv('data/wrangled/ppi.csv')
-
-
-
-
-
-
-
-
-
-
-
 

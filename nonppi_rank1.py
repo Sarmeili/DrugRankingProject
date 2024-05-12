@@ -15,6 +15,11 @@ device = config['main']['device']
 
 dh = CTRPHandler()
 
+dh = CTRPHandler()
+df = dh.response_df
+print(df)
+print(dh.create_chunks(df))
+
 x_cmpd = dh.get_cmpd_x()
 x_cll = dh.get_cll_x()
 y = dh.get_reg_y()
@@ -42,7 +47,7 @@ model.load_state_dict(torch.load('models/official_second.pth'))
 loss_fn = LambdaLossLTR()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
 list_size = 5
-epochs = 30
+epochs = 6
 hist_train = []
 hist_val = []
 k = 5
@@ -88,9 +93,10 @@ for fold in range(k):
                 loss = loss_fn(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32))
             hist_val.append(loss)
 
-torch.save(model.state_dict(), 'models/official_second.pth')
+torch.save(model.state_dict(), 'models/official_second_rank.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
+print(hist_train)
 plt.figure(1)
 plt.plot(hist_train, label='Training Loss')
 plt.plot(hist_val, label='Validation Loss')

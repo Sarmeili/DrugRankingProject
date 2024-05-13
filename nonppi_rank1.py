@@ -15,30 +15,26 @@ device = config['main']['device']
 
 dh = CTRPHandler()
 
-dh = CTRPHandler()
-df = dh.response_df
-print(df)
-print(dh.create_chunks(df))
-
 x_cmpd = dh.get_cmpd_x()
 x_cll = dh.get_cll_x()
 y = dh.get_reg_y()
-weight = dh.get_reg_weigth()
 
-x_cmpd_train = x_cmpd[:int(len(x_cmpd) * 0.9)]
-x_cll_train = x_cll[:int(len(x_cll) * 0.9)]
-y_train = y[:int(len(y) * 0.9)]
-weight_train = weight[:int(len(weight) * 0.9)]
+total_len = len(x_cmpd)
+list_size = 5
+initial_train_len = int(len(x_cmpd) * 0.9)
+train_len = (initial_train_len // (5 * list_size)) * (5 * list_size)
+if train_len > total_len:
+    train_len = (total_len // (5 * list_size)) * (5 * list_size)
 
-x_cmpd_test = x_cmpd[int(len(x_cmpd) * 0.9):]
-x_cll_test = x_cll[int(len(x_cll) * 0.9):]
-y_test = y[int(len(y) * 0.9):]
-weight_test = weight[int(len(weight) * 0.9):]
 
-def weighted_loss(output, target, weights):
-    loss = loss_fn(output, target)
-    weighted_loss = loss * weights  # Element-wise multiplication
-    return weighted_loss.mean()
+x_cmpd_train = x_cmpd[:train_len]
+x_cmpd_test = x_cmpd[train_len:]
+
+x_cll_train = x_cll[:train_len]
+x_cll_test = x_cll[train_len:]
+
+y_train = y[:train_len]
+y_test = y[train_len:]
 
 
 model = DrugRank(3451, 27)
@@ -47,7 +43,7 @@ model.load_state_dict(torch.load('models/official_second.pth'))
 loss_fn = LambdaLossLTR()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
 list_size = 5
-epochs = 6
+epochs = 20
 hist_train = []
 hist_val = []
 k = 5
@@ -62,16 +58,13 @@ for fold in range(k):
     loader_cmpd_train = dh.load_cmpd(np.take(x_cmpd_train, train_indices, axis=0))
     loader_cll_train = dh.load_cll(np.take(x_cll_train, train_indices, axis=0))
     loader_y_train = dh.load_y(np.take(y_train, train_indices, axis=0))
-    loader_weight_train = dh.load_weight(np.take(weight_train, train_indices, axis=0))
 
     loader_cmpd_val = dh.load_cmpd(np.take(x_cmpd_train, val_indices, axis=0))
     loader_cll_val = dh.load_cll(np.take(x_cll_train, val_indices, axis=0))
     loader_y_val = dh.load_y(np.take(y_train, val_indices, axis=0))
-    loader_weight_val = dh.load_weight(np.take(weight_train, val_indices, axis=0))
     for i in tqdm(range(epochs)):
         model.train()
-        for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_train, loader_cmpd_train,
-                                                                loader_weight_train, loader_y_train):
+        for batch_cll, batch_cmpd, batch_y in zip(loader_cll_train, loader_cmpd_train, loader_y_train):
             y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
             y_pred = y_pred.reshape(-1, list_size)
             batch_y = batch_y.reshape(-1, list_size)
@@ -85,8 +78,7 @@ for fold in range(k):
 
         model.eval()
         with torch.no_grad():
-            for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_val, loader_cmpd_val,
-                                                                    loader_weight_val, loader_y_val):
+            for batch_cll, batch_cmpd, batch_y in zip(loader_cll_val, loader_cmpd_val, loader_y_val):
                 y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
                 y_pred = y_pred.reshape(-1, list_size)
                 batch_y = batch_y.reshape(-1, list_size)
@@ -97,7 +89,7 @@ torch.save(model.state_dict(), 'models/official_second_rank.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 print(hist_train)
-pirint(hist_val)
+print(hist_val)
 plt.figure(1)
 plt.plot(hist_train, label='Training Loss')
 plt.plot(hist_val, label='Validation Loss')

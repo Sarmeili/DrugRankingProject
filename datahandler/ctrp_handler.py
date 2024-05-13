@@ -41,6 +41,7 @@ class CTRPHandler:
 
         self.response_df = None
         self.read_response_df()
+        # self.response_df = self.create_chunks(self.response_df)
 
         self.exp_cll_df = None
         self.read_exp_df()
@@ -132,7 +133,6 @@ class CTRPHandler:
                             'drug': drugs_list,
                             'response': reses})
         return df
-
 
     def add_weight_column(self, df, label_column, reweight='sqrt_inv', max_target=121, lds=False, lds_kernel='gaussian',
                           lds_ks=5,

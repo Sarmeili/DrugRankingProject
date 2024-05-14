@@ -38,7 +38,7 @@ def weighted_loss(output, target, weights):
 model = DrugRank(3451, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.005)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0003, weight_decay=0.001)
 epochs = 50
 hist_train = []
 hist_val = []

@@ -1,5 +1,6 @@
 from datahandler.ctrp_handler import CTRPHandler
-from modelexperiment.official_second import DrugRank
+# from modelexperiment.graphtransformers import DrugRank
+from modelexperiment.gat_drp import DrugRank
 import torch
 import warnings
 import json
@@ -36,7 +37,7 @@ def weighted_loss(output, target, weights):
     return weighted_loss.mean()
 
 
-model = DrugRank(3451, 27, 38)
+model = DrugRank(3451, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)

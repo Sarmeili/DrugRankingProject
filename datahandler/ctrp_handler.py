@@ -79,7 +79,7 @@ class CTRPHandler:
         self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
         self.response_df = self.add_weight_column(self.response_df, 'area_under_curve',
                                                   reweight='sqrt_inv', lds=True)
-        self.response_df = self.response_df.sample(frac=1).reset_index(drop=True)
+        self.response_df = self.response_df.sample(frac=1, random_state=1234).reset_index(drop=True)
         max_auc = self.response_df['area_under_curve'].max()
         if reverse:
             self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)

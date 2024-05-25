@@ -1,11 +1,13 @@
 from datahandler.ctrp_handler import CTRPHandler
-from modelexperiment.official_second import DrugRank
+# from modelexperiment.graphtransformers import DrugRank
+from modelexperiment.gat_drp import DrugRank
 import torch
 import warnings
 import json
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import numpy as np
+from torch_geometric.data import DataLoader
 
 warnings.filterwarnings('ignore')
 with open('config.json') as config_file:
@@ -38,7 +40,7 @@ def weighted_loss(output, target, weights):
 model = DrugRank(3451, 27)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0003, weight_decay=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
 epochs = 50
 hist_train = []
 hist_val = []
@@ -84,6 +86,22 @@ for fold in range(k):
                 loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
                                      batch_weight.to(torch.float32).to(device))
             hist_val.append(loss)
+
+cll_test = DataLoader(x_cll_test, batch_size=len(x_cll_test))
+cmpd_test = DataLoader(x_cmpd_test, batch_size=len(x_cmpd_test))
+for cll, cmpd in zip(cll_test, cmpd_test):
+    y_test_pred = model(cll.to(torch.float32).to(device), cmpd.to(device))
+
+plt.figure(figsize=(8, 6))
+y_test_pred = y_test_pred.detach().cpu().numpy()
+plt.plot(y_test, y_test, label='True values (ideal line)', color='blue', linestyle='--')
+plt.scatter(y_test, y_test_pred, label='Predicted', color='red')
+plt.xlabel('True Values')
+plt.ylabel('Predicted Values')
+plt.title('True vs Predicted Values')
+plt.legend()
+plt.grid(True)
+plt.savefig('truevspred.png')
 
 torch.save(model.state_dict(), 'models/official_second.pth')
 hist_train = [loss.item() for loss in hist_train]

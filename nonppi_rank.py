@@ -1,5 +1,5 @@
 from datahandler.ctrp_handler import CTRPHandler
-from modelexperiment.official_second import DrugRank
+from modelexperiment.graphtransformers import DrugRank
 import torch
 import warnings
 import json

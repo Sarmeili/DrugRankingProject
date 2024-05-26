@@ -1,7 +1,7 @@
 from datahandler.ctrp_handler import CTRPHandler
 # from modelexperiment.graphtransformers import DrugRank
-# from modelexperiment.gat_drp import DrugRank
-from modelexperiment.gcn_drp import DrugRank
+from modelexperiment.gat_drp import DrugRank
+# from modelexperiment.gcn_drp import DrugRank
 import torch
 import warnings
 import json
@@ -15,6 +15,7 @@ warnings.filterwarnings('ignore')
 with open('config.json') as config_file:
     config = json.load(config_file)
 device = config['main']['device']
+batch_size = config['datahandler']['ctrp_handler']['batch_size']
 
 dh = CTRPHandler()
 
@@ -39,7 +40,7 @@ def weighted_loss(output, target, weights):
     return weighted_loss.mean()
 
 
-model = DrugRank(3451, 27, 38)
+model = DrugRank(3451, 27) # , 38
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0002, weight_decay=0.001)
@@ -89,21 +90,6 @@ for fold in range(k):
                                      batch_weight.to(torch.float32).to(device))
             hist_val.append(loss)
 
-cll_test = DataLoader(x_cll_test, batch_size=len(x_cll_test))
-cmpd_test = DataLoader(x_cmpd_test, batch_size=len(x_cmpd_test))
-for cll, cmpd in zip(cll_test, cmpd_test):
-    y_test_pred = model(cll.to(torch.float32).to(device), cmpd.to(device))
-
-plt.figure(figsize=(8, 6))
-y_test_pred = y_test_pred.detach().cpu().numpy()
-plt.plot(y_test, y_test, label='True values (ideal line)', color='blue', linestyle='--')
-plt.scatter(y_test, y_test_pred, label='Predicted', color='red')
-plt.xlabel('True Values')
-plt.ylabel('Predicted Values')
-plt.title('True vs Predicted Values')
-plt.legend()
-plt.grid(True)
-plt.savefig('truevspred.png')
 
 torch.save(model.state_dict(), 'models/official_second.pth')
 hist_train = [loss.item() for loss in hist_train]
@@ -119,3 +105,23 @@ plt.title('Loss on train and validation')
 plt.legend()
 plt.savefig('cll_without_graph.png')
 plt.close()
+
+cll_test = DataLoader(x_cll_test, batch_size=batch_size)
+cmpd_test = DataLoader(x_cmpd_test, batch_size=batch_size)
+y_test_pred_list = torch.tensor([]).to('cpu')
+model.eval()
+with torch.no_grad():
+    for cll, cmpd in zip(cll_test, cmpd_test):
+        y_test_pred = model(cll.to(torch.float32).to(device), cmpd.to(device))
+        y_test_pred = y_test_pred.to('cpu')
+        y_test_pred_list = torch.cat((y_test_pred, y_test_pred_list), 0).to('cpu')
+plt.figure(figsize=(8, 6))
+y_test_pred_list = y_test_pred_list.detach().cpu().numpy()
+plt.plot(y_test, y_test, label='True values (ideal line)', color='blue', linestyle='--')
+plt.scatter(y_test, y_test_pred_list, label='Predicted', color='red')
+plt.xlabel('True Values')
+plt.ylabel('Predicted Values')
+plt.title('True vs Predicted Values')
+plt.legend()
+plt.grid(True)
+plt.savefig('truevspred.png')

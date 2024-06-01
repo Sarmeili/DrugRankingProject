@@ -1,7 +1,6 @@
 {
   "data_wrangling" : {
     "wrangle_data" : false,
-    "response_type" : ["auc", "ic50", "senscore"],
     "response_task" : "auc",
     "min_combined_score" : 600
   },
@@ -13,7 +12,8 @@
   "datahandler" : {
     "ctrp_handler" : {
       "use_netprop" : true,
-      "batch_size" : 7000
+      "batch_size" : 7000,
+      "normalization_method" : "zscore"
     }
   },
   "model_experiments": {

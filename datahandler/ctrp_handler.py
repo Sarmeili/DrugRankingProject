@@ -5,22 +5,21 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset
 import json
-from scipy.stats import zscore
 import torch_geometric as tg
 import random
 from tqdm import tqdm
 from torch_geometric.data import Data
 import rdkit
 from datahandler.netprop import NetProp
-import networkx as nx
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 from torch_geometric.data import DataLoader
 from scipy.ndimage import convolve1d
 from scipy.ndimage import gaussian_filter1d
 from scipy.signal.windows import triang
+from sklearn.preprocessing import MinMaxScaler
+from scipy.stats import zscore
 import random
-
 
 
 class CTRPHandler:
@@ -35,6 +34,13 @@ class CTRPHandler:
         self.batch_size = config['datahandler']['ctrp_handler']['batch_size']
         self.use_netprop = config['datahandler']['ctrp_handler']['use_netprop']
         self.device = config['main']['device']
+        self.normalization_method = config['datahandler']['ctrp_handler']['normalization_method']
+        response_task = config['data_wrangling']['response_task']
+
+        if response_task == 'auc':
+            self.response_task = 'area_under_curve'
+        elif response_task == 'ic50':
+            self.response_task = 'apparent_ec50_umol'
 
         self.propagated_graph_df = None
         self.read_propagated_graph_df()
@@ -70,19 +76,26 @@ class CTRPHandler:
         """
         self.cmpd_df = pd.read_csv('data/wrangled/cmpd.csv', index_col=0)
 
-    def read_response_df(self, reverse=True):
+    def read_response_df(self, reverse=False, normalize=True):
         """
         Read response data. Because AUC and IC50 have negative relationship with the response score, all of them got
         negative and then the maximum of response in terms of absolute number has been added to all data.
+        :param normalize:
         :param reverse:
         """
-        self.response_df = pd.read_csv('data/wrangled/ctrp.csv')
-        self.response_df = self.add_weight_column(self.response_df, 'area_under_curve',
+        self.response_df = pd.read_csv('data/wrangled/ctrp.csv')[:100]
+        self.response_df = self.add_weight_column(self.response_df, self.response_task,
                                                   reweight='sqrt_inv', lds=True)
         self.response_df = self.response_df.sample(frac=1, random_state=1234).reset_index(drop=True)
-        max_auc = self.response_df['area_under_curve'].max()
+        max_auc = self.response_df[self.response_task].max()
         if reverse:
-            self.response_df['area_under_curve'] = self.response_df['area_under_curve'].apply(lambda x: (x*-1)+max_auc)
+            self.response_df[self.response_task] = self.response_df[self.response_task].apply(lambda x: (x*-1)+max_auc)
+        if normalize:
+            if self.normalization_method == 'minmax':
+                scaler = MinMaxScaler()
+                self.response_df[self.response_task] = scaler.fit_transform(self.response_df[self.response_task])
+            elif self.normalization_method == 'zscore':
+                self.response_df[self.response_task] = zscore(self.response_df[self.response_task])
 
     def get_cmpdran_x(self):
         rows = []
@@ -95,6 +108,13 @@ class CTRPHandler:
         return rows
 
     def create_chunks(self, df, chunk_size=5):
+        """
+        Create chunks of data for list-wise ranking without using external variable
+
+        :param df: response df
+        :param chunk_size: list_size
+        :return: new response df
+        """
         grouped = df.groupby('DepMap_ID')
         new_data = []
 

@@ -7,7 +7,6 @@ class Wrangler:
     def __init__(self):
         with open('config.json') as config_file:
             config = json.load(config_file)
-        self.respone_type = config["data_wrangling"]['response_type']
         self.combined_score = config["data_wrangling"]["min_combined_score"]
 
     def ctrp_unify_dataframes(self):
@@ -24,13 +23,7 @@ class Wrangler:
         """
 
         response_df = pd.read_csv('data/raw/CTRP/v20.data.curves_post_qc.txt', sep='\t')
-        cols = ['experiment_id', 'master_cpd_id']
-        if 'auc' in self.respone_type:
-            cols.append('area_under_curve')
-        if 'ic50' in self.respone_type:
-            cols.append('apparent_ec50_umol')
-        if 'senscore' in self.respone_type:
-            cols.append('pred_pv_high_conc')
+        cols = ['experiment_id', 'master_cpd_id', 'area_under_curve', 'apparent_ec50_umol', 'pred_pv_high_conc']
         response_df = response_df[cols]
 
         cmpd_df = pd.read_csv('data/raw/CTRP/v20.meta.per_compound.txt', sep='\t')
@@ -107,9 +100,6 @@ class Wrangler:
         ctrp_df['index_target'] = ctrp_df['index_target'].replace(value_index_mapping)
         ctrp_df['index_target'] = pd.to_numeric(ctrp_df['index_target'], errors='coerce')
         ctrp_df = ctrp_df.dropna(subset=['index_target']).astype({'index_target': 'int'})
-        '''for depmapid in ctrp_df['DepMap_ID'].unique():
-            if depmapid not in list(gene_exp['nana']):
-                print(depmapid)'''
         return ctrp_df
 
     def save_wrangled_data(self):

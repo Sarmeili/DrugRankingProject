@@ -43,6 +43,7 @@ class MolGraphAutoencoder(nn.Module):
 
         return x_mol, encoded
 
+
 class CllGraphAutoencoder(nn.Module):
     def __init__(self, input_dim, encoded_dim):
         super(CllGraphAutoencoder, self).__init__()

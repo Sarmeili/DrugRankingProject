@@ -2,11 +2,10 @@ import torch
 import torch_geometric as tg
 import json
 
+
 class DrugRank(torch.nn.Module):
     def __init__(self, cll_size, mol_size, edge_size):
         super(DrugRank, self).__init__()
-        with open('config.json') as config_file:
-            config = json.load(config_file)
 
         # Define the networks for edge conditioning
         nn1 = torch.nn.Sequential(

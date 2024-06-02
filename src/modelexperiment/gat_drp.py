@@ -4,28 +4,26 @@ import json
 
 
 class DrugRank(torch.nn.Module):
-    def __init__(self, cll_size, mol_size, edge_size):
+    def __init__(self, cll_size, mol_size):
         super(DrugRank, self).__init__()
-        with open('config.json') as config_file:
-            config = json.load(config_file)
 
-        self.tconv1_mol = tg.nn.TransformerConv(mol_size, 1000, heads=4, edge_dim=edge_size)
-        self.tconv2_mol = tg.nn.TransformerConv(1000*4, 700, heads=4, edge_dim=edge_size)
-        self.tconv3_mol = tg.nn.TransformerConv(700*4, 300, heads=4, edge_dim=edge_size)
-        self.tconv4_mol = tg.nn.TransformerConv(300*4, 100, heads=4, edge_dim=edge_size)
+        self.tconv1_mol = tg.nn.GATConv(mol_size, 1000)
+        self.tconv2_mol = tg.nn.GATConv(1000, 700)
+        self.tconv3_mol = tg.nn.GATConv(700, 300)
+        self.tconv4_mol = tg.nn.GATConv(300, 300)
 
         self.linear1_cll = tg.nn.Linear(cll_size, 2000)
         self.linear2_cll = tg.nn.Linear(2000, 2000)
         self.linear3_cll = tg.nn.Linear(2000, 2000)
         self.linear4_cll = tg.nn.Linear(2000, 1000)
         self.linear5_cll = tg.nn.Linear(1000, 1000)
-        self.linear6_cll = tg.nn.Linear(1000, 900)
-        self.linear7_cll = tg.nn.Linear(900, 800)
-        self.linear8_cll = tg.nn.Linear(800, 400)
+        self.linear6_cll = tg.nn.Linear(1000, 500)
+        self.linear7_cll = tg.nn.Linear(500, 300)
+        self.linear8_cll = tg.nn.Linear(300, 300)
 
         # self.bilinear = torch.nn.Bilinear(100, 100, 1)
 
-        self.linear1_comb = tg.nn.Linear(800, 200)
+        self.linear1_comb = tg.nn.Linear(600, 200)
         self.linear2_comb = tg.nn.Linear(200, 100)
         self.linear3_comb = tg.nn.Linear(100, 1)
 

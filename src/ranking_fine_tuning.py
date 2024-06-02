@@ -9,7 +9,7 @@ import numpy as np
 from modelutils.loss_functions import ListAllLoss, LambdaLossLTR
 
 warnings.filterwarnings('ignore')
-with open('config.json') as config_file:
+with open('../configs/config.json') as config_file:
     config = json.load(config_file)
 device = config['main']['device']
 
@@ -37,9 +37,9 @@ y_train = y[:train_len]
 y_test = y[train_len:]
 
 
-model = DrugRank(3451, 27)
+model = DrugRank(3451, 27, 38)
 model = model.to(device)
-model.load_state_dict(torch.load('models/official_second.pth'))
+model.load_state_dict(torch.load('../models/official_second.pth'))
 loss_fn = LambdaLossLTR()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
 list_size = 5
@@ -85,7 +85,7 @@ for fold in range(k):
                 loss = loss_fn(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32))
             hist_val.append(loss)
 
-torch.save(model.state_dict(), 'models/official_second_rank.pth')
+torch.save(model.state_dict(), '../models/trained_reg_model.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 print(hist_train)
@@ -97,5 +97,5 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Loss on train and validation')
 plt.legend()
-plt.savefig('cll_without_graph_rank.png')
+plt.savefig('../imgs/loss_rank.png')
 plt.close()

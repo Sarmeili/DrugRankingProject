@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-response_df = pd.read_csv('../data/wrangled/ctrp.csv')
+response_df = pd.read_csv('../../data/wrangled/ctrp.csv')
 plt.figure()
 
 print(response_df[['area_under_curve', 'weight']])

@@ -1,17 +1,11 @@
 import pandas as pd
 from rdkit import Chem
-from rdkit.Chem import Descriptors
 import torch
 import numpy as np
-from torch.utils.data import Dataset
 import json
 import torch_geometric as tg
-import random
-from tqdm import tqdm
-from torch_geometric.data import Data
 import rdkit
-from datahandler.netprop import NetProp
-import matplotlib.pyplot as plt
+from src.datahandler.netprop import NetProp
 from tqdm import tqdm
 from torch_geometric.data import DataLoader
 from scipy.ndimage import convolve1d
@@ -19,7 +13,6 @@ from scipy.ndimage import gaussian_filter1d
 from scipy.signal.windows import triang
 from sklearn.preprocessing import MinMaxScaler
 from scipy.stats import zscore
-import random
 
 
 class CTRPHandler:
@@ -28,13 +21,14 @@ class CTRPHandler:
         Data handling class. It is used after data is wrangled and dimensionality reduction is done
         by network propagation.
         """
-        with open('config.json') as config_file:
+        with open('../configs/config.json') as config_file:
             config = json.load(config_file)
         self.top_k_netprop = config['network_propagation']['top_k']
         self.batch_size = config['datahandler']['ctrp_handler']['batch_size']
         self.use_netprop = config['datahandler']['ctrp_handler']['use_netprop']
         self.device = config['main']['device']
         self.normalization_method = config['datahandler']['ctrp_handler']['normalization_method']
+        task_type = config['main']['task']
         response_task = config['data_wrangling']['response_task']
 
         if response_task == 'auc':
@@ -47,7 +41,8 @@ class CTRPHandler:
 
         self.response_df = None
         self.read_response_df()
-        # self.response_df = self.create_chunks(self.response_df)
+        if task_type == 'ranking':
+            self.response_df = self.create_chunks(self.response_df)
 
         self.exp_cll_df = None
         self.read_exp_df()
@@ -65,7 +60,7 @@ class CTRPHandler:
         """
         Read cell line gene expression data
         """
-        self.exp_cll_df = pd.read_csv('data/wrangled/ccle_exp.csv', index_col=0)
+        self.exp_cll_df = pd.read_csv('../data/wrangled/ccle_exp.csv', index_col=0)
         if self.use_netprop:
             selected_index = list(self.propagated_graph_df['0'])
             self.exp_cll_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
@@ -74,7 +69,7 @@ class CTRPHandler:
         """
         Read compound data
         """
-        self.cmpd_df = pd.read_csv('data/wrangled/cmpd.csv', index_col=0)
+        self.cmpd_df = pd.read_csv('../data/wrangled/cmpd.csv', index_col=0)
 
     def read_response_df(self, reverse=False, normalize=True):
         """
@@ -83,7 +78,7 @@ class CTRPHandler:
         :param normalize:
         :param reverse:
         """
-        self.response_df = pd.read_csv('data/wrangled/ctrp.csv')[:100]
+        self.response_df = pd.read_csv('../data/wrangled/ctrp.csv')[:100]
         self.response_df = self.add_weight_column(self.response_df, self.response_task,
                                                   reweight='sqrt_inv', lds=True)
         self.response_df = self.response_df.sample(frac=1, random_state=1234).reset_index(drop=True)
@@ -97,17 +92,8 @@ class CTRPHandler:
             elif self.normalization_method == 'zscore':
                 self.response_df[self.response_task] = zscore(self.response_df[self.response_task])
 
-    def get_cmpdran_x(self):
-        rows = []
-        df = self.get_list_dataset()
-        for drugs_list in tqdm(df['drug'].values):
-            row = []
-            for drug in drugs_list:
-                row.append(self.create_mol_graph(drug))
-            rows.append(row)
-        return rows
-
-    def create_chunks(self, df, chunk_size=5):
+    @staticmethod
+    def create_chunks(df, chunk_size=5):
         """
         Create chunks of data for list-wise ranking without using external variable
 
@@ -129,32 +115,8 @@ class CTRPHandler:
 
         return pd.concat(new_data).reset_index(drop=True)
 
-    def get_cllran_x(self):
-        df = self.get_list_dataset()
-        cll_feat = torch.tensor(self.exp_cll_df.reindex(df['cll']).values)
-        return cll_feat
-
-    def get_list_dataset(self, list_size=4):
-        rank_df = self.listwise_ranking_df()
-        clls = []
-        drugs_list = []
-        reses = []
-        for index, row in rank_df.iterrows():
-            rep_size = int(len(row['drug'])/list_size)
-            for _ in range(rep_size):
-                indices = random.sample(range(len(row['drug'])), list_size)
-                drugs = [row['drug'][i] for i in indices]
-                res = [row['response'][i] for i in indices]
-                clls.append(row['cll'])
-                drugs_list.append(drugs)
-                reses.append(res)
-
-        df = pd.DataFrame({'cll': clls,
-                            'drug': drugs_list,
-                            'response': reses})
-        return df
-
-    def add_weight_column(self, df, label_column, reweight='sqrt_inv', max_target=121, lds=False, lds_kernel='gaussian',
+    @staticmethod
+    def add_weight_column(df, label_column, reweight='sqrt_inv', max_target=121, lds=False, lds_kernel='gaussian',
                           lds_ks=5,
                           lds_sigma=2):
         # Function to prepare weights
@@ -208,16 +170,12 @@ class CTRPHandler:
         Read selected node data after network propagation has been done. The top_k can be entered through config.json
         file. top_k can be 20, 30, 40, 50
         """
-        self.propagated_graph_df = pd.read_csv('data/netprop/top_'+str(self.top_k_netprop)+'_chosen_drug.csv',
+        self.propagated_graph_df = pd.read_csv('../data/netprop/top_'+str(self.top_k_netprop)+'_chosen_drug.csv',
                                                index_col=0).astype(int)
 
     def get_reg_y(self):
         y = self.response_df['area_under_curve'].values
         return y
-
-    def get_rank_y(self):
-        df = self.get_list_dataset()
-        return df['response'].values
 
     def load_y(self, y):
         return DataLoader(y, batch_size=self.batch_size)
@@ -250,130 +208,6 @@ class CTRPHandler:
     def load_cmpd(self, cmpd_feat):
         return DataLoader(cmpd_feat, batch_size=self.batch_size)
 
-    def select_gene_feature(self):
-        """
-        Function that use dimensionality reduction data to select genes and transform graphs to the reduced version.
-        All the ppi edges, drug targets and edge features are reindexed in this function. The output of this function
-        is then used when ppi of cell line and drug target interaction in a graph is created.
-        :return:
-        selected_gene_df: that contains only selected genes from network propageation
-        edges: updated index of each pair of nodes known as edges
-        edges_attrib: feature of each edge
-        """
-        self.read_exp_df()
-        self.read_propagated_graph_df()
-        self.read_drug_target_df()
-        self.read_ppi_index_df()
-        self.drug_target_df['new_index'] = None
-        selected_index = list(self.propagated_graph_df['0'])
-        selected_gene_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
-        edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
-        edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
-        edges = edges.reshape(-1, 2)
-        mask = np.isin(edges, selected_index).all(where=[[True, True]], axis=1)
-        edges = edges[mask]
-        edges = edges.reshape(2, -1)
-        edges_attrib = edges_attrib[mask]
-        for i in range(len(selected_index)):
-            edges[0][edges[0] == selected_index[i]] = i
-            edges[1][edges[1] == selected_index[i]] = i
-            if selected_index[i] in list(self.drug_target_df['index_target']):
-                target_index = self.drug_target_df[self.drug_target_df['index_target'] == selected_index[i]].index
-                self.drug_target_df.loc[target_index, 'new_index'] = i
-        return selected_gene_df.reset_index(), edges, edges_attrib
-
-    def get_npgenes_drugs_train(self):
-        self.read_exp_df()
-        self.read_propagated_graph_df()
-        self.read_drug_target_df()
-        self.read_ppi_index_df()
-        self.read_response_df()
-        response_df = self.response_df[:int(0.8*len(self.response_df))]
-        n_samples = len(response_df)
-        for start in range(0, n_samples, self.batch_size):
-            end = min(start + self.batch_size, n_samples)
-            response_df = self.response_df[start:end]
-            cpd_ids = response_df['master_cpd_id']
-            response = torch.tensor(response_df['area_under_curve'].values)
-            self.drug_target_df['new_index'] = None
-            selected_index = list(self.propagated_graph_df['0'])
-            selected_gene_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
-            cll_feat = torch.tensor(selected_gene_df.reindex(response_df['DepMap_ID']).values)
-            cpd_graphs = []
-            for id in cpd_ids:
-                graph = self.create_mol_graph(id)
-                cpd_graphs.append(graph)
-                # print(graph)
-            yield cll_feat, cpd_graphs, response
-
-    def get_npgenes_drugs_val(self):
-        self.read_exp_df()
-        self.read_propagated_graph_df()
-        self.read_drug_target_df()
-        self.read_ppi_index_df()
-        self.read_response_df()
-        response_df = self.response_df[int(0.8*len(self.response_df)):]
-        n_samples = len(response_df)
-        for start in range(0, n_samples, self.batch_size):
-            end = min(start + self.batch_size, n_samples)
-            response_df = self.response_df[start:end]
-            cpd_ids = response_df['master_cpd_id']
-            response = torch.tensor(response_df['area_under_curve'].values)
-            self.drug_target_df['new_index'] = None
-            selected_index = list(self.propagated_graph_df['0'])
-            selected_gene_df = self.exp_cll_df.set_index('nana').iloc[:, selected_index]
-            cll_feat = torch.tensor(selected_gene_df.reindex(response_df['DepMap_ID']).values)
-            cpd_graphs = []
-            for id in cpd_ids:
-                graph = self.create_mol_graph(id)
-                cpd_graphs.append(graph)
-                # print(graph)
-            yield cll_feat, cpd_graphs, response
-
-    def listwise_ranking_df(self):
-        """
-        Makes all ranking dataframe to 3 dataframes: training set of 80% , validation set of 10%, test set of 10% of
-        dataset.
-        :return:
-        train set
-        validation set
-        test set
-        """
-        self.read_response_df()
-        cll_list = list(self.response_df['DepMap_ID'])
-        cll_list = list(set(sorted(cll_list)))
-        cd_df = self.response_df.set_index(['DepMap_ID', 'master_cpd_id'])
-        drug_list = []
-        response_list = []
-        for cll in cll_list:
-            drug_list.append(list(cd_df.loc[cll].index))
-            response_list.append(list(cd_df.loc[cll]['area_under_curve']))
-        response_ranking_df = pd.DataFrame({'cll': cll_list,
-                                            'drug': drug_list,
-                                            'response': response_list})
-        del cll_list
-        del cd_df
-        del drug_list
-        del response_list
-        return response_ranking_df
-
-    def generate_cll_drug_response(self, response_ranking_df):
-        """
-        A generator to access to each row of our dataset for further creation of graphs and processing. Batch size can
-        be designated in config file.
-        :param response_ranking_df: Each train, val or test dataframe
-        :return:
-        cell lines code, list of drugs code and corresponding list of responses of each cell line and drugs
-        """
-        clls = list(response_ranking_df['cll'])
-        drugs = list(response_ranking_df['drug'])
-        responses = list(response_ranking_df['response'])
-        n_samples = len(response_ranking_df)
-        indices = np.arange(n_samples)
-        for start in range(0, n_samples, self.batch_size):
-            end = min(start + self.batch_size, n_samples)
-            yield clls[start:end], drugs[start:end], responses[start:end]
-
     def netprop_dim_reduction(self):
         """
            Propagate PPI network with regard to drugs targets in order to find
@@ -381,9 +215,6 @@ class CTRPHandler:
            to reduce dimension.
            csv files can be found in data folder
         """
-        self.read_drug_target_df()
-        self.read_ppi_index_df()
-        self.read_exp_df()
         selected_index_20 = []
         selected_index_30 = []
         selected_index_40 = []
@@ -416,13 +247,13 @@ class CTRPHandler:
             selected_index_50 = list(set(selected_index_50))
 
         drug_chosen = pd.Series(selected_index_20)
-        drug_chosen.to_csv('data/netprop/top_20_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_20_chosen_drug.csv')
         drug_chosen = pd.Series(selected_index_30)
-        drug_chosen.to_csv('data/netprop/top_30_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_30_chosen_drug.csv')
         drug_chosen = pd.Series(selected_index_40)
-        drug_chosen.to_csv('data/netprop/top_40_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_40_chosen_drug.csv')
         drug_chosen = pd.Series(selected_index_50)
-        drug_chosen.to_csv('data/netprop/top_50_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_50_chosen_drug.csv')
 
     def create_mol_graph(self, drug_code):
         """
@@ -570,50 +401,15 @@ class CTRPHandler:
             graphs.append(blank_graph)
         return graphs
 
-
-    def create_cll_bio_graph(self, drug_code, cll_code, exp_cll_df, edges, edges_attrib):
-        """
-        Create ppi graph with each node be the expression of gene of that protein. Also Creates same graph but with an
-        hypothetical node that represent drug and its interaction with target.
-        :param drug_code: code for compound in CTRP dataset
-        :param cll_code:code for cell linse in DepMapPortal
-        :param exp_cll_df: updated gene expression dataframe of cell lines
-        :param edges: pairs of nodes that represent the connection between them
-        :param edges_attrib: feature of each edge.
-        :return:
-        cll_graph : ppi graph
-        bio_graph : ppi graph + drug-target
-        """
-        target = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug_code]['new_index'])
-        gene_exp = exp_cll_df[exp_cll_df['nana'] == cll_code]
-        x = np.array(list(gene_exp.iloc[0][1:])).reshape((-1, 1))
-        cll_graph = tg.data.Data(x=torch.from_numpy(x.astype(np.float32)),
-                                 edge_index=torch.from_numpy(edges.astype(np.int32)),
-                                 edge_attr=torch.from_numpy(edges_attrib.astype(np.float32)))
-        drug_feat = [0.0001]
-        drug_index = len(x)
-        edges = edges.reshape(-1, 2)
-        for target_of_drug in target:
-            edges = np.append(edges, [target_of_drug, drug_index])
-            edges = np.append(edges, [drug_index, target_of_drug])
-            edges_attrib = np.append(edges_attrib, [[edges_attrib.max()]])
-            edges_attrib = np.append(edges_attrib, [[edges_attrib.max()]])
-        edges = edges.reshape(2, -1)
-        x = np.append(x, [[drug_feat]]).reshape(-1, 1)
-        bio_graph = tg.data.Data(x=torch.from_numpy(x.astype(np.float32)),
-                                 edge_index=torch.from_numpy(edges.astype(np.int32)),
-                                 edge_attr=torch.from_numpy(edges_attrib.astype(np.float32).reshape(-1, 1)))
-        return cll_graph, bio_graph
-
     def read_drug_target_df(self):
         """
         Read drug target dataframe
         """
-        self.drug_target_df = pd.read_csv('data/wrangled/drug_target.csv')
+        self.drug_target_df = pd.read_csv('../data/wrangled/drug_target.csv')
 
     def read_ppi_index_df(self):
         """
         Read ppi dataframe
         """
-        self.ppi_index_df = pd.read_csv('data/wrangled/ppi.csv')
+        self.ppi_index_df = pd.read_csv('../data/wrangled/ppi.csv')
 

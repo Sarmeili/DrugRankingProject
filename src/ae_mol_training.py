@@ -1,5 +1,5 @@
 from datahandler.ctrp_handler import CTRPHandler
-from modelexperiment.ae import CllGraphAutoencoder
+from modelexperiment.ae import MolGraphAutoencoder
 from modelutils.loss_functions import ListAllLoss
 import torch
 import warnings
@@ -9,32 +9,31 @@ from tqdm import tqdm
 from torch_geometric.data import DataLoader
 
 warnings.filterwarnings('ignore')
-with open('config.json') as config_file:
+with open('../configs/config.json') as config_file:
     config = json.load(config_file)
 device = config['main']['device']
 
 dh = CTRPHandler()
 
-x_cll = dh.get_cll_graph_x()
-x_cll_train = x_cll[:int(len(x_cll) * 0.9)]
-loader_cll_train = dh.load_cll(x_cll_train)
+x_cmpd = dh.get_cmpd_x()
+x_cmpd_train = x_cmpd[:int(len(x_cmpd) * 0.9)]
+loader_cmpd_train = dh.load_cmpd(x_cmpd_train)
 
-x_cll_val = x_cll[int(len(x_cll) * 0.9):]
-loader_cll_val = dh.load_cll(x_cll_val)
+x_cmpd_val = x_cmpd[int(len(x_cmpd) * 0.9):]
+loader_cmpd_val = dh.load_cmpd(x_cmpd_val)
 
-model = CllGraphAutoencoder(1,1000)
+model = MolGraphAutoencoder(27,100)
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
-epochs = 10
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.1)
+epochs = 30
 hist_train = []
 hist_val = []
 for i in tqdm(range(epochs)):
     model.train()
-    for batch_cll in loader_cll_train:
-        # print(batch_cmpd)
-        y_pred, _ = model(batch_cll.to(device))
-        loss = loss_fn(y_pred.to(torch.float32), batch_cll.to(device).x.to(torch.float32))
+    for batch_cmpd in loader_cmpd_train:
+        y_pred, _ = model(batch_cmpd.to(device))
+        loss = loss_fn(y_pred.to(torch.float32), batch_cmpd.to(device).x)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -43,13 +42,13 @@ for i in tqdm(range(epochs)):
 
     model.eval()
     with torch.no_grad():
-        for batch_cll in loader_cll_val:
-            y_pred, _ = model(batch_cll.to(device))
-            loss = loss_fn(y_pred.to(torch.float32), batch_cll.to(device).x)
+        for batch_cmpd in loader_cmpd_val:
+            y_pred, _ = model(batch_cmpd.to(device))
+            loss = loss_fn(y_pred.to(torch.float32), batch_cmpd.to(device).x)
 
         hist_val.append(loss)
 
-torch.save(model.state_dict(), 'models/cll_ae.pth')
+torch.save(model.state_dict(), 'models/mol_trained_ae.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 plt.figure(1)
@@ -59,5 +58,5 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Loss on train and validation')
 plt.legend()
-plt.savefig('cll_ae.png')
+plt.savefig('loss_ae_mol.png')
 plt.close()

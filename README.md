@@ -1,4 +1,4 @@
-# Precision Drug Ranking in Cancer Cell Lines: A Comprehensive Analysis of Omics, Protein-Protein Interaction, and Drug-Target Interaction using Deep Learning and Graph Neural Networks
+# Precision Drug Response Prediction in Cancer Cell Lines: Analyzing Omics, Protein-Protein Interactions, and Drug-Target Interactions using Deep Learning and Graph Neural Networks
 
 This project aims to enhance precision drug ranking in cancer cell lines by leveraging deep learning and graph neural networks to analyze omics data, protein-protein interactions, and drug-target interactions.
 

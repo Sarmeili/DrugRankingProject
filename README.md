@@ -1,6 +1,6 @@
 # Precision Drug Response Prediction in Cancer Cell Lines: Analyzing Omics, Protein-Protein Interactions, and Drug-Target Interactions using Deep Learning and Graph Neural Networks
 
-This project aims to enhance precision drug ranking in cancer cell lines by leveraging deep learning and graph neural networks to analyze omics data, protein-protein interactions, and drug-target interactions.
+This project aims to predict the response of drugs on cancer cell lines using drug data, gene expression data, and various interaction datasets. Please note that this project is still in progress, and there may be some instabilities when running the code. The results of my experiments will be shared soon.
 
 ## Project Configuration
 
@@ -41,7 +41,18 @@ wget https://figshare.com/ndownloader/files/43719537 -O data/wrangled/drug_targe
 ```
 
 ## Installation
+1. **Clone the repository**
+```shell
+git clone https://github.com/Sarmeili/DrugRankingProject.git
+cd DrugRankingProject
+```
+2. **Install the requirements**
 
+Make sure you have Python installed. It's recommended to use a virtual environment.
+```shell
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+```
 Install the required dependencies by running:
 ```shell
 pip install -r requirements.txt

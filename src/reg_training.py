@@ -1,8 +1,8 @@
 from datahandler.ctrp_handler import CTRPHandler
-# from modelexperiment.graphtransformers import DrugRank
-# from modelexperiment.gat_drp import DrugRank
-from modelexperiment.customgcn_drp import DrugRank
-# from modelexperiment.nnconv_drp import DrugRank
+from modelexperiment.graphtransformers import TRANCONV
+from modelexperiment.gat_drp import GAT
+from modelexperiment.customgcn_drp import CGCN
+from modelexperiment.nnconv_drp import NNCONV
 import torch
 import warnings
 import json
@@ -11,12 +11,12 @@ from tqdm import tqdm
 import numpy as np
 from torch_geometric.data import DataLoader
 
-
 warnings.filterwarnings('ignore')
 with open('../configs/config.json') as config_file:
     config = json.load(config_file)
 device = config['main']['device']
 batch_size = config['datahandler']['ctrp_handler']['batch_size']
+model_type = config['main']['model_type']
 
 dh = CTRPHandler()
 
@@ -35,13 +35,22 @@ x_cll_test = x_cll[int(len(x_cll) * 0.9):]
 y_test = y[int(len(y) * 0.9):]
 weight_test = weight[int(len(weight) * 0.9):]
 
+
 def weighted_loss(output, target, weights):
     loss = loss_fn(output, target)
     weighted_loss = loss * weights  # Element-wise multiplication
     return weighted_loss.mean()
 
 
-model = DrugRank(3451, 27, 38) # , 38
+if model_type == 'cgcn':
+    model = CGCN(3451, 27, 38)
+elif model_type == 'gat':
+    model = GAT(3451, 27)
+elif model_type == 'transformer':
+    model = TRANCONV(3451, 27, 38)
+elif model_type == 'nnconv':
+    model = NNCONV(3451, 27, 38)
+
 model = model.to(device)
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0002, weight_decay=0.001)
@@ -49,7 +58,7 @@ epochs = 3
 hist_train = []
 hist_val = []
 k = 5
-fold_size = len(y_train)//k
+fold_size = len(y_train) // k
 for fold in range(k):
     start_val = fold * fold_size
     end_val = start_val + fold_size
@@ -70,7 +79,6 @@ for fold in range(k):
         model.train()
         for batch_cll, batch_cmpd, batch_weight, batch_y in zip(loader_cll_train, loader_cmpd_train,
                                                                 loader_weight_train, loader_y_train):
-
             y_pred = model(batch_cll.to(torch.float32).to(device), batch_cmpd.to(device))
             batch_y = batch_y.reshape(-1, 1)
             loss = weighted_loss(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32),
@@ -91,8 +99,7 @@ for fold in range(k):
                                      batch_weight.to(torch.float32).to(device))
             hist_val.append(loss)
 
-
-torch.save(model.state_dict(), '../models/trained_reg_model.pth')
+torch.save(model.state_dict(), f'../models/trained_reg_model_{model_type}.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 print(hist_train)
@@ -104,7 +111,7 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Loss on train and validation')
 plt.legend()
-plt.savefig('../imgs/loss_reg.png')
+plt.savefig(f'../imgs/loss_reg_{model_type}.png')
 plt.close()
 
 cll_test = DataLoader(x_cll_test, batch_size=batch_size)
@@ -125,4 +132,4 @@ plt.ylabel('Predicted Values')
 plt.title('True vs Predicted Values')
 plt.legend()
 plt.grid(True)
-plt.savefig('../imgs/truevspred.png')
+plt.savefig(f'../imgs/truevspred_{model_type}.png')

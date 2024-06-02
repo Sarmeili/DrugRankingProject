@@ -3,9 +3,9 @@ import torch_geometric as tg
 import json
 
 
-class DrugRank(torch.nn.Module):
+class NNCONV(torch.nn.Module):
     def __init__(self, cll_size, mol_size, edge_size):
-        super(DrugRank, self).__init__()
+        super(NNCONV, self).__init__()
 
         # Define the networks for edge conditioning
         nn1 = torch.nn.Sequential(

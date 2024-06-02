@@ -3,9 +3,9 @@ import torch_geometric as tg
 import json
 
 
-class DrugRank(torch.nn.Module):
+class GAT(torch.nn.Module):
     def __init__(self, cll_size, mol_size):
-        super(DrugRank, self).__init__()
+        super(GAT, self).__init__()
 
         self.tconv1_mol = tg.nn.GATConv(mol_size, 1000)
         self.tconv2_mol = tg.nn.GATConv(1000, 700)

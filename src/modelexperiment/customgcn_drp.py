@@ -32,9 +32,9 @@ class CustomGCNConv(MessagePassing):
         return aggr_out
 
 
-class DrugRank(torch.nn.Module):
+class CGCN(torch.nn.Module):
     def __init__(self, cll_size, mol_size, edge_attr_size):
-        super(DrugRank, self).__init__()
+        super(CGCN, self).__init__()
 
         self.conv1_mol = CustomGCNConv(mol_size, 1000, edge_attr_size)
         self.conv2_mol = CustomGCNConv(1000, 700, edge_attr_size)

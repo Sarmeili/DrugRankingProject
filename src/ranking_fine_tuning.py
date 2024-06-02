@@ -1,5 +1,8 @@
 from datahandler.ctrp_handler import CTRPHandler
-from modelexperiment.graphtransformers import DrugRank
+from modelexperiment.graphtransformers import TRANCONV
+from modelexperiment.gat_drp import GAT
+from modelexperiment.customgcn_drp import CGCN
+from modelexperiment.nnconv_drp import NNCONV
 import torch
 import warnings
 import json
@@ -12,6 +15,7 @@ warnings.filterwarnings('ignore')
 with open('../configs/config.json') as config_file:
     config = json.load(config_file)
 device = config['main']['device']
+model_type = config['main']['model_type']
 
 dh = CTRPHandler()
 
@@ -37,9 +41,16 @@ y_train = y[:train_len]
 y_test = y[train_len:]
 
 
-model = DrugRank(3451, 27, 38)
+if model_type == 'cgcn':
+    model = CGCN(3451, 27, 38)
+elif model_type == 'gat':
+    model = GAT(3451, 27)
+elif model_type == 'transformer':
+    model = TRANCONV(3451, 27, 38)
+elif model_type == 'nnconv':
+    model = NNCONV(3451, 27, 38)
 model = model.to(device)
-model.load_state_dict(torch.load('../models/official_second.pth'))
+model.load_state_dict(torch.load(f'../models/trained_reg_model_{model_type}.pth'))
 loss_fn = LambdaLossLTR()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.01)
 list_size = 5
@@ -85,7 +96,7 @@ for fold in range(k):
                 loss = loss_fn(batch_y.to(torch.float32).to(device), y_pred.to(torch.float32))
             hist_val.append(loss)
 
-torch.save(model.state_dict(), '../models/trained_reg_model.pth')
+torch.save(model.state_dict(), f'../models/trained_rank_model_{model_type}.pth')
 hist_train = [loss.item() for loss in hist_train]
 hist_val = [loss.item() for loss in hist_val]
 print(hist_train)
@@ -97,5 +108,5 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.title('Loss on train and validation')
 plt.legend()
-plt.savefig('../imgs/loss_rank.png')
+plt.savefig(f'../imgs/loss_rank_{model_type}.png')
 plt.close()

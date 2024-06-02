@@ -18,6 +18,7 @@
   },
   "main" : {
     "device" : "cpu",
-    "task" : "ranking"
+    "task" : "ranking",
+    "model_type" : "cgcn"
   }
 }

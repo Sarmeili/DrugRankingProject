@@ -6,10 +6,9 @@ import torch_geometric as tg
 class NetProp:
 
     def __init__(self):
-        with open('config.json') as config_file:
+        with open('../configs/config.json') as config_file:
             config = json.load(config_file)
-        self.alpha = config['datahandler']['netprop']['alpha']
-        self.num_selec = config['datahandler']['netprop']['number_of_selection']
+        self.alpha = config['network_propagation']['alpha']
 
     def netpropagete(self, graph):
         """

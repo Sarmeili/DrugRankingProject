@@ -220,18 +220,26 @@ class CTRPHandler:
         selected_index_40 = []
         selected_index_50 = []
         netprop = NetProp()
-        genes = self.exp_cll_df.columns[1:]
+        genes = pd.read_csv('../data/wrangled/ccle_exp.csv', index_col=0).columns[1:]
         drugs = self.drug_target_df['master_cpd_id'].unique()
+        drugs = [int(drug) for drug in drugs]
+        x = [0.00001 for i in range(len(genes))]
+        x = np.array(x).reshape((-1, 1))
+        edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
+        edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
+        bio_graph = tg.data.Data(x=torch.from_numpy(x).to(torch.float32), edge_index=torch.from_numpy(edges),
+                                 edges_attrib=edges_attrib)
+        target_df = self.drug_target_df.copy()
+        target_df['master_cpd_id'] = target_df['master_cpd_id'].astype(int)
+        target_df = target_df[['master_cpd_id', 'index_target']]
+        target_df.drop_duplicates(inplace=True)
         for drug in tqdm(drugs, total=len(drugs)):
-            targets = list(self.drug_target_df[self.drug_target_df['master_cpd_id'] == drug]['index_target'])
+            targets = target_df[target_df['master_cpd_id'] == drug]['index_target']
             x = [0.00001 for i in range(len(genes))]
             for target in targets:
                 x[target] = 1.0
-            x = np.array(x).reshape((-1, 1))
-            edges = self.ppi_index_df[['protein1', 'protein2']].to_numpy().reshape(2, -1)
-            edges_attrib = self.ppi_index_df['combined_score'].to_numpy().reshape(-1, 1)
-            bio_graph = tg.data.Data(x=torch.from_numpy(x).to(torch.float32), edge_index=torch.from_numpy(edges),
-                                     edges_attrib=edges_attrib)
+            x = torch.tensor(x).reshape((-1, 1))
+            bio_graph.x = x
             wt = netprop.netpropagete(bio_graph)
 
             selected_index_20 += wt[:20].tolist()
@@ -247,13 +255,13 @@ class CTRPHandler:
             selected_index_50 = list(set(selected_index_50))
 
         drug_chosen = pd.Series(selected_index_20)
-        drug_chosen.to_csv('../data/netprop/top_20_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_20_chosen_drug1.csv')
         drug_chosen = pd.Series(selected_index_30)
-        drug_chosen.to_csv('../data/netprop/top_30_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_30_chosen_drug1.csv')
         drug_chosen = pd.Series(selected_index_40)
-        drug_chosen.to_csv('../data/netprop/top_40_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_40_chosen_drug1.csv')
         drug_chosen = pd.Series(selected_index_50)
-        drug_chosen.to_csv('../data/netprop/top_50_chosen_drug.csv')
+        drug_chosen.to_csv('../data/netprop/top_50_chosen_drug1.csv')
 
     def create_mol_graph(self, drug_code):
         """

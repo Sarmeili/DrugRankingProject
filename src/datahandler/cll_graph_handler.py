@@ -2,6 +2,7 @@ import pandas as pd
 from tqdm import tqdm
 import numpy as np
 from torch_geometric.data import Data
+import torch
 
 class CllGraphHandler:
     def __init__(self):
@@ -86,8 +87,9 @@ class CllGraphHandler:
         feature_df = self.gene_features()
         graph_list = []
         for i in range(len(feature_df)):
-            x = feature_df.iloc[i, :].values
-            cll_graph = Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
+            x = feature_df.iloc[i, :].tolist()
+            x = np.vstack(x)
+            cll_graph = Data(x=torch.tensor(x, dtype=torch.float), edge_index=edge_index, edge_attr=edge_attr)
             print(x)
             print(type(x))
             print(type(x[0]))

@@ -23,7 +23,7 @@ Choose the response task:
 
 Download and place the following data files in the `data/wrangled/` directory. Ensure to rename them appropriately after downloading:
 
-1. **CTRP Data**
+1. **Processed CTRP Data**
 
 ```shell
 wget https://figshare.com/ndownloader/files/43719579 -O data/wrangled/ctrp.csv
@@ -38,6 +38,27 @@ wget https://figshare.com/ndownloader/files/43719501 -O data/wrangled/ccle_exp.c
 3. **Drug Target Data**
 ```shell
 wget https://figshare.com/ndownloader/files/43719537 -O data/wrangled/drug_target.csv
+```
+
+4. **Raw CCLE Mutation Data**
+```shell
+wget https://ndownloader.figshare.com/files/34989940 -O data/raw/CCLE_mutations.csv
+```
+
+5. **Raw CCLE Expression Data**
+```shell
+wget https://ndownloader.figshare.com/files/34989919 -O data/raw/CCLE/CCLE_expression.csv
+```
+
+6. **Raw CTRP Data**
+```shell
+wget https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip -O data/raw/CTRP/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+```
+
+7. **Raw STRING Data**
+```shell
+wget https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz -O data/raw/STRING/9606.protein.links.v12.0.txt.gz
+wget https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz -O data/raw/STRING/9606.protein.info.v12.0.txt.gz
 ```
 
 ## Installation

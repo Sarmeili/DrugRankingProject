@@ -9,7 +9,7 @@ class CllGraphHandler:
         self.read_csv_files()
 
     def read_csv_files(self):
-        self.exp_df = pd.read_csv('../data/raw/CCLE/CCLE_expression.csv')
+        self.exp_df = pd.read_csv('../data/raw/CCLE/CCLE_expression.csv')[:100]
         self.exp_df.columns = [col.split(' ')[0] for col in self.exp_df.columns]
         self.mut_df = pd.read_csv('../data/raw/CCLE/CCLE_mutations.csv')
         self.target_df = pd.read_csv('../data/raw/CTRP/v20.meta.per_compound.txt', sep='\t')
@@ -88,10 +88,7 @@ class CllGraphHandler:
         graph_list = []
         for i in range(len(feature_df)):
             x = feature_df.iloc[i, :].tolist()
-            x = np.vstack(x)
+            x = np.vstack(x).astype(np.float32)
             cll_graph = Data(x=torch.tensor(x, dtype=torch.float), edge_index=edge_index, edge_attr=edge_attr)
-            print(x)
-            print(type(x))
-            print(type(x[0]))
             graph_list.append(cll_graph)
-            print(cll_graph)
+        return graph_list

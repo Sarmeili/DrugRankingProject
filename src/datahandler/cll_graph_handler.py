@@ -89,6 +89,9 @@ class CllGraphHandler:
         for i in range(len(feature_df)):
             x = feature_df.iloc[i, :].tolist()
             x = np.vstack(x).astype(np.float32)
-            cll_graph = Data(x=torch.tensor(x, dtype=torch.float), edge_index=edge_index, edge_attr=edge_attr)
+            edge_index = edge_index.astype(np.int32)
+            edge_attr = edge_attr.astype(np.int32)
+            cll_graph = Data(x=torch.tensor(x, dtype=torch.float), edge_index=torch.tensor(edge_index, dtype=torch.int32),
+                             edge_attr=torch.tensor(edge_attr, dtype=torch.int32))
             graph_list.append(cll_graph)
         return graph_list

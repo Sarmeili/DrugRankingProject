@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 
 dh = CllGraphHandler()
 cll_graph = dh.get_graph()
-'''with open('graph_list.pkl', 'wb') as f:
-    pickle.dump(cll_graph, f)'''
+with open('graph_list.pkl', 'wb') as f:
+    pickle.dump(cll_graph, f)
 
 train_dataset, val_dataset = train_test_split(cll_graph, test_size=0.2, random_state=42)
 train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)

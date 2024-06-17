@@ -9,11 +9,12 @@ class CllGraphHandler:
         self.read_csv_files()
 
     def read_csv_files(self):
-        self.exp_df = pd.read_csv('../data/raw/CCLE/CCLE_expression.csv')[:100]
+        self.exp_df = pd.read_csv('../data/raw/CCLE/CCLE_expression.csv')
         self.exp_df.columns = [col.split(' ')[0] for col in self.exp_df.columns]
         self.mut_df = pd.read_csv('../data/raw/CCLE/CCLE_mutations.csv')
         self.target_df = pd.read_csv('../data/raw/CTRP/v20.meta.per_compound.txt', sep='\t')
         self.edge_df = pd.read_csv('../data/raw/STRING/9606.protein.links.v12.0.txt', sep=' ')
+        self.edge_df = self.edge_df[self.edge_df['combined_score']>=500]
         self.string_meta = pd.read_csv('../data/raw/STRING/9606.protein.info.v12.0.txt', sep='\t')
         self.ccle_meta = pd.read_csv('../data/raw/CCLE/sample_info.csv')
 

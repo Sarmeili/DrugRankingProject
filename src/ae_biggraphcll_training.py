@@ -12,13 +12,14 @@ cll_graph = dh.get_graph()
 with open('graph_list.pkl', 'wb') as f:
     pickle.dump(cll_graph, f)
 
+device = 'cuda'
 train_dataset, val_dataset = train_test_split(cll_graph, test_size=0.2, random_state=42)
 train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
 
 input_dim = 12
 embedding_dim = 128
-model = GCNAutoencoder(input_dim=input_dim, embedding_dim=embedding_dim)
+model = GCNAutoencoder(input_dim=input_dim, embedding_dim=embedding_dim).to(device)
 
 criterion = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
@@ -31,7 +32,7 @@ for epoch in range(num_epochs):
     train_loss = 0
     for data in train_loader:
         optimizer.zero_grad()
-        output, h = model(data)
+        output, h = model(data.to(device))
         loss = criterion(output, data.x)
         loss.backward()
         optimizer.step()

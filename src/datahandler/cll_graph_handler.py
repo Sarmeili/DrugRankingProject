@@ -9,7 +9,7 @@ class CllGraphHandler:
         self.read_csv_files()
 
     def read_csv_files(self):
-        self.exp_df = pd.read_csv('../data/raw/CCLE/CCLE_expression.csv')
+        self.exp_df = pd.read_csv('../data/raw/CCLE/CCLE_expression.csv').iloc[:100, :100]
         self.exp_df.columns = [col.split(' ')[0] for col in self.exp_df.columns]
         self.mut_df = pd.read_csv('../data/raw/CCLE/CCLE_mutations.csv')
         self.target_df = pd.read_csv('../data/raw/CTRP/v20.meta.per_compound.txt', sep='\t')
@@ -84,6 +84,7 @@ class CllGraphHandler:
         return edges, edge_attr
 
     def get_graph(self):
+        device = 'cuda'
         edge_index, edge_attr = self.get_edges()
         feature_df = self.gene_features()
         graph_list = []
@@ -92,7 +93,9 @@ class CllGraphHandler:
             x = np.vstack(x).astype(np.float32)
             edge_index = edge_index.astype(np.int32)
             edge_attr = edge_attr.astype(np.float32)
-            cll_graph = Data(x=torch.tensor(x, dtype=torch.float), edge_index=torch.tensor(edge_index, dtype=torch.int32),
-                             edge_attr=torch.tensor(edge_attr, dtype=torch.float))
+            cll_graph = Data(x=torch.tensor(x, dtype=torch.float).to(device),
+                             edge_index=torch.tensor(edge_index, dtype=torch.int32).to(device),
+                             edge_attr=torch.tensor(edge_attr, dtype=torch.float)).to(device)
             graph_list.append(cll_graph)
+        print(feature_df.index)
         return graph_list

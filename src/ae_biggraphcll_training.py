@@ -50,6 +50,7 @@ for epoch in range(num_epochs):
 
     print(f'Epoch {epoch+1}, Train Loss: {train_losses[-1]}, Validation Loss: {val_losses[-1]}')
 
+torch.save(model.state_dict(), '../models/biggraphcll_ae.pth')
 plt.figure(figsize=(10, 5))
 plt.plot(train_losses, label='Train Loss')
 plt.plot(val_losses, label='Validation Loss')
@@ -57,5 +58,6 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
 plt.title('Loss Curves')
-plt.show()
+plt.savefig('../imgs/loss_ae_biggraphcll.png')
+plt.close()
 

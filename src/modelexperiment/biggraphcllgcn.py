@@ -14,7 +14,11 @@ class GCNEncoder(torch.nn.Module):
         self.conv5 = GCNConv(1000, 1000)
         self.conv6 = GCNConv(1000, 1000)
         self.conv7 = GCNConv(1000, 1000)
-        self.conv8 = GCNConv(1000, embedding_dim)
+        self.conv8 = GCNConv(1000, 1000)
+        self.conv9 = GCNConv(1000, 1000)
+        self.conv10 = GCNConv(1000, 1000)
+        self.conv11 = GCNConv(1000, 500)
+        self.conv12 = GCNConv(500, embedding_dim)
 
     def forward(self, x, edge_index, edge_weight):
         x = F.relu(self.conv1(x, edge_index, edge_weight))
@@ -24,21 +28,29 @@ class GCNEncoder(torch.nn.Module):
         x = F.relu(self.conv5(x, edge_index, edge_weight))
         x = F.relu(self.conv6(x, edge_index, edge_weight))
         x = F.relu(self.conv7(x, edge_index, edge_weight))
-        x = self.conv8(x, edge_index, edge_weight)
+        x = F.relu(self.conv8(x, edge_index, edge_weight))
+        x = F.relu(self.conv9(x, edge_index, edge_weight))
+        x = F.relu(self.conv10(x, edge_index, edge_weight))
+        x = F.relu(self.conv11(x, edge_index, edge_weight))
+        x = self.conv12(x, edge_index, edge_weight)
         return x
 
 
 class GCNDecoder(torch.nn.Module):
     def __init__(self, embedding_dim, output_dim):
         super(GCNDecoder, self).__init__()
-        self.conv1 = GCNConv(embedding_dim, 1000)
-        self.conv2 = GCNConv(1000, 1000)
+        self.conv1 = GCNConv(embedding_dim, 500)
+        self.conv2 = GCNConv(500, 1000)
         self.conv3 = GCNConv(1000, 1000)
         self.conv4 = GCNConv(1000, 1000)
         self.conv5 = GCNConv(1000, 1000)
         self.conv6 = GCNConv(1000, 1000)
-        self.conv7 = GCNConv(1000, 500)
-        self.conv8 = GCNConv(500, output_dim)
+        self.conv7 = GCNConv(1000, 1000)
+        self.conv8 = GCNConv(1000, 1000)
+        self.conv9 = GCNConv(1000, 1000)
+        self.conv10 = GCNConv(1000, 1000)
+        self.conv11 = GCNConv(1000, 500)
+        self.conv12 = GCNConv(500, output_dim)
 
     def forward(self, x, edge_index, edge_weight):
         x = F.relu(self.conv1(x, edge_index, edge_weight))
@@ -48,7 +60,11 @@ class GCNDecoder(torch.nn.Module):
         x = F.relu(self.conv5(x, edge_index, edge_weight))
         x = F.relu(self.conv6(x, edge_index, edge_weight))
         x = F.relu(self.conv7(x, edge_index, edge_weight))
-        x = self.conv8(x, edge_index, edge_weight)
+        x = F.relu(self.conv8(x, edge_index, edge_weight))
+        x = F.relu(self.conv9(x, edge_index, edge_weight))
+        x = F.relu(self.conv10(x, edge_index, edge_weight))
+        x = F.relu(self.conv11(x, edge_index, edge_weight))
+        x = self.conv12(x, edge_index, edge_weight)
         return x
 
 

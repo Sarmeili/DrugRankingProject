@@ -84,9 +84,10 @@ class CllGraphHandler:
         return edges, edge_attr
 
     def get_graph(self):
-        device = 'cuda'
+        device = 'cpu'
         edge_index, edge_attr = self.get_edges()
         feature_df = self.gene_features()
+        cll_list = feature_df.index
         graph_list = []
         for i in range(len(feature_df)):
             x = feature_df.iloc[i, :].tolist()
@@ -97,5 +98,4 @@ class CllGraphHandler:
                              edge_index=torch.tensor(edge_index, dtype=torch.int32).to(device),
                              edge_attr=torch.tensor(edge_attr, dtype=torch.float)).to(device)
             graph_list.append(cll_graph)
-        print(feature_df.index)
-        return graph_list
+        return graph_list, cll_list

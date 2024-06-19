@@ -1,3 +1,5 @@
+import pandas as pd
+import numpy as np
 from datahandler.cll_graph_handler import CllGraphHandler
 import pickle
 from torch_geometric.data import DataLoader
@@ -8,7 +10,7 @@ import matplotlib.pyplot as plt
 
 
 dh = CllGraphHandler()
-cll_graph = dh.get_graph()
+cll_graph, cllname_list = dh.get_graph()
 with open('graph_list.pkl', 'wb') as f:
     pickle.dump(cll_graph, f)
 
@@ -23,7 +25,7 @@ model = GCNAutoencoder(input_dim=input_dim, embedding_dim=embedding_dim).to(devi
 
 criterion = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-num_epochs = 10
+num_epochs = 30
 train_losses = []
 val_losses = []
 
@@ -61,3 +63,9 @@ plt.title('Loss Curves')
 plt.savefig('../imgs/loss_ae_biggraphcll.png')
 plt.close()
 
+feature_list = []
+for graph in cll_graph:
+    _, h = model(graph)
+    feature_list.append(h.detach().numpy())
+
+pd.DataFrame(np.squeeze(feature_list), index=cllname_list).to_csv('../data/cllfeats.csv')

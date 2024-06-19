@@ -52,13 +52,18 @@ wget https://ndownloader.figshare.com/files/34989919 -O data/raw/CCLE/CCLE_expre
 
 6. **Raw CTRP Data**
 ```shell
+mkdir -p /content/DrugRankingProject/data/raw/CTRP
 wget https://ctd2-data.nci.nih.gov/Public/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip -O data/raw/CTRP/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+unzip data/raw/CTRP/CTRPv2.0_2015_ctd2_ExpandedDataset.zip -d /content/DrugRankingProject/data/raw/CTRP
 ```
 
 7. **Raw STRING Data**
 ```shell
+mkdir -p /content/DrugRankingProject/data/raw/STRING
 wget https://stringdb-downloads.org/download/protein.links.v12.0/9606.protein.links.v12.0.txt.gz -O data/raw/STRING/9606.protein.links.v12.0.txt.gz
 wget https://stringdb-downloads.org/download/protein.info.v12.0/9606.protein.info.v12.0.txt.gz -O data/raw/STRING/9606.protein.info.v12.0.txt.gz
+gunzip data/raw/STRING/9606.protein.links.v12.0.txt.gz -d /content/DrugRankingProject/data/raw/STRING
+gunzip data/raw/STRING/9606.protein.info.v12.0.txt.gz -d /content/DrugRankingProject/data/raw/STRING
 ```
 
 ## Installation

@@ -9,16 +9,17 @@ import matplotlib.pyplot as plt
 
 dh = CllGraphHandler()
 cll_graph = dh.get_graph()
-'''with open('graph_list.pkl', 'wb') as f:
-    pickle.dump(cll_graph, f)'''
+with open('graph_list.pkl', 'wb') as f:
+    pickle.dump(cll_graph, f)
 
+device = 'cuda'
 train_dataset, val_dataset = train_test_split(cll_graph, test_size=0.2, random_state=42)
 train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
 
 input_dim = 12
 embedding_dim = 128
-model = GCNAutoencoder(input_dim=input_dim, embedding_dim=embedding_dim)
+model = GCNAutoencoder(input_dim=input_dim, embedding_dim=embedding_dim).to(device)
 
 criterion = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
@@ -31,7 +32,7 @@ for epoch in range(num_epochs):
     train_loss = 0
     for data in train_loader:
         optimizer.zero_grad()
-        output, h = model(data)
+        output, h = model(data.to(device))
         loss = criterion(output, data.x)
         loss.backward()
         optimizer.step()
@@ -49,6 +50,7 @@ for epoch in range(num_epochs):
 
     print(f'Epoch {epoch+1}, Train Loss: {train_losses[-1]}, Validation Loss: {val_losses[-1]}')
 
+torch.save(model.state_dict(), '../models/biggraphcll_ae.pth')
 plt.figure(figsize=(10, 5))
 plt.plot(train_losses, label='Train Loss')
 plt.plot(val_losses, label='Validation Loss')
@@ -56,5 +58,6 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
 plt.title('Loss Curves')
-plt.show()
+plt.savefig('../imgs/loss_ae_biggraphcll.png')
+plt.close()
 

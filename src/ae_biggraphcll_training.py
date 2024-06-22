@@ -68,4 +68,4 @@ for graph in cll_graph:
     _, h = model(graph)
     feature_list.append(h.detach().numpy())
 
-pd.DataFrame(np.squeeze(feature_list), index=cllname_list).to_csv('../data/cllfeats.csv')
+pd.DataFrame(np.squeeze(feature_list), index=cllname_list).to_csv('../data/cllfeatsdf.csv')

@@ -3,6 +3,7 @@ import numpy as np
 from datahandler.cll_graph_handler import CllGraphHandler
 import pickle
 from torch_geometric.data import DataLoader
+from torch_geometric.loader import NeighborLoader
 from modelexperiment.biggraphcllgcn import GCNAutoencoder
 import torch
 from sklearn.model_selection import train_test_split
@@ -14,7 +15,7 @@ cll_graph, cllname_list = dh.get_graph()
 with open('graph_list.pkl', 'wb') as f:
     pickle.dump(cll_graph, f)
 
-device = 'cuda'
+device = 'cpu'
 train_dataset, val_dataset = train_test_split(cll_graph, test_size=0.2, random_state=42)
 train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
@@ -34,7 +35,14 @@ for epoch in range(num_epochs):
     train_loss = 0
     for data in train_loader:
         optimizer.zero_grad()
-        output, h = model(data.to(device))
+        loader = NeighborLoader(
+            data.to(device),
+            num_neighbors=[10, 10],  # Number of neighbors to sample for each layer
+            batch_size=16,
+            shuffle=True,
+            num_workers=4
+        )
+        output, h = model(loader)
         loss = criterion(output, data.x)
         loss.backward()
         optimizer.step()

@@ -1,24 +1,24 @@
 import torch
 import torch.nn.functional as F
-from torch_geometric.nn import GCNConv, global_mean_pool
+from torch_geometric.nn import GCNConv, global_mean_pool, GraphSAGE
 from torch_geometric.data import Data, DataLoader
 
 
 class GCNEncoder(torch.nn.Module):
     def __init__(self, input_dim, embedding_dim):
         super(GCNEncoder, self).__init__()
-        self.conv1 = GCNConv(input_dim, 500)
-        self.conv2 = GCNConv(500, 1000)
-        self.conv3 = GCNConv(1000, 1000)
-        self.conv4 = GCNConv(1000, 1000)
-        self.conv5 = GCNConv(1000, 1000)
-        self.conv6 = GCNConv(1000, 1000)
-        self.conv7 = GCNConv(1000, 1000)
-        self.conv8 = GCNConv(1000, 1000)
-        self.conv9 = GCNConv(1000, 1000)
-        self.conv10 = GCNConv(1000, 1000)
-        self.conv11 = GCNConv(1000, 500)
-        self.conv12 = GCNConv(500, embedding_dim)
+        self.conv1 = GraphSAGE(input_dim, 500, num_layers=2)
+        self.conv2 = GraphSAGE(500, 1000, num_layers=2)
+        self.conv3 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv4 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv5 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv6 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv7 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv8 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv9 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv10 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv11 = GraphSAGE(1000, 500, num_layers=2)
+        self.conv12 = GraphSAGE(500, embedding_dim, num_layers=2)
 
     def forward(self, x, edge_index, edge_weight):
         x = F.relu(self.conv1(x, edge_index, edge_weight))
@@ -39,18 +39,18 @@ class GCNEncoder(torch.nn.Module):
 class GCNDecoder(torch.nn.Module):
     def __init__(self, embedding_dim, output_dim):
         super(GCNDecoder, self).__init__()
-        self.conv1 = GCNConv(embedding_dim, 500)
-        self.conv2 = GCNConv(500, 1000)
-        self.conv3 = GCNConv(1000, 1000)
-        self.conv4 = GCNConv(1000, 1000)
-        self.conv5 = GCNConv(1000, 1000)
-        self.conv6 = GCNConv(1000, 1000)
-        self.conv7 = GCNConv(1000, 1000)
-        self.conv8 = GCNConv(1000, 1000)
-        self.conv9 = GCNConv(1000, 1000)
-        self.conv10 = GCNConv(1000, 1000)
-        self.conv11 = GCNConv(1000, 500)
-        self.conv12 = GCNConv(500, output_dim)
+        self.conv1 = GraphSAGE(embedding_dim, 500, num_layers=2)
+        self.conv2 = GraphSAGE(500, 1000, num_layers=2)
+        self.conv3 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv4 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv5 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv6 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv7 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv8 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv9 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv10 = GraphSAGE(1000, 1000, num_layers=2)
+        self.conv11 = GraphSAGE(1000, 500, num_layers=2)
+        self.conv12 = GraphSAGE(500, output_dim, num_layers=2)
 
     def forward(self, x, edge_index, edge_weight):
         x = F.relu(self.conv1(x, edge_index, edge_weight))
